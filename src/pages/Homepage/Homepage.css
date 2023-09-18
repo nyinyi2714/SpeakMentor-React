@@ -1,31 +1,73 @@
 .homepage {
   margin: var(--spacing-medium);
+  font-size: 0.9rem;
 }
 
 .homepage__input {
   
 }
 
-.homepage__word {
-  margin: var(--spacing-small) 0;
-  text-transform: capitalize;
-}
-
-.homepage__record {
-  padding: var(--spacing-medium);
+.homepage__layout {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--light-grey);
   border-radius: 5px;
 }
 
-.homepage__flex {
+.homepage__pronounce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  padding: var(--spacing-medium);
+  align-items: flex-start;
+}
+
+.homepage__word {
+  text-transform: capitalize;
+  margin-right: var(--spacing-large);
+  font-size: 1.4rem;
+}
+
+.homepage__ascent {
+  padding: 3px;
+}
+
+.homepage__toggle-btn {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: var(--spacing-small);
 }
 
+.homepage__toggle-btn > span {
+  position: relative;
+  bottom: 1px;
+}
+
+.homepage__practice {
+  border-top: 1.5px solid var(--light-grey);
+  padding: var(--spacing-medium);
+}
+
+.homepage__flex {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.homepage__dot {
+  position: relative;
+  bottom: 3px;
+  margin: 0 5px;
+}
+
+.homepage__flex > .homepage__icon {
+  margin-left: var(--spacing-small);
+}
+
 .homepage__icon {
   font-size: 0rem;
-  padding: 8px;
+  padding: 6px;
   border-radius: 50%;
   border: 1px solid var(--light-grey);
   background-color: transparent;
@@ -33,8 +75,49 @@
   display: inline-block;
 }
 
-.homepage__icon.blinking {
-  animation: blinking 1s linear infinite;
+.homepage__practice > .homepage__icon {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 30px;
+  width: 80px;
+  transition: width 200ms ease-in-out;
+}
+
+.homepage__practice .flex {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  overflow: hidden;
+  transition: height 400ms ease-in-out;
+  min-height: 0;
+}
+
+.expandable-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: all 400ms;
+}
+
+.expandable-wrapper.open {
+  grid-template-rows: 1fr;
+}
+
+
+
+.homepage__icon > span {
+  font-size: 0.9rem;
+}
+
+.homepage__icon:disabled {
+  animation: blinking 0.8s linear infinite;
+}
+
+.homepage__icon.practice:disabled {
+  width: 100px;
+  color: black;
+  animation: fading 1.2s linear infinite;
 }
 
 @keyframes blinking {
@@ -42,13 +125,25 @@
     opacity: 0.8;
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.2;
   }
   100% {
     opacity: 0.8;
   }
 }
 
+@keyframes fading {
+  0% {
+    background-color: #307bf314;
+  }
+  50% {
+    background-color: #307bf35a;
+  }
+  100% {
+    background-color: #307bf314;
+  }
+}
+
 .homepage__hidden {
-  display: hidden;
+  display: none !important;
 }

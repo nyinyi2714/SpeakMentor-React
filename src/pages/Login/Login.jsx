@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuthenticate from "../../hooks/useAutheticate";
+import { useStateContext } from "../../StateContext";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
@@ -7,6 +10,18 @@ function Login() {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const { user } = useStateContext();
+  const login = useAuthenticate();
+  const navigate = useNavigate();
+
+  // Redirect to homepage if already logged in
+  useEffect(() => {
+    if(user) {
+      navigate("/");
+      return;
+    }
+  }, []);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -17,8 +32,10 @@ function Login() {
     const isValid = emailRegex.test(email);
     if (!isValid) {
       setIsEmailValid(false); 
+      return false;
     } else {
       setIsEmailValid(true);
+      return true;
     }
   };
 
@@ -45,6 +62,7 @@ function Login() {
 
   const validatePassword = () => {
     setIsPasswordValid(password.length > 0);
+    return password.length > 0;
   };
 
   useEffect(() => {
@@ -54,9 +72,9 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    validateEmail();
-    validatePassword();
-    // TODO: sign in
+    if(validateEmail() || validatePassword()) {
+      login(email, password);
+    }
   };
 
   return(
@@ -75,7 +93,7 @@ function Login() {
             <span className="login__password">Password</span>
             <input className="login__input" type="password" onChange={handlePassword} value={password} onFocus={activateLabel} onBlur={deactivateLabel} />
           </div>
-          <button type="submit" className="btn login__btn">Login</button>
+          <button type="submit" onClick={handleLogin} className="btn login__btn">Login</button>
         </form>
         <div>Don't have an account? Register <Link to="/register" className="link">Here</Link></div>
       </div>

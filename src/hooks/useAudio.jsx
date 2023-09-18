@@ -1,19 +1,44 @@
 import { useState, useMemo, useRef } from "react";
+import { backendUrl } from "../config";
 
 function useAudio() {
   const [audioURL, setAudioURL] = useState(null);
+  const [isPronouncing, setIsPronouncing] = useState(false);
+  const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [isSlow, setIsSlow] = useState(false);
   const synth = window.speechSynthesis;
-  const voices = useMemo(() => synth.getVoices(), [synth]);
+
   const audioElement = useRef();
 
   const textToSpeech = (word, isAmerican) => {
+    if(isRecording || isReplaying) return;
+
+    setIsPronouncing(true);
+
+    const voices = synth.getVoices();
+    console.log(voices);
     const utterThis = new SpeechSynthesisUtterance(word);
-    utterThis.voice = voices[isAmerican ? 2 : 5];
+
+    // Choose ascent and speak rate
+    if(isAmerican) {
+      utterThis.voice = voices[4];
+      if(isSlow) utterThis.rate = 0.5;
+    } else {
+      utterThis.voice = voices[5];
+      if(isSlow) utterThis.rate = 0.8;
+      else utterThis.rate = 1.2;
+    }
+
+    utterThis.addEventListener("end", () => {
+      setIsPronouncing(false);
+    });
+
     synth.speak(utterThis);
   };
 
   const record = () => {
+    if(isPronouncing || isReplaying) return;
     const device = navigator.mediaDevices.getUserMedia({ audio: true });
     const items = [];
     let audioStream;
@@ -41,7 +66,7 @@ function useAudio() {
             setIsRecording(false);
           });
         }
-      }, 4000);
+      }, 3000);
     });
   };
 
@@ -53,8 +78,7 @@ function useAudio() {
       const formData = new FormData();
       formData.append("audio", audioBlob);
 
-      // TODO: add backend url
-      response = await fetch("/your-backend-endpoint", {
+      response = await fetch(backendUrl, {
         method: "POST",
         body: formData,
       });
@@ -71,17 +95,26 @@ function useAudio() {
   };
 
   const playAudio = () => {
+    if(isRecording || isPronouncing) return;
+    setIsReplaying(true);
     audioElement.current.play();
+    audioElement.current.addEventListener("ended", () => {
+      setIsReplaying(false);
+    });
   };
 
   return {
     audioURL,
     isRecording,
+    isPronouncing,
+    isReplaying,
     audioElement,
+    isSlow,
     textToSpeech,
     record,
     sendAudioToServer,
     playAudio,
+    setIsSlow
   };
 }
 
