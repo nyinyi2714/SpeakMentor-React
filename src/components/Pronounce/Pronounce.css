@@ -1,0 +1,134 @@
+.pronounce {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--light-grey);
+  border-radius: 5px;
+}
+
+.pronounce__text-to-speech {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  padding: var(--spacing-medium);
+  align-items: flex-start;
+}
+
+.pronounce__word {
+  text-transform: capitalize;
+  margin-right: var(--spacing-large);
+  font-size: 1.4rem;
+}
+
+.pronounce__ascent {
+  padding: 3px;
+}
+
+.pronounce__toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.pronounce__toggle-btn > span {
+  position: relative;
+  bottom: 1px;
+}
+
+.pronounce__practice {
+  border-top: 1.5px solid var(--light-grey);
+  padding: var(--spacing-medium);
+}
+
+.pronounce__layman-pronunciation {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.pronounce__dot {
+  position: relative;
+  bottom: 3px;
+  margin: 0 5px;
+}
+
+.pronounce__flex > .pronounce__icon {
+  margin-left: var(--spacing-small);
+}
+
+.pronounce__icon {
+  font-size: 0rem;
+  padding: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--light-grey);
+  background-color: transparent;
+
+  display: inline-block;
+}
+
+.pronounce__practice > .pronounce__icon {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 30px;
+  width: 80px;
+  transition: width 200ms ease-in-out;
+}
+
+.pronounce__practice .flex {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  overflow: hidden;
+  transition: height 400ms ease-in-out;
+  min-height: 0;
+}
+
+.expandable-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: all 400ms;
+}
+
+.expandable-wrapper.open {
+  grid-template-rows: 1fr;
+}
+
+.pronounce__icon > span {
+  font-size: 0.9rem;
+}
+
+.pronounce__icon:disabled {
+  animation: blinking 0.8s linear infinite;
+}
+
+.pronounce__icon.practice:disabled {
+  width: 100px;
+  color: black;
+  animation: fading 1.2s linear infinite;
+}
+
+@keyframes blinking {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes fading {
+  0% {
+    background-color: #307bf314;
+  }
+  50% {
+    background-color: #307bf35a;
+  }
+  100% {
+    background-color: #307bf314;
+  }
+}

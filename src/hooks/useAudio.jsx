@@ -1,4 +1,6 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useRef } from "react";
+import useSound from "use-sound";
+import soundEffect from "../rec.m4a";
 import { backendUrl } from "../config";
 
 function useAudio() {
@@ -7,6 +9,7 @@ function useAudio() {
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isSlow, setIsSlow] = useState(false);
+  const [playSound] = useSound(soundEffect);
   const synth = window.speechSynthesis;
 
   const audioElement = useRef();
@@ -39,7 +42,10 @@ function useAudio() {
 
   const record = () => {
     if(isPronouncing || isReplaying) return;
-    const device = navigator.mediaDevices.getUserMedia({ audio: true });
+    // Play the sound effect
+    playSound();
+
+    const device = navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     const items = [];
     let audioStream;
 
@@ -48,7 +54,7 @@ function useAudio() {
       recorder.ondataavailable = (e) => {
         items.push(e.data);
         if (recorder.state === "inactive") {
-          let blob = new Blob(items, { type: "audio/webm" });
+          let blob = new Blob(items, { type: "audio/wav" });
           blob = URL.createObjectURL(blob);
           setAudioURL(blob);
         }
@@ -67,6 +73,8 @@ function useAudio() {
           });
         }
       }, 3000);
+    }).catch((error) => {
+      console.error("Error accessing the microphone:", error);
     });
   };
 
@@ -81,6 +89,7 @@ function useAudio() {
       response = await fetch(backendUrl, {
         method: "POST",
         body: formData,
+        headers: {"Content-Type": "audio/wav"}
       });
 
       response = await response.json();

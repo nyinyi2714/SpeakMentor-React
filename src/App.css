@@ -46,3 +46,7 @@ input:focus-visible {
 .link {
   text-decoration: underline;
 }
+
+.hidden {
+  display: none !important;
+}

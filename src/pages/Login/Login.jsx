@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthenticate from "../../hooks/useAutheticate";
 import { useStateContext } from "../../StateContext";
+import useValidateInput from "../../hooks/useValidateInput";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
@@ -12,7 +13,8 @@ function Login() {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const { user } = useStateContext();
-  const login = useAuthenticate();
+  const { login } = useAuthenticate();
+  const { validateEmail, validatePassword } = useValidateInput();
   const navigate = useNavigate();
 
   // Redirect to homepage if already logged in
@@ -27,21 +29,9 @@ function Login() {
     setEmail(e.target.value);
   };
 
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(email);
-    if (!isValid) {
-      setIsEmailValid(false); 
-      return false;
-    } else {
-      setIsEmailValid(true);
-      return true;
-    }
-  };
-
   useEffect(() => {
     if(isEmailValid) return;
-    validateEmail();
+    validateEmail(email, setIsEmailValid);
   }, [email]);
 
   const activateLabel = (e) => {
@@ -52,7 +42,7 @@ function Login() {
     if(e.target.value.length === 0) {
       e.target.previousSibling.classList.remove("active");
     }
-    if(e.target.id === "email") validateEmail();
+    if(e.target.id === "email") validateEmail(email, setIsEmailValid);
     else validatePassword();
   };  
 
@@ -60,14 +50,9 @@ function Login() {
     setPassword(e.target.value);
   };
 
-  const validatePassword = () => {
-    setIsPasswordValid(password.length > 0);
-    return password.length > 0;
-  };
-
   useEffect(() => {
     if(isPasswordValid) return;
-    validatePassword();
+    validatePassword(password, setIsPasswordValid);
   }, [password]);
 
   const handleLogin = (e) => {

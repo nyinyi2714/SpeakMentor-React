@@ -46,8 +46,7 @@
   border-color: #ff0000;
 }
 
-.login__input-wrapper.invalid .login__email, 
-.login__input-wrapper.invalid .login__password {
+.login__input-wrapper.invalid > span {
   color: red;
 }
 
@@ -75,7 +74,7 @@
 }
 
 .login__input:focus-visible {
-  /* TODO: Add color */
+  /*  : Add color */
   border: 1px solid;
 }
 
