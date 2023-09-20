@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useAuthenticate from "../../hooks/useAutheticate";
 import { useStateContext } from "../../StateContext";
 import useValidateInput from "../../hooks/useValidateInput";
-import { Link } from "react-router-dom";
+import Boxicons from "boxicons";
 import "./Login.css";
 
 function Login() {
@@ -43,7 +43,7 @@ function Login() {
       e.target.previousSibling.classList.remove("active");
     }
     if(e.target.id === "email") validateEmail(email, setIsEmailValid);
-    else validatePassword();
+    else validatePassword(password, setIsPasswordValid);
   };  
 
   const handlePassword = (e) => {
@@ -57,7 +57,8 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if(validateEmail() || validatePassword()) {
+    if(validateEmail(email, setIsEmailValid) 
+    || validatePassword(password, setIsPasswordValid)) {
       login(email, password);
     }
   };
@@ -65,26 +66,59 @@ function Login() {
   return(
     <div className="login">
       <div className="login__left-side">
+      <Link to="/" className="login__home-url">
+        <box-icon name="arrow-back" size="16px" color="#5d5d5d" />Home
+      </Link>
+
         <form className="login__form" onSubmit={handleLogin}> 
           <div className="login__form--heading">
             <h1>Hello!</h1>
             <h2>Log into your account</h2>
           </div>
-          <div className={`login__input-wrapper ${!isEmailValid && "invalid"}`}>
+          <div 
+            className={`login__input-wrapper ${!isEmailValid && "invalid"}`}
+          >
             <span className="login__email">Email</span>
-            <input id="email" className="login__input" type="text" onChange={handleEmail} value={email} onFocus={activateLabel} onBlur={deactivateLabel} autoComplete="off" />
+            <input 
+              id="email" 
+              className="login__input" 
+              type="text" 
+              onChange={handleEmail} 
+              value={email} 
+              onFocus={activateLabel} 
+              onBlur={deactivateLabel} 
+              autoComplete="off" 
+            />
           </div>
-          <div className={`login__input-wrapper ${!isPasswordValid && "invalid"}`}>
+          <div 
+            className={`login__input-wrapper ${!isPasswordValid && "invalid"}`}
+          >
             <span className="login__password">Password</span>
-            <input className="login__input" type="password" onChange={handlePassword} value={password} onFocus={activateLabel} onBlur={deactivateLabel} />
+            <input 
+              className="login__input" 
+              type="password" 
+              onChange={handlePassword} 
+              value={password} 
+              onFocus={activateLabel} 
+              onBlur={deactivateLabel} 
+            />
           </div>
-          <button type="submit" onClick={handleLogin} className="btn login__btn">Login</button>
+          <button 
+            type="submit" 
+            onClick={handleLogin} 
+            className="btn login__btn"
+          >
+            Login
+          </button>
         </form>
-        <div>Don't have an account? Register <Link to="/register" className="link">Here</Link></div>
+
+        <div className="login__register-invite">
+          <div>Don't have an account?</div>
+          <Link to="/register" className="link">Register</Link>
+        </div>
       </div>
 
       <div className="login__image">
-        Welcome
       </div>
     </div>
   );

@@ -2,8 +2,9 @@
   --spacing-small: .5rem;
   --spacing-medium: 1rem;
   --spacing-large: 2rem;
-  --primary-color: #000000;
+  --primary-color: #3daff9;
   --light-grey: lightgrey;
+  --grey: #5d5d5d;
 }
 
 * {

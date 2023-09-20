@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useAuthenticate from "../../hooks/useAutheticate";
+import useValidateInput from "../../hooks/useValidateInput";
 import { useStateContext } from "../../StateContext";
 import "./Register.css";
 
@@ -16,6 +17,8 @@ function Register() {
 
   const { user } = useStateContext();
   const navigate = useNavigate();
+
+  const { validateEmail, validatePassword } = useValidateInput();
 
   // Redirect to homepage if already logged in
   useEffect(() => {
@@ -39,21 +42,13 @@ function Register() {
     setEmail(e.target.value);
   };
 
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(email);
-    setIsEmailValid(isValid);
-    return isValid;
-  };
+  useEffect(() => {
+    if(isEmailValid) return;
+    validateEmail(email, setIsEmailValid);
+  }, [email]);
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
-  };
-
-  const validatePassword = () => {
-    const isValid = password.length > 0;
-    setIsPasswordValid(isValid);
-    return isValid;
   };
 
   const handleConfirmPassword = (e) => {
@@ -66,39 +61,108 @@ function Register() {
     return isValid;
   };
 
+  const activateLabel = (e) => {
+    e.target.previousSibling.classList.add("active");
+  };
+
+  const deactivateLabel = (e) => {
+    console.log(e.target)
+    if(e.target.value.length === 0) {
+      e.target.previousSibling.classList.remove("active");
+    }
+
+    switch(e.target.id) {
+      case "username":
+        validateUsername(username, setIsUsernameValid);
+      case "email":
+        validateEmail(email, setIsEmailValid);
+        break;
+      case "password":
+        validatePassword(password, setIsPasswordValid);
+        break;
+      case "confirm-password":
+        validateConfirmPassword(confirmPassword, setIsConfirmPasswordValid);
+        break;
+    }
+  };  
+
   const handleRegister = (e) => {
     e.preventDefault();
   };
 
   return(
     <div className="register"> 
-      <h1>Create an account</h1>
-      <form className="register__form" onSubmit={handleRegister}>
-        <div className={`register__input-wrapper ${!isUsernameValid && "invalid"}`}>
-          <span className="register__username active">Username</span>
-          <input type="text" onChange={handleUsername} value={username} />
-        </div>
-        <div className={`register__input-wrapper ${!isEmailValid && "invalid"}`}>
-          <span className="register__email">Email</span>
-          <input type="text" onChange={handleEmail} value={email} />
-        </div>
-        <div className={`register__input-wrapper ${!isPasswordValid && "invalid"}`}>
-          <span className="register__password">Password</span>
-          <input type="password" onChange={handlePassword} value={password} />
-        </div>
-        <div className={`register__input-wrapper ${!isConfirmPasswordValid && "invalid"}`}>
-          <span className="register__confirm-password">Confirm Password</span>
-          <input type="password" onChange={handleConfirmPassword} value={confirmPassword} />
-        </div>
+      <div className="register__left-side">
+        <Link to="/" className="register__home-url">
+          <box-icon name="arrow-back" size="16px" color="#5d5d5d" />
+          Home
+        </Link>
         
-        <button 
-          className="btn register__btn" 
-          type="submit" 
-        >
-          Register
-        </button>
-      </form>
+        <form className="register__form" onSubmit={handleRegister}>
+          <h1>Create an account</h1>
+          <div className={`register__input-wrapper ${!isUsernameValid && "invalid"}`}>
+            <span className="register__username">Username</span>
+            <input 
+              id="username" 
+              type="text" 
+              onChange={handleUsername} 
+              value={username}
+              onFocus={activateLabel}
+              onBlur={deactivateLabel} 
+              autoComplete="off" 
+            />
+          </div>
+          <div className={`register__input-wrapper ${!isEmailValid && "invalid"}`}>
+            <span className="register__email">Email</span>
+            <input 
+              id="email" 
+              type="text" 
+              onChange={handleEmail} 
+              value={email}
+              onFocus={activateLabel}
+              onBlur={deactivateLabel} 
+              autoComplete="off" 
+            />
+          </div>
+          <div className={`register__input-wrapper ${!isPasswordValid && "invalid"}`}>
+            <span className="register__password">Password</span>
+            <input 
+              id="password" 
+              type="password" 
+              onChange={handlePassword} 
+              value={password} 
+              onFocus={activateLabel}
+              onBlur={deactivateLabel}
+            />
+          </div>
+          <div className={`register__input-wrapper ${!isConfirmPasswordValid && "invalid"}`}>
+            <span className="register__confirm-password">Confirm Password</span>
+            <input 
+              id="confirm-password" 
+              type="password" 
+              onChange={handleConfirmPassword} 
+              value={confirmPassword}
+              onFocus={activateLabel}
+              onBlur={deactivateLabel} 
+            />
+          </div>
+          
+          <button 
+            className="btn register__btn" 
+            type="submit" 
+          >
+            Register
+          </button>
+        </form>
+
+        <div className="register__login-invite">
+          <div>Already have an account?</div>
+          <Link to="/register" className="link">Login</Link>
+        </div>
+      </div>
       
+      <div className="register__image"></div>
+
     </div>
   );
 }
