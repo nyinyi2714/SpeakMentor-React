@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuthenticate from "../../hooks/useAutheticate";
-import { useStateContext } from "../../StateContext";
 import useValidateInput from "../../hooks/useValidateInput";
 import Boxicons from "boxicons";
 import "./Login.css";
@@ -12,18 +11,10 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
-  const { user } = useStateContext();
   const { login } = useAuthenticate();
   const { validateEmail, validatePassword } = useValidateInput();
   const navigate = useNavigate();
 
-  // Redirect to homepage if already logged in
-  useEffect(() => {
-    if(user) {
-      navigate("/");
-      return;
-    }
-  }, []);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);

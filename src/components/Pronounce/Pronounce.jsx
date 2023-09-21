@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import useAudio from "../../hooks/useAudio";
+import soundEffect from "../../rec.m4a";
 import { backendUrl } from "../../config";
 import Boxicons from "boxicons";
 import "./Pronounce.css";
@@ -9,6 +10,7 @@ function Pronounce(props) {
   const [laymanPhonetic, setLaymanPhonetic] = useState("");
   const [message, setMessage] = useState("Practice");
   const [isAmerican, setIsAmerican] = useState(true);
+  const [micPermission, setMicPermission] = useState(true);
 
   const { word } = props;
 
@@ -16,6 +18,7 @@ function Pronounce(props) {
     audioURL,
     isRecording,
     audioElement,
+    soundEffectElement,
     isSlow,
     isPronouncing,
     isReplaying,
@@ -118,6 +121,7 @@ function Pronounce(props) {
       </div>
 
       <audio src={audioURL} ref={audioElement} className="hidden" />
+      <audio src={soundEffect} ref={soundEffectElement} className="hidden" />
 
     </div>
   );

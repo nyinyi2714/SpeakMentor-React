@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuthenticate from "../../hooks/useAutheticate";
 import useValidateInput from "../../hooks/useValidateInput";
-import { useStateContext } from "../../StateContext";
 import "./Register.css";
 
 function Register() {
@@ -15,18 +14,9 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
 
-  const { user } = useStateContext();
   const navigate = useNavigate();
 
   const { validateEmail, validatePassword } = useValidateInput();
-
-  // Redirect to homepage if already logged in
-  useEffect(() => {
-    if(user) {
-      navigate("/");
-      return;
-    }
-  }, []);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);

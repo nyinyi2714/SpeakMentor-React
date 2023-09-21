@@ -1,8 +1,9 @@
 import { useStateContext } from "../StateContext";
+import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../config";
 
 function useAuthenticate() {
-
+  const navigate = useNavigate();
   const { setUser } = useStateContext();
 
   const saveUser = (user) => {
@@ -21,6 +22,7 @@ function useAuthenticate() {
       if (response.ok) {
         saveUser(response.user);
         console.log("login successfully.");
+        navigate("/");
       } else {
         console.error("Error logging in.");
       }
@@ -40,6 +42,7 @@ function useAuthenticate() {
       if (response.ok) {
         saveUser(response.user);
         console.log("registered successfully.");
+        navigate("/");
       } else {
         console.error("Error registering.");
       }

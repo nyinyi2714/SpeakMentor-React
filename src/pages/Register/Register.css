@@ -97,7 +97,7 @@
 
 .register__image {
   display: none;
-  background: url("/public/images/signin-bg.png") no-repeat;
+  background: url("/public/images/login-bg.png") no-repeat;
   background-size: cover;
 }
 

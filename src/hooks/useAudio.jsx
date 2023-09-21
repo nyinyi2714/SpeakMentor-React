@@ -1,6 +1,4 @@
 import { useState, useRef } from "react";
-import useSound from "use-sound";
-import soundEffect from "../rec.m4a";
 import { backendUrl } from "../config";
 
 function useAudio() {
@@ -9,10 +7,10 @@ function useAudio() {
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isSlow, setIsSlow] = useState(false);
-  const [playSound] = useSound(soundEffect);
   const synth = window.speechSynthesis;
 
   const audioElement = useRef();
+  const soundEffectElement = useRef();
 
   const textToSpeech = (word, isAmerican) => {
     if(isRecording || isReplaying) return;
@@ -38,6 +36,10 @@ function useAudio() {
     });
 
     synth.speak(utterThis);
+  };
+
+  const playSound = () => {
+    soundEffectElement.current.play();
   };
 
   const record = () => {
@@ -118,6 +120,7 @@ function useAudio() {
     isPronouncing,
     isReplaying,
     audioElement,
+    soundEffectElement,
     isSlow,
     textToSpeech,
     record,

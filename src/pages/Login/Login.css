@@ -64,7 +64,7 @@
   display: none;
   width: 100%;
   height: 100vh;
-  background: url("/public/images/signin-bg.png") no-repeat;
+  background: url("/public/images/login-bg.png") no-repeat;
   background-size: cover;
 }
 
