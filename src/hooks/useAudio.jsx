@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { backendUrl } from "../config";
 
-function useAudio() {
+function useAudio({ setIsPopupOpen, setMicPermission }) {
   const [audioURL, setAudioURL] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -76,6 +76,9 @@ function useAudio() {
         }
       }, 3000);
     }).catch((error) => {
+      console.log(setMicPermission)
+      setIsPopupOpen(true);
+      setMicPermission(false);
       console.error("Error accessing the microphone:", error);
     });
   };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import useAudio from "../../hooks/useAudio";
-import soundEffect from "../../rec.m4a";
+import soundEffect from "../../assets/rec.m4a";
 import { backendUrl } from "../../config";
 import Boxicons from "boxicons";
 import "./Pronounce.css";
@@ -10,9 +10,9 @@ function Pronounce(props) {
   const [laymanPhonetic, setLaymanPhonetic] = useState("");
   const [message, setMessage] = useState("Practice");
   const [isAmerican, setIsAmerican] = useState(true);
-  const [micPermission, setMicPermission] = useState(true);
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
-  const { word } = props;
+  const { word, setIsPopupOpen, setMicPermission } = props;
 
   const {
     audioURL,
@@ -27,10 +27,15 @@ function Pronounce(props) {
     sendAudioToServer,
     playAudio,
     setIsSlow,
-  } = useAudio();
+  } = useAudio({setIsPopupOpen, setMicPermission});
+
+  const openDropDown = () => {
+    setIsDropDownOpen(true);
+  };
 
   const changePronunciation = () => {
     setIsAmerican(state => !state);
+    setIsDropDownOpen(false);
   };
 
   const handleSlow = () => {
@@ -71,9 +76,28 @@ function Pronounce(props) {
       <div className="pronounce__text-to-speech">
 
         <h2 className="pronounce__word">{word}</h2>
-        <button type="button" onClick={changePronunciation} className="pronounce__ascent">
-          {isAmerican ? "American" : "British"} Pronunciation
-        </button>
+        <div className="pronounce__dropdown-wrapper">
+          <button 
+            type="button" 
+            onClick={openDropDown} 
+            className="pronounce__dropdown-btn"
+          >
+            {isAmerican ? "American" : "British"} Pronunciation
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z"></path></svg>
+          </button>
+          <div className={`pronounce__dropdown-content ${isDropDownOpen && "active"}`}>
+            <button type="buttton" className={isAmerican ? "active" : undefined} onClick={changePronunciation}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
+              American Pronunciation
+            </button>
+            <button type="buttton" className={!isAmerican ? "active" : undefined} onClick={changePronunciation}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
+              British Pronunciation
+            </button>
+          </div>
+        </div>
+        
+
 
         <div>Sounds like</div>
         <div className="pronounce__layman-pronunciation">

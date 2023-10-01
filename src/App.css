@@ -2,7 +2,7 @@
   --spacing-small: .5rem;
   --spacing-medium: 1rem;
   --spacing-large: 2rem;
-  --primary-color: #3daff9;
+  --primary-color: #4285f4;
   --light-grey: lightgrey;
   --grey: #5d5d5d;
 }
@@ -31,7 +31,7 @@ button {
 .btn {
   border: 1px solid;
   border-radius: 3px;
-  padding: var(--spacing-small) var(--spacing-medium);
+  padding: var(--spacing-small);
   cursor: pointer;
 }
 
