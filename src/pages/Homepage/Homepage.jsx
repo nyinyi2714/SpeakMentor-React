@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Pronounce from "../../components/Pronounce/Pronounce";
 import Popup from "../../components/Popup/Popup";
 import Spinner from "../../components/Spinner/Spinner";
+import { Link } from "react-router-dom"; // Import Link from React Router (if you're using it)
 import "./Homepage.css";
 
 function Homepage() {
@@ -35,6 +36,7 @@ function Homepage() {
   
   return (
     <React.Fragment>
+      
       {isLoading && <Spinner />}
       <div className={`homepage ${isLoading && "loading"}`}>
         <div className="homepage__search-word">
@@ -59,6 +61,7 @@ function Homepage() {
             closePopup={closePopup}
           />
         }
+        
 
         <Pronounce 
           word={word} 
@@ -66,8 +69,14 @@ function Homepage() {
           setMicPermission={setMicPermission} 
         />
       </div> 
+      <Link to="/assessment">
+        <button className="homepage__btn" type="button">
+          Assessment
+        </button>
+      </Link>
     </React.Fragment>
   );
+  
 }
 
 export default Homepage;
