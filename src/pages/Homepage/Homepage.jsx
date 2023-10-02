@@ -3,11 +3,8 @@ import useAPI from "../../hooks/useAPI";
 import Pronounce from "../../components/Pronounce/Pronounce";
 import Popup from "../../components/Popup/Popup";
 import Spinner from "../../components/Spinner/Spinner";
-<<<<<<< HEAD
-import { Link } from "react-router-dom"; // Import Link from React Router (if you're using it)
-=======
+import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
->>>>>>> 94050116d307b592a68a0487d027a70dede186c0
 import "./Homepage.css";
 
 function Homepage() {
@@ -89,6 +86,7 @@ function Homepage() {
           setMicPermission={setMicPermission} 
         />
       </div> 
+      
       <Link to="/assessment">
         <button className="homepage__btn" type="button">
           Assessment

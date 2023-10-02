@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "./Assessment.css"; // Import the CSS file
-
 
 function AssessmentPage() {
   const [paragraph, setParagraph] = useState("");
   const [spokenText, setSpokenText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
-  const [audioBlob, setAudioBlob] = useState(null);
   const [pronunciationScore, setPronunciationScore] = useState(null);
-  const mediaRecorderRef = useRef(null);
-  const audioStreamRef = useRef(null);
 
   useEffect(() => {
     // Fetch a random word (for now, you can replace it with an API call later)
@@ -21,47 +17,11 @@ function AssessmentPage() {
   const toggleRecording = () => {
     if (!isRecording) {
       // Start recording
-      startRecording();
+      // startRecording();
     } else {
       // Stop recording and analyze pronunciation
-      stopRecording();
-      analyzePronunciation();
-    }
-  };
-
-  const startRecording = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        audioStreamRef.current = stream;
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = (event) => {
-          if (event.data.size > 0) {
-            const audioChunks = [];
-            audioChunks.push(event.data);
-            const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-            setAudioBlob(audioBlob);
-          }
-        };
-        mediaRecorder.onstop = () => {
-          setIsRecording(false);
-          if (audioStreamRef.current) {
-            audioStreamRef.current.getTracks().forEach((track) => track.stop());
-            audioStreamRef.current = null;
-          }
-        };
-        mediaRecorder.start();
-        setIsRecording(true);
-        mediaRecorderRef.current = mediaRecorder;
-      })
-      .catch((error) => {
-        console.error("Error accessing microphone:", error);
-      });
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
+      // stopRecording();
+      // analyzePronunciation();
     }
   };
 
