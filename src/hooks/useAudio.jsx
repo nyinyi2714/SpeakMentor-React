@@ -18,7 +18,6 @@ function useAudio({ setIsPopupOpen, setMicPermission }) {
     setIsPronouncing(true);
 
     const voices = synth.getVoices();
-    console.log(voices);
     const utterThis = new SpeechSynthesisUtterance(word);
 
     // Choose ascent and speak rate

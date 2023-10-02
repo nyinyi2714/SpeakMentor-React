@@ -52,11 +52,15 @@ function Register() {
   };
 
   const activateLabel = (e) => {
-    e.target.previousSibling.classList.add("active");
+    if(e.target.tagName === "SPAN") {
+      e.target.classList.add("active");
+      e.target.nextSibling.focus();
+    } else {
+      e.target.previousSibling.classList.add("active");
+    }
   };
 
   const deactivateLabel = (e) => {
-    console.log(e.target)
     if(e.target.value.length === 0) {
       e.target.previousSibling.classList.remove("active");
     }
@@ -91,7 +95,7 @@ function Register() {
         <form className="register__form" onSubmit={handleRegister}>
           <h1>Create an account</h1>
           <div className={`register__input-wrapper ${!isUsernameValid && "invalid"}`}>
-            <span className="register__username">Username</span>
+            <span className="register__username" onClick={activateLabel}>Username</span>
             <input 
               id="username" 
               type="text" 
@@ -103,7 +107,7 @@ function Register() {
             />
           </div>
           <div className={`register__input-wrapper ${!isEmailValid && "invalid"}`}>
-            <span className="register__email">Email</span>
+            <span className="register__email" onClick={activateLabel}>Email</span>
             <input 
               id="email" 
               type="text" 
@@ -115,7 +119,7 @@ function Register() {
             />
           </div>
           <div className={`register__input-wrapper ${!isPasswordValid && "invalid"}`}>
-            <span className="register__password">Password</span>
+            <span className="register__password" onClick={activateLabel}>Password</span>
             <input 
               id="password" 
               type="password" 
@@ -126,7 +130,7 @@ function Register() {
             />
           </div>
           <div className={`register__input-wrapper ${!isConfirmPasswordValid && "invalid"}`}>
-            <span className="register__confirm-password">Confirm Password</span>
+            <span className="register__confirm-password" onClick={activateLabel}>Confirm Password</span>
             <input 
               id="confirm-password" 
               type="password" 
@@ -147,7 +151,7 @@ function Register() {
 
         <div className="register__login-invite">
           <div>Already have an account?</div>
-          <Link to="/register" className="link">Login</Link>
+          <Link to="/login" className="link">Login</Link>
         </div>
       </div>
       

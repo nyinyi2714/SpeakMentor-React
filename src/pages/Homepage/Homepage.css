@@ -14,6 +14,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--spacing-medium);
+  max-width: 400px;
 }
 
 .homepage__input {

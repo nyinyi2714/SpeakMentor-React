@@ -21,6 +21,7 @@
 .login__form {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-medium);
 }
 
 .login__home-url {
@@ -30,7 +31,7 @@
   color: var(--grey);
   border: 1px solid var(--light-grey);
   border-radius: 30px;
-  padding: var(--spacing-small) var(--spacing-medium);
+  padding: .4rem var(--spacing-medium) var(--spacing-small);
 }
 
 .login__form--heading {
@@ -49,7 +50,6 @@
 .login__input {
   width: 100%;
   padding: .5rem var(--spacing-small);
-  margin-top: var(--spacing-medium);
 }
 
 .login__input-wrapper.invalid .login__input {
@@ -79,7 +79,7 @@
   font-size: .9rem;
   padding: .1rem;
   position: absolute;
-  top: calc(50% + var(--spacing-small));
+  top: 52%;
   left: calc(var(--spacing-small) - 0.2rem);
   transform: translateY(-60%);
   transition: 150ms ease-in-out;
@@ -94,7 +94,7 @@
   background-color: #ffffff;
   font-size: .8rem;
   left: var(--spacing-small);
-  top: var(--spacing-medium);
+  top: 0;
 }
 
 .login__btn {

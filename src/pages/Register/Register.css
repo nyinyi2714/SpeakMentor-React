@@ -20,7 +20,7 @@
   color: var(--grey);
   border: 1px solid var(--light-grey);
   border-radius: 30px;
-  padding: var(--spacing-small) var(--spacing-medium);
+  padding: .4rem var(--spacing-medium) var(--spacing-small);
 }
 
 .register__form {
@@ -90,7 +90,7 @@
   font-size: 1.1rem;
   text-decoration: none;
   border: 1px solid;
-  padding: var(--spacing-small) var(--spacing-medium);
+  padding: .4rem var(--spacing-medium) var(--spacing-small);
   margin-top: var(--spacing-medium);
   border-radius: 30px;
 } 

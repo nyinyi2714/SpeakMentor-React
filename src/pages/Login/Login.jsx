@@ -26,7 +26,12 @@ function Login() {
   }, [email]);
 
   const activateLabel = (e) => {
-    e.target.previousSibling.classList.add("active");
+    if(e.target.tagName === "SPAN") {
+      e.target.classList.add("active");
+      e.target.nextSibling.focus();
+    } else {
+      e.target.previousSibling.classList.add("active");
+    }
   };
 
   const deactivateLabel = (e) => {
@@ -58,7 +63,8 @@ function Login() {
     <div className="login">
       <div className="login__left-side">
       <Link to="/" className="login__home-url">
-        <box-icon name="arrow-back" size="16px" color="#5d5d5d" />Home
+        <box-icon name="arrow-back" size="16px" color="#5d5d5d" />
+        <span>Home</span>
       </Link>
 
         <form className="login__form" onSubmit={handleLogin}> 
@@ -69,7 +75,7 @@ function Login() {
           <div 
             className={`login__input-wrapper ${!isEmailValid && "invalid"}`}
           >
-            <span className="login__email">Email</span>
+            <span className="login__email" onClick={activateLabel}>Email</span>
             <input 
               id="email" 
               className="login__input" 
@@ -84,7 +90,7 @@ function Login() {
           <div 
             className={`login__input-wrapper ${!isPasswordValid && "invalid"}`}
           >
-            <span className="login__password">Password</span>
+            <span className="login__password" onClick={activateLabel}>Password</span>
             <input 
               className="login__input" 
               type="password" 
