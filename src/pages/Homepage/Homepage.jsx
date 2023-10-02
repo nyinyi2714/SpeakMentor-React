@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import useAPI from "../../hooks/useAPI";
 import Pronounce from "../../components/Pronounce/Pronounce";
 import Popup from "../../components/Popup/Popup";
 import Spinner from "../../components/Spinner/Spinner";
+<<<<<<< HEAD
 import { Link } from "react-router-dom"; // Import Link from React Router (if you're using it)
+=======
+import Navbar from "../../components/Navbar/Navbar";
+>>>>>>> 94050116d307b592a68a0487d027a70dede186c0
 import "./Homepage.css";
 
 function Homepage() {
@@ -10,11 +15,24 @@ function Homepage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [micPermission, setMicPermission] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [wordNotFound, setWordNotFound] = useState("");
+
+  const { checkWord } = useAPI();
 
   const wordInput = useRef();
 
-  const searchWordInput = () => {
-    setWord(wordInput.current.value);
+  const searchWordInput = async () => {
+    // Check if word exists using dictionary API
+    const isWordFound = await checkWord(wordInput.current.value);
+    
+    if(isWordFound) {
+      setWordNotFound("");
+      setIsPopupOpen(false);
+      setWord(wordInput.current.value);
+    } else {
+      setWordNotFound(wordInput.current.value);
+      setIsPopupOpen(true);
+    }
   };
 
   const closePopup = () => {
@@ -38,6 +56,7 @@ function Homepage() {
     <React.Fragment>
       
       {isLoading && <Spinner />}
+      <Navbar />
       <div className={`homepage ${isLoading && "loading"}`}>
         <div className="homepage__search-word">
           <input 
@@ -59,6 +78,7 @@ function Homepage() {
           <Popup 
             micPermission={micPermission} 
             closePopup={closePopup}
+            wordNotFound={wordNotFound}
           />
         }
         
