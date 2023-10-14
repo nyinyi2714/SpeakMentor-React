@@ -14,6 +14,24 @@
   align-items: flex-start;
 }
 
+.pronounce__word-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+}
+
+@media (min-width: 400px) {
+  .pronounce__word-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .pronounce__dropdown-wrapper {
+    text-align: right;
+    margin-right: var(--spacing-medium);
+  }
+}
+
 .pronounce__word {
   text-transform: capitalize;
   margin-right: var(--spacing-large);
@@ -149,9 +167,6 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-small);
-  overflow: hidden;
-  transition: height 400ms ease-in-out;
-  min-height: 0;
 }
 
 .expandable-wrapper {
@@ -166,12 +181,24 @@
   margin-bottom: var(--spacing-small);
 }
 
+.expandable-content {
+  min-height: 0;
+  overflow: hidden;
+  transition: height 600ms ease-in-out;
+}
+
 .pronounce__icon > span {
   font-size: 0.9rem;
 }
 
 .pronounce__icon:disabled {
   animation: blinking 0.8s linear infinite;
+}
+
+.pronounce__result {
+  margin: var(--spacing-medium) var(--spacing-small);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
 }
 
 .pronounce__icon.practice:disabled {

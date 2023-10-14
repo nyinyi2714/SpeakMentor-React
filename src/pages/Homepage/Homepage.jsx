@@ -18,6 +18,17 @@ function Homepage() {
 
   const wordInput = useRef();
 
+  const requestMicPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      stream.getTracks().forEach(track => track.stop());
+      closePopup();
+    } catch(err) {
+      setIsPopupOpen(true);
+      setMicPermission(false);
+    }
+  };
+
   const searchWordInput = async () => {
     // Check if word exists using dictionary API
     const isWordFound = await checkWord(wordInput.current.value);
@@ -32,17 +43,25 @@ function Homepage() {
     }
   };
 
+  const searchWordWithEnter = (e) => {
+    if(e.code === "Enter") searchWordInput();
+  };
+
   const closePopup = () => {
     setIsPopupOpen(false);
   };
   
-  // Open popup reminder if user visits for first time
+  /*
+    Open popup reminder and request mic permission
+    if user visits for first time
+   */ 
   useEffect(() => {
     const isVisited = localStorage.getItem("isVisited");
 
     if (isVisited !== "true") {
       setIsPopupOpen(true);
       localStorage.setItem("isVisited", "true");
+      requestMicPermission();
     }
 
     // Prepopulation the word search input
@@ -60,6 +79,7 @@ function Homepage() {
             type="text" 
             className="homepage__input"
             ref={wordInput}
+            onKeyDown={searchWordWithEnter}
           />
 
           <button 
@@ -78,7 +98,6 @@ function Homepage() {
             wordNotFound={wordNotFound}
           />
         }
-        
 
         <Pronounce 
           word={word} 
@@ -86,7 +105,7 @@ function Homepage() {
           setMicPermission={setMicPermission} 
         />
       </div> 
-      
+
       <Link to="/assessment">
         <button className="homepage__btn" type="button">
           Assessment

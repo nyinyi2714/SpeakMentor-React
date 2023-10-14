@@ -111,14 +111,14 @@
   font-size: 1.1rem;
   text-decoration: none;
   border: 1px solid;
-  padding: var(--spacing-small) var(--spacing-medium);
+  padding: .4rem 1rem .5rem;
   margin-top: var(--spacing-medium);
   border-radius: 30px;
 } 
 
 @media (min-width: 500px) {
   .login {
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(250px, 1fr) 2fr;
   }
 
   .login__image {

@@ -18,10 +18,12 @@
 }
 
 .homepage__input {
-  padding: 5px;
+  padding: 5px var(--spacing-medium);
   border: 1px solid;
+  border-radius: 30px;
   height: 100%;
   border-color: var(--light-grey);
+  min-width: 177px;
 }
 
 .homepage__input:focus {
@@ -32,6 +34,6 @@
   border: none;
   background-color: var(--primary-color);
   color: #fff;
-  padding: var(--spacing-small);
-  border-radius: 3px;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-radius: 30px;
 }

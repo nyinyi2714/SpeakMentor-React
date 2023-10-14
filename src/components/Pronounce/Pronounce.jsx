@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import useAudio from "../../hooks/useAudio";
 import soundEffect from "../../assets/rec.m4a";
@@ -13,6 +13,24 @@ function Pronounce(props) {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   const { word, setIsPopupOpen, setMicPermission } = props;
+
+  const pronounceResult = useRef();
+  const chooseAscentBox = useRef();
+
+  const generateResult = () => {
+    const letters = [];
+    for(let i = 0; i < word.length; i++) {
+      letters.push(
+        <span 
+          key={i}
+          style={{color: word.charAt(i) == "r" ? "red" : "green" }}
+        >
+          {word.charAt(i)}
+        </span>
+      );
+    }
+    return letters;
+  };
 
   const {
     audioURL,
@@ -51,6 +69,22 @@ function Pronounce(props) {
     else displayPractice();
   }, [isRecording]);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      // Close choose ascent box with outside click
+      if (chooseAscentBox.current && !chooseAscentBox.current.contains(event.target)) { 
+        setIsDropDownOpen(false);
+      } 
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const getLaymanPhonetic = async () => {
     try {
       let response = await fetch(backendUrl, {
@@ -74,30 +108,29 @@ function Pronounce(props) {
   return (
     <div className="pronounce">
       <div className="pronounce__text-to-speech">
-
-        <h2 className="pronounce__word">{word}</h2>
-        <div className="pronounce__dropdown-wrapper">
-          <button 
-            type="button" 
-            onClick={openDropDown} 
-            className="pronounce__dropdown-btn"
-          >
-            {isAmerican ? "American" : "British"} Pronunciation
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z"></path></svg>
-          </button>
-          <div className={`pronounce__dropdown-content ${isDropDownOpen && "active"}`}>
-            <button type="buttton" className={isAmerican ? "active" : undefined} onClick={changePronunciation}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
-              American Pronunciation
+        <div className="pronounce__word-grid">
+          <h2 className="pronounce__word">{word}</h2>
+          <div className="pronounce__dropdown-wrapper">
+            <button 
+              type="button" 
+              onClick={openDropDown} 
+              className="pronounce__dropdown-btn"
+            >
+              {isAmerican ? "American" : "British"} Pronunciation
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z"></path></svg>
             </button>
-            <button type="buttton" className={!isAmerican ? "active" : undefined} onClick={changePronunciation}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
-              British Pronunciation
-            </button>
+            <div className={`pronounce__dropdown-content ${isDropDownOpen && "active"}`} ref={chooseAscentBox}>
+              <button type="buttton" className={isAmerican ? "active" : undefined} onClick={changePronunciation}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
+                American Pronunciation
+              </button>
+              <button type="buttton" className={!isAmerican ? "active" : undefined} onClick={changePronunciation}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
+                British Pronunciation
+              </button>
+            </div>
           </div>
         </div>
-        
-
 
         <div>Sounds like</div>
         <div className="pronounce__layman-pronunciation">
@@ -121,15 +154,20 @@ function Pronounce(props) {
 
       <div className="pronounce__practice">
         <div className={`expandable-wrapper ${audioURL !== null && "open"}`}>
-          <div className="flex">
-            <button
-              className="pronounce__icon"
-              onClick={playAudio}
-              disabled={isReplaying}
-            >
-              <box-icon name="volume-full" size="16px" color="#4285f4" />
-            </button>
-            Sounds like you said
+          <div className="expandable-content">
+            <div className="flex">
+              <button
+                className="pronounce__icon"
+                onClick={playAudio}
+                disabled={isReplaying}
+              >
+                <box-icon name="volume-full" size="16px" color="#4285f4" />
+              </button>
+              Sounds like you said
+            </div>
+            <div className="pronounce__result" ref={pronounceResult}>
+              {generateResult()}
+            </div>
           </div>
         </div>
 
