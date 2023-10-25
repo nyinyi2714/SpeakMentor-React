@@ -17,21 +17,6 @@ function Pronounce(props) {
   const pronounceResult = useRef();
   const chooseAscentBox = useRef();
 
-  const generateResult = () => {
-    const letters = [];
-    for(let i = 0; i < word.length; i++) {
-      letters.push(
-        <span 
-          key={i}
-          style={{color: word.charAt(i) == "r" ? "red" : "green" }}
-        >
-          {word.charAt(i)}
-        </span>
-      );
-    }
-    return letters;
-  };
-
   const {
     audioURL,
     isRecording,
@@ -45,7 +30,22 @@ function Pronounce(props) {
     sendAudioToServer,
     playAudio,
     setIsSlow,
-  } = useAudio({setIsPopupOpen, setMicPermission});
+  } = useAudio({ word, setIsPopupOpen, setMicPermission });
+
+  const generateResult = () => {
+    const letters = [];
+    for (let i = 0; i < word.length; i++) {
+      letters.push(
+        <span
+          key={i}
+          style={{ color: word.charAt(i) == "r" ? "red" : "green" }}
+        >
+          {word.charAt(i)}
+        </span>
+      );
+    }
+    return letters;
+  };
 
   const openDropDown = () => {
     setIsDropDownOpen(true);
@@ -65,16 +65,16 @@ function Pronounce(props) {
   };
 
   useEffect(() => {
-    if(isRecording) setTimeout(displayPractice, 200);
+    if (isRecording) setTimeout(displayPractice, 200);
     else displayPractice();
   }, [isRecording]);
 
   useEffect(() => {
     function handleClickOutside(event) {
       // Close choose ascent box with outside click
-      if (chooseAscentBox.current && !chooseAscentBox.current.contains(event.target)) { 
+      if (chooseAscentBox.current && !chooseAscentBox.current.contains(event.target)) {
         setIsDropDownOpen(false);
-      } 
+      }
     }
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -89,7 +89,7 @@ function Pronounce(props) {
     try {
       let response = await fetch(backendUrl, {
         method: "POST",
-        body: {word},
+        body: { word },
       });
 
       response = await response.json();
@@ -111,9 +111,9 @@ function Pronounce(props) {
         <div className="pronounce__word-grid">
           <h2 className="pronounce__word">{word}</h2>
           <div className="pronounce__dropdown-wrapper">
-            <button 
-              type="button" 
-              onClick={openDropDown} 
+            <button
+              type="button"
+              onClick={openDropDown}
               className="pronounce__dropdown-btn"
             >
               {isAmerican ? "American" : "British"} Pronunciation

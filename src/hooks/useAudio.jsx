@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { backendUrl } from "../config";
 
-function useAudio({ setIsPopupOpen, setMicPermission }) {
+function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   const [audioURL, setAudioURL] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -58,6 +58,7 @@ function useAudio({ setIsPopupOpen, setMicPermission }) {
           let blob = new Blob(items, { type: "audio/wav" });
           blob = URL.createObjectURL(blob);
           setAudioURL(blob);
+          sendAudioToServer(blob);
         }
       };
       recorder.start();
@@ -82,15 +83,16 @@ function useAudio({ setIsPopupOpen, setMicPermission }) {
     });
   };
 
-  const sendAudioToServer = async () => {
+  const sendAudioToServer = async (audioURL) => {
     if (!audioURL) return;
     try {
       let response = await fetch(audioURL);
-      const audioBlob = await response.blob();
+      const audio = await response.blob();
       const formData = new FormData();
-      formData.append("audio", audioBlob);
+      formData.append("refText", word);
+      formData.append("audio", audio);
 
-      response = await fetch(backendUrl, {
+      response = await fetch("http://localhost:8000/send_audio_to_speechsuper", {
         method: "POST",
         body: formData,
         headers: {"Content-Type": "audio/wav"}
