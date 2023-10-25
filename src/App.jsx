@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Assessment from "./pages/Assessment/Assessment";
 import Instructions from "./pages/Instructions/Instructions";
+import Test from "./pages/test/test";
 
 import './App.css';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/register" element={authenticationRoute(false, Register)} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/instructions" element={<Instructions />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </div>
   );
