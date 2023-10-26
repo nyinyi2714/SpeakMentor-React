@@ -90,12 +90,11 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
       const audio = await response.blob();
       const formData = new FormData();
       formData.append("refText", word);
-      formData.append("audio", audio);
+      formData.append("audio", audio, "audio.wav");
 
       response = await fetch("http://localhost:8000/send_audio_to_speechsuper", {
         method: "POST",
         body: formData,
-        headers: {"Content-Type": "audio/wav"}
       });
 
       response = await response.json();
