@@ -16,6 +16,9 @@ function Pronounce(props) {
 
   const pronounceResult = useRef();
   const chooseAscentBox = useRef();
+  const resultContainer = useRef();
+  const resultDisplay = useRef();
+  const analyzingMessage = useRef();
 
   const {
     audioURL,
@@ -25,13 +28,15 @@ function Pronounce(props) {
     isSlow,
     isPronouncing,
     isReplaying,
+    isAnalyzing,
     textToSpeech,
     record,
-    sendAudioToServer,
+    result,
     playAudio,
     setIsSlow,
   } = useAudio({ word, setIsPopupOpen, setMicPermission });
 
+  // TODO: Use result which contains feedback from backend
   const generateResult = () => {
     const letters = [];
     for (let i = 0; i < word.length; i++) {
@@ -84,6 +89,24 @@ function Pronounce(props) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if(audioURL && !isRecording) resultContainer.current.classList.add("open");
+    else resultContainer.current.classList.remove("open");
+  }, [audioURL]);
+
+  useEffect(() => {
+    if(isAnalyzing) analyzingMessage.current.classList.add("show");
+    else setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
+    
+    if(isAnalyzing || result === null) {
+      resultDisplay.current.classList.remove("show");
+    } else {
+      resultContainer.current.classList.remove("open");
+      setTimeout(() => resultDisplay.current.classList.add("show"), 400);
+      setTimeout(() => resultContainer.current.classList.add("open"), 400);
+    }
+  }, [isAnalyzing]);
 
   const getLaymanPhonetic = async () => {
     try {
@@ -140,7 +163,7 @@ function Pronounce(props) {
             onClick={() => textToSpeech(word, isAmerican)}
             disabled={isPronouncing}
           >
-            <box-icon name="volume-full" size="16px" />
+            <box-icon name="volume-full" size="16px" color="#4285f4" />
           </button>
 
         </div>
@@ -153,28 +176,35 @@ function Pronounce(props) {
       </div>
 
       <div className="pronounce__practice">
-        <div className={`expandable-wrapper ${audioURL !== null && "open"}`}>
+        <div className="expandable-wrapper" ref={resultContainer}>
           <div className="expandable-content">
-            <div className="flex">
-              <button
-                className="pronounce__icon"
-                onClick={playAudio}
-                disabled={isReplaying}
-              >
-                <box-icon name="volume-full" size="16px" color="#4285f4" />
-              </button>
-              Sounds like you said
+            <div className="pronounce__result-container" ref={resultDisplay}>
+              <div className="flex">
+                <button
+                  className="pronounce__icon"
+                  onClick={playAudio}
+                  disabled={isReplaying}
+                >
+                  <box-icon name="volume-full" size="16px" color="#4285f4" />
+                </button>
+                Sounds like you said
+              </div>
+              <div className="pronounce__result" ref={pronounceResult}>
+                {generateResult()}
+              </div>
             </div>
-            <div className="pronounce__result" ref={pronounceResult}>
-              {generateResult()}
+            <div className="pronounce__analyzing" ref={analyzingMessage}>
+              Analyzing
+              <span className="pronounce__loader" />
             </div>
           </div>
+          
         </div>
 
         <button
-          className="pronounce__icon practice"
+          className={`pronounce__icon practice ${isRecording && "is-recording"}`}
           onClick={record}
-          disabled={isRecording}
+          disabled={isRecording || isAnalyzing} // when recording and analyzing
         >
           <box-icon type="solid" name="microphone" size="16px" color="#4285f4" />
           <span>{message}</span>

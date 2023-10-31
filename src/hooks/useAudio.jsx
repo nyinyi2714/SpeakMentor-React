@@ -6,7 +6,9 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSlow, setIsSlow] = useState(false);
+  const [result, setResult] = useState(null);
   const synth = window.speechSynthesis;
 
   const audioElement = useRef();
@@ -45,6 +47,10 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
     if(isPronouncing || isReplaying) return;
     // Play the sound effect
     playSound();
+
+    // Reset the result
+    setResult(null);
+    setAudioURL(null);
 
     const device = navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     const items = [];
@@ -85,12 +91,21 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
 
   const sendAudioToServer = async (audioURL) => {
     if (!audioURL) return;
+
     try {
+      setIsAnalyzing(true);
       let response = await fetch(audioURL);
       const audio = await response.blob();
       const formData = new FormData();
       formData.append("refText", word);
-      formData.append("audio", audio, "audio.wav");
+      formData.append("audioFile", audio, "audio.wav");
+
+      // TODO: Delete. To stimulate sending audio to backend
+      // setTimeout(() => {
+      //   setResult({data: "string"});
+      //   setIsAnalyzing(false);
+      // }, 2000);
+      // return;
 
       response = await fetch("http://localhost:8000/send_audio_to_speechsuper", {
         method: "POST",
@@ -100,6 +115,8 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
       response = await response.json();
       if (response.ok) {
         console.log("Audio sent to server successfully.");
+        setResult(response);
+        setIsAnalyzing(false);
       } else {
         console.error("Error sending audio to server.");
       }
@@ -122,12 +139,13 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
     isRecording,
     isPronouncing,
     isReplaying,
+    isAnalyzing,
     audioElement,
     soundEffectElement,
     isSlow,
+    result,
     textToSpeech,
     record,
-    sendAudioToServer,
     playAudio,
     setIsSlow
   };

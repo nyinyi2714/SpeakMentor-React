@@ -184,14 +184,66 @@
 .expandable-content {
   min-height: 0;
   overflow: hidden;
-  transition: height 600ms ease-in-out;
 }
+
+.pronounce__result-container {
+  display: none;
+}
+
+.pronounce__result-container.show, .pronounce__analyzing.show {
+  display: block;
+}
+
+.pronounce__analyzing {
+  display: none;
+  min-height: 0;
+  position: relative;
+  padding: var(--spacing-small) 0;
+  margin-left: var(--spacing-small);
+}
+
+/* Spinner */
+
+.pronounce__loader {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+  margin-left: var(--spacing-small);
+  position: absolute;
+}
+.pronounce__loader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  animation: prixClipFix 2s linear infinite;
+}
+
+@keyframes rotate {
+  100%   {transform: rotate(360deg)}
+}
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+}
+
+/* End of Spinner */
 
 .pronounce__icon > span {
   font-size: 0.9rem;
 }
 
 .pronounce__icon:disabled {
+  cursor: default;
   animation: blinking 0.8s linear infinite;
 }
 
@@ -201,10 +253,14 @@
   letter-spacing: 0.5px;
 }
 
-.pronounce__icon.practice:disabled {
+.pronounce__icon.practice.is-recording:disabled {
   width: 100px;
   color: black;
   animation: fading 1.2s linear infinite;
+}
+
+.pronounce__icon.practice:disabled {
+  animation: none;
 }
 
 @keyframes blinking {
