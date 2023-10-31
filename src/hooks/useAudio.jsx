@@ -3,6 +3,7 @@ import { backendUrl } from "../config";
 
 function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   const [audioURL, setAudioURL] = useState(null);
+  const [audioBlob, setAudioBlob] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -10,6 +11,7 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   const [isSlow, setIsSlow] = useState(false);
   const [result, setResult] = useState(null);
   const synth = window.speechSynthesis;
+  let testBlob = null;
 
   const audioElement = useRef();
   const soundEffectElement = useRef();
@@ -62,6 +64,7 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
         items.push(e.data);
         if (recorder.state === "inactive") {
           let blob = new Blob(items, { type: "audio/wav" });
+          setAudioBlob(blob);
           blob = URL.createObjectURL(blob);
           setAudioURL(blob);
           sendAudioToServer(blob);
@@ -98,7 +101,7 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
       const audio = await response.blob();
       const formData = new FormData();
       formData.append("refText", word);
-      formData.append("audioFile", audio, "audio.wav");
+      formData.append("audioFile", audioBlob, "audio.wav");
 
       // TODO: Delete. To stimulate sending audio to backend
       // setTimeout(() => {
