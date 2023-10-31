@@ -115,14 +115,14 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
       response = await response.json();
       if (response.ok) {
         console.log("Audio sent to server successfully.");
-        setResult(response);
-        setIsAnalyzing(false);
+        // setResult(response);
       } else {
         console.error("Error sending audio to server.");
       }
     } catch (error) {
       console.error("Error sending audio to server:", error);
     }
+    setIsAnalyzing(false);
   };
 
   const playAudio = () => {
