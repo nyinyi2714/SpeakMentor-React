@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import { backendUrl } from "../config";
+import FormData from 'form-data';
+import MicRecorder from 'mic-recorder-to-mp3';
 
 function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   const [audioURL, setAudioURL] = useState(null);
@@ -14,8 +16,10 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   const audioElement = useRef();
   const soundEffectElement = useRef();
 
+  const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+
   const textToSpeech = (word, isAmerican) => {
-    if(isRecording || isReplaying) return;
+    if (isRecording || isReplaying) return;
 
     setIsPronouncing(true);
 
@@ -23,12 +27,12 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
     const utterThis = new SpeechSynthesisUtterance(word);
 
     // Choose ascent and speak rate
-    if(isAmerican) {
+    if (isAmerican) {
       utterThis.voice = voices[4];
-      if(isSlow) utterThis.rate = 0.5;
+      if (isSlow) utterThis.rate = 0.5;
     } else {
       utterThis.voice = voices[5];
-      if(isSlow) utterThis.rate = 0.8;
+      if (isSlow) utterThis.rate = 0.8;
       else utterThis.rate = 1.2;
     }
 
@@ -44,50 +48,25 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   };
 
   const record = () => {
-    if(isPronouncing || isReplaying) return;
-    // Play the sound effect
     playSound();
 
     // Reset the result
     setResult(null);
     setAudioURL(null);
 
-    const device = navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-    const items = [];
-    let audioStream;
-
-    device.then((stream) => {
-      const recorder = new MediaRecorder(stream);
-      recorder.ondataavailable = (e) => {
-        items.push(e.data);
-        if (recorder.state === "inactive") {
-          let blob = new Blob(items, { type: "audio/wav" });
-          blob = URL.createObjectURL(blob);
-          setAudioURL(blob);
-          sendAudioToServer(blob);
-        }
-      };
-      recorder.start();
-      setIsRecording(true);
-      audioStream = stream;
-
-      setTimeout(() => {
-        recorder.stop();
-        if (audioStream) {
-          const audioTracks = audioStream.getTracks();
-          audioTracks.forEach((track) => {
-            track.stop();
-            setIsRecording(false);
-          });
-        }
-      }, 3000);
-    }).catch((error) => {
-      console.log(setMicPermission)
-      setIsPopupOpen(true);
-      setMicPermission(false);
-      console.error("Error accessing the microphone:", error);
-    });
-  };
+    const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+    Mp3Recorder.start();
+    setTimeout(() => {
+      Mp3Recorder
+        .stop()
+        .getMp3()
+        .then(([buffer, blob]) => {
+          const blobURL = URL.createObjectURL(blob);
+          setAudioURL(blobURL);
+          sendAudioToServer(blobURL);
+        })
+    }, [3000])
+  }
 
   const sendAudioToServer = async (audioURL) => {
     if (!audioURL) return;
@@ -98,14 +77,7 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
       const audio = await response.blob();
       const formData = new FormData();
       formData.append("refText", word);
-      formData.append("audioFile", audio, "audio.wav");
-
-      // TODO: Delete. To stimulate sending audio to backend
-      // setTimeout(() => {
-      //   setResult({data: "string"});
-      //   setIsAnalyzing(false);
-      // }, 2000);
-      // return;
+      formData.append("audioFile", audio, "audio.mp3");
 
       response = await fetch("http://localhost:8000/send_audio_to_speechsuper", {
         method: "POST",
@@ -113,12 +85,9 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
       });
 
       response = await response.json();
-      if (response.ok) {
-        console.log("Audio sent to server successfully.");
-        // setResult(response);
-      } else {
-        console.error("Error sending audio to server.");
-      }
+      console.log("Audio sent to server successfully.");
+      // setResult(response);
+
     } catch (error) {
       console.error("Error sending audio to server:", error);
     }
@@ -126,7 +95,7 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
   };
 
   const playAudio = () => {
-    if(isRecording || isPronouncing) return;
+    if (isRecording || isPronouncing) return;
     setIsReplaying(true);
     audioElement.current.play();
     audioElement.current.addEventListener("ended", () => {

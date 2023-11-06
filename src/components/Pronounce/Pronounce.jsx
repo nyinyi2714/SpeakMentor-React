@@ -37,15 +37,16 @@ function Pronounce(props) {
   } = useAudio({ word, setIsPopupOpen, setMicPermission });
 
   // TODO: Use result which contains feedback from backend
-  const generateResult = () => {
+  const generateResult = (result) => {
+    return;
     const letters = [];
-    for (let i = 0; i < word.length; i++) {
+    for (let i = 0; i < result.length; i++) {
       letters.push(
         <span
           key={i}
-          style={{ color: word.charAt(i) == "r" ? "red" : "green" }}
+          style={{ color: result.overall < 50 }}
         >
-          {word.charAt(i)}
+          {word.spell}
         </span>
       );
     }
@@ -190,7 +191,7 @@ function Pronounce(props) {
                 Sounds like you said
               </div>
               <div className="pronounce__result" ref={pronounceResult}>
-                {generateResult()}
+                {generateResult(result)}
               </div>
             </div>
             <div className="pronounce__analyzing" ref={analyzingMessage}>
