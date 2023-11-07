@@ -190,6 +190,13 @@
   display: none;
 }
 
+.pronounce__result-container .flex-right {
+  color: #00d100;
+  margin-left: auto;
+  font-style: italic;
+  font-size: 1rem;
+}
+
 .pronounce__result-container.show, .pronounce__analyzing.show {
   display: block;
 }
@@ -249,8 +256,9 @@
 
 .pronounce__result {
   margin: var(--spacing-medium) var(--spacing-small);
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .pronounce__icon.practice {

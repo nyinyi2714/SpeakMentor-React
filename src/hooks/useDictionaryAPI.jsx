@@ -1,10 +1,10 @@
-import { dictionaryAPI } from "../config";
+import config from "../config";
 
 function useDictionaryAPI() {
 
   const checkWord = async (word) => {
     try {
-      let response = await fetch(dictionaryAPI + word);
+      let response = await fetch(config.dictionaryAPI + word);
       response = await response.json();
 
       if(response.length > 0 && response[0].hasOwnProperty("word")) {

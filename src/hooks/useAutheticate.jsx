@@ -1,6 +1,6 @@
 import { useStateContext } from "../StateContext";
 import { useNavigate } from "react-router-dom";
-import { backendUrl } from "../config";
+import config from "../config";
 
 function useAuthenticate() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function useAuthenticate() {
 
   const login = async (email, password) => {
     try {
-      let response = await fetch(backendUrl, {
+      let response = await fetch(config.backendUrl, {
         method: "POST",
         body: {email, password},
       });
@@ -33,7 +33,7 @@ function useAuthenticate() {
 
   const register = async (username, email, password) => {
     try {
-      let response = await fetch(backendUrl, {
+      let response = await fetch(config.backendUrl, {
         method: "POST",
         body: {username, email, password},
       });

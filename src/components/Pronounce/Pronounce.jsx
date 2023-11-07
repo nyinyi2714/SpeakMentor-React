@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import useAudio from "../../hooks/useAudio";
 import soundEffect from "../../assets/rec.m4a";
-import { backendUrl } from "../../config";
-import Boxicons from "boxicons";
+import config  from "../../config";
+import "boxicons";
 import "./Pronounce.css";
 
 function Pronounce(props) {
@@ -12,6 +12,7 @@ function Pronounce(props) {
   const [isAmerican, setIsAmerican] = useState(true);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
+  const perfectScore = 70;
   const { word } = props;
 
   const pronounceResult = useRef();
@@ -29,28 +30,45 @@ function Pronounce(props) {
     isPronouncing,
     isReplaying,
     isAnalyzing,
+    result,
     textToSpeech,
     record,
-    result,
     playAudio,
     setIsSlow,
+    reset
   } = useAudio({ word });
 
-  // TODO: Use result which contains feedback from backend
   const generateResult = (result) => {
-    return;
+    if(!result) return;
     const letters = [];
-    for (let i = 0; i < result.length; i++) {
+
+    result.phonics.forEach((phonic, index) => {
       letters.push(
         <span
-          key={i}
-          style={{ color: result.overall < 50 }}
+          key={index}
+          style={{ color: chooseColorsForScores(phonic.overall) }}
         >
-          {word.spell}
+          {phonic.spell}
         </span>
       );
-    }
+    })
+
     return letters;
+  };
+
+  const chooseColorsForScores = (score) => {
+    if (score >= perfectScore) {
+      return "#00d100"; // Green
+    } else if (score >= 50) {
+      return "#FFAA00"; // Yellow-Orange
+    } else {
+      return "#FF0000"; // Red
+    }
+  };
+
+  const checkIsPerfectScore = () => {
+    if (!result) return false;
+    return result.phonics.every(phonic => phonic.overall >= perfectScore);
   };
 
   const openDropDown = () => {
@@ -69,6 +87,11 @@ function Pronounce(props) {
   const displayPractice = () => {
     setMessage(isRecording ? "Speak Now" : "Practice");
   };
+
+  useEffect(() => {
+    resultContainer.current.classList.remove("open");
+    reset();
+  }, [word]);
 
   useEffect(() => {
     if (isRecording) setTimeout(displayPractice, 200);
@@ -111,7 +134,7 @@ function Pronounce(props) {
 
   const getLaymanPhonetic = async () => {
     try {
-      let response = await fetch(backendUrl, {
+      let response = await fetch(config.backendUrl, {
         method: "POST",
         body: { word },
       });
@@ -128,6 +151,7 @@ function Pronounce(props) {
       console.error("Error fetching layman's phonetic:", error);
     }
   };
+
 
   return (
     <div className="pronounce">
@@ -188,8 +212,10 @@ function Pronounce(props) {
                 >
                   <box-icon name="volume-full" size="16px" color="#4285f4" />
                 </button>
-                Sounds like you said
+                <span>Your Pronunciation</span>
+                {checkIsPerfectScore() && <span className="flex-right">Good Job!</span>}
               </div>
+              
               <div className="pronounce__result" ref={pronounceResult}>
                 {generateResult(result)}
               </div>

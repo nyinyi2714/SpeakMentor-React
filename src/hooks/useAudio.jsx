@@ -1,9 +1,13 @@
 import { useState, useRef } from "react";
 import { backendUrl } from "../config";
-import FormData from 'form-data';
-import MicRecorder from 'mic-recorder-to-mp3';
+import FormData from "form-data";
+import MicRecorder from "mic-recorder-to-mp3";
+import useSpeechSuper from "./useSpeechSuper";
 
 function useAudio({ word }) {
+
+  const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
+
   const [audioURL, setAudioURL] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -49,24 +53,26 @@ function useAudio({ word }) {
   const checkMicrophonePermission = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      // If you reach here, the user has granted microphone access permission.
-      console.log("Microphone permission granted!");
+      // the user has granted microphone access permission.
       return true;
-      // You can now use the microphone in your application.
     } catch (error) {
-      // If you reach here, the user has not granted microphone access permission.
+      // the user has not granted microphone access permission.
       console.error("Microphone permission denied or an error occurred:", error);
       return false;
     }
   };  
+
+  const reset = () => {
+    setResult(null);
+    setAudioURL(null);
+  };
 
   const record = () => {
     if(!checkMicrophonePermission()) return;
     playSound();
 
     // Reset the result
-    setResult(null);
-    setAudioURL(null);
+    reset();
     setIsRecording(true);
 
     const Mp3Recorder = new MicRecorder({ bitRate: 128 });
@@ -85,28 +91,9 @@ function useAudio({ word }) {
   }
 
   const sendAudioToServer = async (audioURL) => {
-    if (!audioURL) return;
-
-    try {
-      setIsAnalyzing(true);
-      let response = await fetch(audioURL);
-      const audio = await response.blob();
-      const formData = new FormData();
-      formData.append("refText", word);
-      formData.append("audioFile", audio, "audio.mp3");
-
-      response = await fetch("http://localhost:8000/send_audio_to_speechsuper", {
-        method: "POST",
-        body: formData,
-      });
-
-      response = await response.json();
-      console.log("Audio sent to server successfully.");
-      // setResult(response);
-
-    } catch (error) {
-      console.error("Error sending audio to server:", error);
-    }
+    setIsAnalyzing(true);
+    const resultData = await sendAudioToSpeechSuperAPI(audioURL, word);
+    setResult(resultData);
     setIsAnalyzing(false);
   };
 
@@ -132,7 +119,8 @@ function useAudio({ word }) {
     textToSpeech,
     record,
     playAudio,
-    setIsSlow
+    setIsSlow,
+    reset,
   };
 }
 
