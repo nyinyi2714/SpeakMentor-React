@@ -12,7 +12,7 @@ function Pronounce(props) {
   const [isAmerican, setIsAmerican] = useState(true);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
-  const { word, setIsPopupOpen, setMicPermission } = props;
+  const { word } = props;
 
   const pronounceResult = useRef();
   const chooseAscentBox = useRef();
@@ -34,7 +34,7 @@ function Pronounce(props) {
     result,
     playAudio,
     setIsSlow,
-  } = useAudio({ word, setIsPopupOpen, setMicPermission });
+  } = useAudio({ word });
 
   // TODO: Use result which contains feedback from backend
   const generateResult = (result) => {

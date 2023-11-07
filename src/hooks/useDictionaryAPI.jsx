@@ -1,6 +1,6 @@
 import { dictionaryAPI } from "../config";
 
-function useAPI() {
+function useDictionaryAPI() {
 
   const checkWord = async (word) => {
     try {
@@ -22,4 +22,4 @@ function useAPI() {
   };
 }
 
-export default useAPI;
+export default useDictionaryAPI;

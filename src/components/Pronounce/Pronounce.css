@@ -253,8 +253,13 @@
   letter-spacing: 0.5px;
 }
 
+.pronounce__icon.practice {
+  width: 96px;
+  padding: var(--spacing-small) var(--spacing-medium);
+}
+
 .pronounce__icon.practice.is-recording:disabled {
-  width: 100px;
+  width: 115px;
   color: black;
   animation: fading 1.2s linear infinite;
 }

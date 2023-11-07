@@ -3,7 +3,7 @@ import { backendUrl } from "../config";
 import FormData from 'form-data';
 import MicRecorder from 'mic-recorder-to-mp3';
 
-function useAudio({ word, setIsPopupOpen, setMicPermission }) {
+function useAudio({ word }) {
   const [audioURL, setAudioURL] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -15,8 +15,6 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
 
   const audioElement = useRef();
   const soundEffectElement = useRef();
-
-  const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
   const textToSpeech = (word, isAmerican) => {
     if (isRecording || isReplaying) return;
@@ -47,12 +45,29 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
     soundEffectElement.current.play();
   };
 
+  // TODO: handle recording when mic permission is denied
+  const checkMicrophonePermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // If you reach here, the user has granted microphone access permission.
+      console.log("Microphone permission granted!");
+      return true;
+      // You can now use the microphone in your application.
+    } catch (error) {
+      // If you reach here, the user has not granted microphone access permission.
+      console.error("Microphone permission denied or an error occurred:", error);
+      return false;
+    }
+  };  
+
   const record = () => {
+    if(!checkMicrophonePermission()) return;
     playSound();
 
     // Reset the result
     setResult(null);
     setAudioURL(null);
+    setIsRecording(true);
 
     const Mp3Recorder = new MicRecorder({ bitRate: 128 });
     Mp3Recorder.start();
@@ -65,6 +80,7 @@ function useAudio({ word, setIsPopupOpen, setMicPermission }) {
           setAudioURL(blobURL);
           sendAudioToServer(blobURL);
         })
+        setIsRecording(false);
     }, [3000])
   }
 
