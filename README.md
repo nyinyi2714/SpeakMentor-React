@@ -39,6 +39,14 @@ To configure environment-specific settings for your app, create a `.env` file in
 REACT_APP_SPEECHSUPER_APP_KEY=appKey
 REACT_APP_SPEECHSUPER_SECRET_KEY=secretKey
 ```
+Alternatively you can also do the following on Macos:
+
+``` javascript
+REACT_APP_SPEECHSUPER_API_KEY=appKey REACT_APP_SPEECHSUPER_SECRET_KEY=secretKey npm start
+```
+> run the command on the terminal
+
+
 Replace appKey and secretKey with the actual app key and secret key.
 
 ## Install Dependencies
