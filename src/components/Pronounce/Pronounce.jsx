@@ -134,16 +134,18 @@ function Pronounce(props) {
 
   const getLaymanPhonetic = async () => {
     try {
-      let response = await fetch(config.backendUrl, {
+      let response = await fetch(`config.backendUrl${search}`, {
         method: "POST",
-        body: { word },
+        body: { 
+          search: word 
+        },
       });
 
       response = await response.json();
       if (response.ok) {
         // TODO: check the backend json key (laymanPhonetic)
-        setLaymanPhonetic(response.laymanPhonetic);
-        console.log("fetched layman's phonetic successfully.");
+        setLaymanPhonetic(response.laymans);
+        console.log(response);
       } else {
         console.error("Error fetching layman's phonetic.");
       }

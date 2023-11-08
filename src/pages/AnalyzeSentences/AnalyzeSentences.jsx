@@ -117,9 +117,9 @@ function AnalyzeSentences() {
   return(
     <div className="analyze-sentences">
       <div className="analyze-sentences__analyzer">
-        {isRecording && <div class="recording-icon">
+        {isRecording && <div className="recording-icon">
           REC
-          <div class="circle" />
+          <div className="circle" />
         </div>}
         <textarea 
           type="text" 
