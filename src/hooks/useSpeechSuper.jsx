@@ -8,6 +8,7 @@ function useSpeechSuper() {
 
     const appKey = config.speechSuperAppKey;
     const secretKey = config.speechSuperSecretKey;
+    console.log(appKey + "," + secretKey)
 
     var coreType = "word.eval";
     var refText = word; 
