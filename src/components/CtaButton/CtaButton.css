@@ -1,0 +1,45 @@
+.cta-button {
+  color: var(--primary-color);
+  background-color: inherit;
+  border: none;
+  outline: 1px solid;
+  border-radius: 5px;
+  padding: .7rem;
+  max-width: 240px;
+  cursor: pointer;
+  position: relative;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  outline: 1px solid var(--primary-color);
+  color: #fff;
+}
+
+.cta-button:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+
+  background: linear-gradient(to bottom right, #89caff 20%, #0665fc 100%);
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+}
+
+.cta-button:hover:before {
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.cta-button span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  z-index: 1;
+  position: relative;
+  transition: color 100ms;
+}
