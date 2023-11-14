@@ -8,7 +8,6 @@ function useSpeechSuper() {
 
     const appKey = config.speechSuperAppKey;
     const secretKey = config.speechSuperSecretKey;
-    console.log(appKey + "," + secretKey)
 
     var coreType = "word.eval";
     var refText = word; 
@@ -98,6 +97,7 @@ function useSpeechSuper() {
 
     return response.json().then((res) => {
       console.log(res)
+      
       return {
         phonics: res.result.words[0].phonics,
         overall: res.result.words[0].scores.overall

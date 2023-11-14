@@ -13,7 +13,8 @@ function useAuthenticate() {
 
   const login = async (email, password) => {
     try {
-      let response = await fetch(config.backendUrl, {
+
+      let response = await fetch(`${config.backendUrl}/auth/login`, {
         method: "POST",
         body: {email, password},
       });
@@ -33,7 +34,8 @@ function useAuthenticate() {
 
   const register = async (username, email, password) => {
     try {
-      let response = await fetch(config.backendUrl, {
+
+      let response = await fetch(`${config.backendUrl}/auth/register`, {
         method: "POST",
         body: {username, email, password},
       });

@@ -9,6 +9,7 @@ function useAudio({ word }) {
   const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
 
   const [audioURL, setAudioURL] = useState(null);
+  const [audioBlob, setAudioBlob] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -16,6 +17,7 @@ function useAudio({ word }) {
   const [isSlow, setIsSlow] = useState(false);
   const [result, setResult] = useState(null);
   const synth = window.speechSynthesis;
+  let testBlob = null;
 
   const audioElement = useRef();
   const soundEffectElement = useRef();
