@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import useAPI from "../../hooks/useAPI";
+import useDictionaryAPI from "../../hooks/useDictionaryAPI";
 import Pronounce from "../../components/Pronounce/Pronounce";
 import Popup from "../../components/Popup/Popup";
 import CtaButton from "../../components/CtaButton/CtaButton";
@@ -13,7 +13,7 @@ function Homepage() {
   const [micPermission, setMicPermission] = useState(true);
   const [wordNotFound, setWordNotFound] = useState("");
 
-  const { checkWord } = useAPI();
+  const { checkWord } = useDictionaryAPI();
 
   const wordInput = useRef();
 
@@ -107,11 +107,8 @@ function Homepage() {
         </div>
       </div>
 
-      {isPopupOpen &&
-        <Popup
-          micPermission={micPermission}
-          closePopup={closePopup}
-          wordNotFound={wordNotFound}
+        <Pronounce 
+          word={word}
         />
       }
     </React.Fragment>

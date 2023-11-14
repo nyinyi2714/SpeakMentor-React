@@ -191,6 +191,13 @@
   display: none;
 }
 
+.pronounce__result-container .flex-right {
+  color: #00d100;
+  margin-left: auto;
+  font-style: italic;
+  font-size: 1rem;
+}
+
 .pronounce__result-container.show, .pronounce__analyzing.show {
   display: block;
 }
@@ -250,12 +257,18 @@
 
 .pronounce__result {
   margin: var(--spacing-medium) var(--spacing-small);
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.pronounce__icon.practice {
+  width: 96px;
+  padding: var(--spacing-small) var(--spacing-medium);
 }
 
 .pronounce__icon.practice.is-recording:disabled {
-  width: 100px;
+  width: 115px;
   color: black;
   animation: fading 1.2s linear infinite;
 }

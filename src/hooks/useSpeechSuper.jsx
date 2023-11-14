@@ -97,7 +97,7 @@ function useSpeechSuper() {
 
     return response.json().then((res) => {
       console.log(res)
-
+      
       return {
         phonics: res.result.words[0].phonics,
         overall: res.result.words[0].scores.overall

@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# SpeakMentor.io README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to SpeakMentor.io! This guide will help you clone and run the application on your local machine.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before you begin, make sure you have the following software installed on your system:
 
-### `npm start`
+- **Node.js:** Download and install Node.js [here](https://nodejs.org/).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Clone the Repository
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Open your terminal or command prompt.
+2. Navigate to the directory where you want to clone the repository.
 
-### `npm test`
+    ```bash
+    cd /path/to/your/directory
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Clone the repository from GitHub using the following command:
 
-### `npm run build`
+    ```bash
+    git clone https://github.com/nyinyi2714/check-pronunciation-frontend.git
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Change your working directory to the cloned repository:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    ```bash
+    cd check-pronunciation-frontend
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Setting Up Environment Variables
 
-### `npm run eject`
+To configure environment-specific settings for your app, create a `.env` file in the root directory of your project.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Sample `.env` file structure:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```plaintext
+REACT_APP_SPEECHSUPER_APP_KEY=appKey
+REACT_APP_SPEECHSUPER_SECRET_KEY=secretKey
+```
+Alternatively you can also do the following on Macos:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+``` javascript
+REACT_APP_SPEECHSUPER_API_KEY=appKey REACT_APP_SPEECHSUPER_SECRET_KEY=secretKey npm start
+```
+> run the command on the terminal
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+Replace appKey and secretKey with the actual app key and secret key.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Install Dependencies
+Before running the app, you need to install its dependencies. In the project's root directory, run the following command:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+    npm install
+```
+This command will read the package.json file and install all the necessary packages.
 
-### Code Splitting
+## Running the App
+To start the development server and run the app locally, use the following command:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+    npm start
+```
+This will start the development server and open your app in your default web browser at http://localhost:3000.

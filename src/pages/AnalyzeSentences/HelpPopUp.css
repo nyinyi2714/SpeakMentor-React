@@ -1,0 +1,32 @@
+.help-popup {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: var(--spacing-medium);
+  margin-top: var(--spacing-medium);
+}
+
+.help-popup h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: var(--spacing-medium);
+}
+
+.instruction {
+  font-size: 1.3rem;
+  margin-bottom: var(--spacing-small);
+  text-indent: var(--spacing-small);
+}
+
+.instruction > * {
+  text-indent: var(--spacing-small);
+}
+
+.instruction span::before {
+  content: "▶ ";
+  color: var(--primary-color);
+}
+
+.instruction p {
+  margin-top: 5px;
+  font-size: 1rem;
+}
