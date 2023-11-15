@@ -1,14 +1,17 @@
 .cta-button {
+  display: flex;
+  align-items: center;
   color: var(--primary-color);
   background-color: inherit;
   border: none;
   outline: 1px solid;
   border-radius: 5px;
-  padding: .7rem var(--spacing-large);
+
+  padding: .5rem var(--spacing-medium);
   max-width: 240px;
   cursor: pointer;
   position: relative;
-  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1), background-color 100ms cubic-bezier(.694, 0, 0.335, 1), color 100ms cubic-bezier(.694, 0, 0.335, 1);
   white-space: nowrap;
   overflow: hidden;
   margin: auto;
@@ -42,5 +45,6 @@
   font-weight: bold;
   z-index: 1;
   position: relative;
+  bottom: 1px;
   transition: color 100ms;
 }

@@ -5,7 +5,9 @@
   --primary-color: #4285f4;
   --dark-primary-color: #161e5f;
   --light-grey: lightgrey;
+  --very-light-grey: rgb(237, 237, 237);
   --grey: #5d5d5d;
+  --main-background-color: linear-gradient(to bottom right, #4286f427, #4286f40b, #4286f438);
 }
 
 * {

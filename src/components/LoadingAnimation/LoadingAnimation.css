@@ -1,0 +1,51 @@
+.loading-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 10;
+
+  display: grid;
+  place-items: center;
+  transition: 700ms ease-in-out;
+  transition-delay: 200ms;
+}
+
+.loading-animation.slide-up {
+  transform: translateY(-100%);
+}
+
+.loading-animation--content {
+  display: grid;
+  place-items: center;
+}
+
+  .loading-animation img {
+    min-width: 200px;
+    width: 30%;
+  }
+
+.loading-bar {
+  position: relative;
+  margin-top: var(--spacing-medium);
+  min-width: 200px;
+  width: 30%;
+  height: 3px;
+  border-radius: 30px;
+  background-color: var(--very-light-grey);
+  overflow: hidden;
+}
+
+  .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 0%;
+    height: 3px;
+    border-radius: 30px;
+    background-color: var(--primary-color);
+    transition: width 200ms linear;
+  }

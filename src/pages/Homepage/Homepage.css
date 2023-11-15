@@ -5,7 +5,7 @@
   gap: 2rem;
   min-height: 100vh;
   padding: var(--spacing-large);
-  background: linear-gradient(to bottom right, #4286f427, #4286f40b, #4286f438);
+  background: var(--main-background-color);
 
   --oval-shape: "M249.187 38.0885C278.361 62.0501 295.951 98.5629 299.383 138.119C302.816 177.674 292.09 220.272 262.916 243.473C233.312 266.674 185.261 270.097 146.648 262.11C108.035 253.743 78.4314 233.204 52.2604 210.003C26.5184 187.183 3.35067 160.939 0.347436 132.413C-2.65579 103.507 14.0765 72.3193 40.2475 48.3578C66.4185 24.3962 101.599 7.66112 140.212 5.37907C178.396 2.71667 219.583 14.1269 249.187 38.0885Z";
 }
@@ -92,7 +92,7 @@
   border-radius: 30px;
   height: 100%;
   border-color: var(--light-grey);
-  min-width: 177px;
+  min-width: 160px;
 }
 
 .homepage__input:focus {

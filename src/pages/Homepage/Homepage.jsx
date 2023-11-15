@@ -3,8 +3,8 @@ import useDictionaryAPI from "../../hooks/useDictionaryAPI";
 import Pronounce from "../../components/Pronounce/Pronounce";
 import Popup from "../../components/Popup/Popup";
 import CtaButton from "../../components/CtaButton/CtaButton";
-import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
 import "./Homepage.css";
 
 function Homepage() {
@@ -12,6 +12,7 @@ function Homepage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [micPermission, setMicPermission] = useState(true);
   const [wordNotFound, setWordNotFound] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const { checkWord } = useDictionaryAPI();
 
@@ -114,6 +115,8 @@ function Homepage() {
         closePopup={closePopup}
         wordNotFound={wordNotFound}
       />}
+
+      <LoadingAnimation />
     </React.Fragment>
   );
 
