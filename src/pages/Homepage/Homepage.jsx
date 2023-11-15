@@ -95,18 +95,20 @@ function Homepage() {
         </div>
         <div className="homepage__welcome-section">
           <p>
-            <img src="/images/main-logo.png" alt="logo" />
+            <img id="logo" src="/images/main-logo.png" alt="logo" />
             Ready to enhance your pronunciation skills? Start practicing with phrases and sentences.
             <CtaButton text="Practice Now" />
           </p>
           <div className="image-wrapper">
             <img 
+              id="background-mic"
               src="/images/background-image--mic.png" 
               alt="background-mic"
             />
           </div>
         </div>
       </div>
+
       {isPopupOpen && <Popup 
         micPermission={micPermission}
         closePopup={closePopup}

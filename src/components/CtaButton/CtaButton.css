@@ -4,13 +4,14 @@
   border: none;
   outline: 1px solid;
   border-radius: 5px;
-  padding: .7rem;
+  padding: .7rem var(--spacing-large);
   max-width: 240px;
   cursor: pointer;
   position: relative;
   transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
   white-space: nowrap;
   overflow: hidden;
+  margin: auto;
 }
 
 .cta-button:hover {
