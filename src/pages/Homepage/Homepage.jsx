@@ -58,6 +58,7 @@ function Homepage() {
     const isVisited = localStorage.getItem("isVisited");
 
     if (isVisited !== "true") {
+      console.log(isVisited !== "true")
       setIsPopupOpen(true);
       localStorage.setItem("isVisited", "true");
       requestMicPermission();
@@ -106,11 +107,11 @@ function Homepage() {
           </div>
         </div>
       </div>
-
-        <Pronounce 
-          word={word}
-        />
-      }
+      {isPopupOpen && <Popup 
+        micPermission={micPermission}
+        closePopup={closePopup}
+        wordNotFound={wordNotFound}
+      />}
     </React.Fragment>
   );
 

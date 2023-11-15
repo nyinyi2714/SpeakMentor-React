@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { backendUrl } from "../config";
-import FormData from "form-data";
+import useGoogleTTS from "../hooks/useGoogleTTS";
 import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";
 
@@ -9,42 +9,24 @@ function useAudio({ word }) {
   const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
 
   const [audioURL, setAudioURL] = useState(null);
-  const [audioBlob, setAudioBlob] = useState(null);
   const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSlow, setIsSlow] = useState(false);
   const [result, setResult] = useState(null);
-  const synth = window.speechSynthesis;
-  let testBlob = null;
 
   const audioElement = useRef();
   const soundEffectElement = useRef();
+
+  const { speak } = useGoogleTTS();
 
   const textToSpeech = (word, isAmerican) => {
     if (isRecording || isReplaying) return;
 
     setIsPronouncing(true);
-
-    const voices = synth.getVoices();
-    const utterThis = new SpeechSynthesisUtterance(word);
-
-    // Choose ascent and speak rate
-    if (isAmerican) {
-      utterThis.voice = voices[4];
-      if (isSlow) utterThis.rate = 0.5;
-    } else {
-      utterThis.voice = voices[5];
-      if (isSlow) utterThis.rate = 0.8;
-      else utterThis.rate = 1.2;
-    }
-
-    utterThis.addEventListener("end", () => {
-      setIsPronouncing(false);
-    });
-
-    synth.speak(utterThis);
+    speak(word);
+    setIsPronouncing(false);
   };
 
   const playSound = () => {
