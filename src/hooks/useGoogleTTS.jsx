@@ -1,8 +1,14 @@
+import { useState, useEffect } from "react";
 import config from "../config";
 import axios from "axios";
 
 function useGoogleTTS() {
+  const [audio, setAudio] = useState(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
   const speak = (word) => {
+    setIsSpeaking(true);
+
     const body = {
       audioConfig: {
         audioEncoding: "MP3"
@@ -23,20 +29,45 @@ function useGoogleTTS() {
     })
     .then(response => {
       const audioContent = response.data.audioContent;
-      console.log(response)
       const audioBlob = new Blob([Uint8Array.from(atob(audioContent), c => c.charCodeAt(0))], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
 
-      const audio = new Audio(audioUrl);
-      audio.play().catch(e => console.error("Error playing audio: ", e));
+      const audioElement = new Audio(audioUrl);
+
+      // Attach an event listener for when the audio playback ends
+      audioElement.addEventListener('ended', () => {
+        setIsSpeaking(false);
+      });
+
+      audioElement.play().catch(e => console.error("Error playing audio: ", e));
+      setAudio(audioElement);
     })
     .catch(error => {
       console.error("Error with the Text-to-Speech API", error.message);
     });
   };
 
+  const stop = () => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      setIsSpeaking(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      // Cleanup function to remove event listener when the component unmounts
+      if (audio) {
+        audio.removeEventListener('ended', () => setIsSpeaking(false));
+      }
+    };
+  }, [audio]);
+
   return {
-    speak
+    speak,
+    stop,
+    isSpeaking
   };
 }
 

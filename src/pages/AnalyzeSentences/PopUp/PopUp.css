@@ -1,0 +1,11 @@
+.analyze-sentences--popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(211, 211, 211, 0.643);
+  z-index: 10;
+  display: grid;
+  place-items: center;
+}

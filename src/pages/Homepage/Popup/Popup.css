@@ -1,4 +1,4 @@
-.popup {
+.homepage-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +10,7 @@
   z-index: 10;
 }
 
-.popup__content {
+.homepage-popup__content {
   max-width: 400px;
   background-color: #fff;
   line-height: 1.5rem;
@@ -23,7 +23,7 @@
   gap: var(--spacing-medium);
 }
 
-.popup__content button {
+.homepage-popup__content button {
   display: block;
   margin-left: auto;
   width: max-content;
@@ -32,7 +32,7 @@
   background-color: var(--primary-color);
 }
 
-.popup__content .link {
+.homepage-popup__content .link {
   display: block;
   color: var(--primary-color);
   text-decoration: underline;

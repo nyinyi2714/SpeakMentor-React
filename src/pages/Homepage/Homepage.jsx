@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useDictionaryAPI from "../../hooks/useDictionaryAPI";
 import Pronounce from "../../components/Pronounce/Pronounce";
-import Popup from "../../components/Popup/Popup";
+import Popup from "./Popup/Popup";
 import CtaButton from "../../components/CtaButton/CtaButton";
 import Navbar from "../../components/Navbar/Navbar";
 import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";

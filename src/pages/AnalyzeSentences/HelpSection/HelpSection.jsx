@@ -1,6 +1,6 @@
-import "./HelpPopUp.css";
+import "./HelpSection.css";
 
-function HelpPopUp() {
+function HelpSection() {
   return (
     <div className="help-popup">
       <h1>Instructions</h1>
@@ -26,4 +26,4 @@ function HelpPopUp() {
   );
 }
 
-export default HelpPopUp;
+export default HelpSection;

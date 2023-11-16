@@ -1,11 +1,12 @@
 /* AnalyzeSentences.css */
 .analyze-sentences {
-  margin: var(--spacing-large);
+  min-height: 100vh;
+  padding: var(--spacing-large);
+  background: var(--main-background-color);
 }
 
 .analyze-sentences__analyzer {
-  background-color: #f9f9f9;
-  border: 1px solid var(--light-grey);
+  background-color: #fff;
   padding: 20px;
   border-radius: 5px;
 }

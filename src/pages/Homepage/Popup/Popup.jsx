@@ -14,7 +14,7 @@ function Popup({ micPermission, closePopup, wordNotFound }) {
 
   const prompted = () => {
     return(
-      <div className="popup__content">
+      <div className="homepage-popup__content">
         <h2>Mic Permission</h2>
 
         This website needs microphone permission to function properly.
@@ -27,7 +27,7 @@ function Popup({ micPermission, closePopup, wordNotFound }) {
 
   const denied = () => {
     return(
-      <div className="popup__content">
+      <div className="homepage-popup__content">
         <div>
           Please allow the microphone permission first.
           <Link className="link" to="/instructions">See Instructions.</Link>
@@ -39,7 +39,7 @@ function Popup({ micPermission, closePopup, wordNotFound }) {
 
   const wordNotFoundMessage = () => {
     return(
-      <div className="popup__content">
+      <div className="homepage-popup__content">
         <h2>Word Not Found</h2>
         Sorry. "{wordNotFound}" is not found in the database.
         {closeBtn()}
@@ -69,7 +69,7 @@ function Popup({ micPermission, closePopup, wordNotFound }) {
   else popupContent = denied();
 
   return(
-    <div className="popup" id="popup-wrapper">
+    <div className="homepage-popup" id="popup-wrapper">
       {popupContent}
     </div>
   );

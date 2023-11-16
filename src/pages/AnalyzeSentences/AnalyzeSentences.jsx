@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import useSpeechRecognizer from "../../hooks/useSpeechRecognizer";
 import MicRecorder from "mic-recorder-to-mp3";
-import "./AnalyzeSentences.css";
-import HelpPopUp from "./HelpPopUp";
+import useGoogleTTS from "../../hooks/useGoogleTTS";
+import PopUp from "./PopUp/PopUp";
+import Spinner from "./Spinner/Spinner";
+import HelpSection from "./HelpSection/HelpSection";
 import "boxicons";
+import "./AnalyzeSentences.css";
 
 function AnalyzeSentences() {
   const { 
@@ -14,9 +17,13 @@ function AnalyzeSentences() {
     transcript 
   } = useSpeechRecognizer();
 
+  const { speak, stop, isSpeaking } = useGoogleTTS();
+
   const pageStates = {
     isRecording: "isRecording",
-    isEditing: "isEditing"
+    isEditing: "isEditing",
+    isAnalyzing: "isAnalyzing",
+    analyzed: "analyzed",
   };
 
   const messages = {
@@ -33,7 +40,7 @@ function AnalyzeSentences() {
   const [message, setMessage] = useState(messages.recordNow);
   const [displayHelp, setDisplayHelp] = useState(false);
 
-  const audioElement = useRef();
+  const userRecording = useRef();
 
   const record = () => {
     // Reset the result
@@ -88,8 +95,13 @@ function AnalyzeSentences() {
     setMp3Recorder(new MicRecorder({ bitRate: 128 }));
   }, []);
 
+  const listenToGoogleTTS = () => {
+    if(isSpeaking) stop();
+    else speak(transcript);
+  };
+
   const listenToYourself = () => {
-    const audio = audioElement.current;
+    const audio = userRecording.current;
   
     if (audio.paused) {
       audio.play();
@@ -110,7 +122,12 @@ function AnalyzeSentences() {
     setCurrPageState(pageStates.isRecording);
   };
 
-  const openHelpPopUp = () => {
+  const analyze = () => {
+    // use useSpeechSuper API
+    setCurrPageState(pageStates.isAnalyzing);
+  };
+
+  const openHelpSection = () => {
     setDisplayHelp(prevState => !prevState);
   };
 
@@ -151,36 +168,50 @@ function AnalyzeSentences() {
               <button 
                 className="btn" 
                 onClick={nextPageState}
-                disabled={transcript.length <= 0 || isRecording}
+                // disabled={transcript.length <= 0 || isRecording}
               >
                 Next
               </button>
             </>
           }
-          {currPageState === pageStates.isEditing && 
+          {currPageState !== pageStates.isRecording && 
             <>
+              <button className="btn" onClick={listenToGoogleTTS}>
+                {isSpeaking ? "Stop" : "Text to Speech"}
+              </button>
               <button className="btn" onClick={listenToYourself}>
-                {audioElement.current.paused ? "Listen to yourself" : "Pause"}
+                {userRecording.current.paused ? "Listen to yourself" : "Pause"}
               </button>
               <button className="btn" onClick={prevPageState}>
                 Reset
               </button>
-              <button className="btn">Analyze</button>
-              
+              {currPageState !== pageStates.analyzed && 
+                <button className="btn" onClick={analyze}>Analyze</button> 
+              }
             </>
           }
+          
         </div>
       </div>
-      {displayHelp && <HelpPopUp />}
+      {displayHelp && <HelpSection />}
       <button 
-        onClick={openHelpPopUp}
+        onClick={openHelpSection}
         className="btn analyze-sentences__help-btn"
       >
         <div>
           <box-icon name="question-mark" color="#4285f4" size="20px" />
         </div>
       </button>
-      <audio src={audioURL} ref={audioElement}></audio>
+      {/* User's audio recording */}
+      <audio src={audioURL} ref={userRecording} />
+
+      {/* Display Spinner while analyzing the audio */}
+      {currPageState === pageStates.isAnalyzing && 
+        <PopUp content={Spinner()} />
+      }
+
+      {/* Display the popup pronounce component */}
+      {/* TODO */}
     </div>
   );
 }
