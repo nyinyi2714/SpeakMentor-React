@@ -7,9 +7,9 @@ import useSpeechSuper from "./useSpeechSuper";
 function useAudio({ word }) {
 
   const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
+  const { speak, isSpeaking } = useGoogleTTS();
 
   const [audioURL, setAudioURL] = useState(null);
-  const [isPronouncing, setIsPronouncing] = useState(false);
   const [isReplaying, setIsReplaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -19,14 +19,9 @@ function useAudio({ word }) {
   const audioElement = useRef();
   const soundEffectElement = useRef();
 
-  const { speak } = useGoogleTTS();
-
-  const textToSpeech = (word, isAmerican) => {
-    if (isRecording || isReplaying) return;
-
-    setIsPronouncing(true);
+  const textToSpeech = (word) => {
+    if (isRecording || isReplaying || isSpeaking) return;
     speak(word);
-    setIsPronouncing(false);
   };
 
   const playSound = () => {
@@ -82,7 +77,7 @@ function useAudio({ word }) {
   };
 
   const playAudio = () => {
-    if (isRecording || isPronouncing) return;
+    if (isRecording || isSpeaking) return;
     setIsReplaying(true);
     audioElement.current.play();
     audioElement.current.addEventListener("ended", () => {
@@ -93,7 +88,7 @@ function useAudio({ word }) {
   return {
     audioURL,
     isRecording,
-    isPronouncing,
+    isSpeaking,
     isReplaying,
     isAnalyzing,
     audioElement,

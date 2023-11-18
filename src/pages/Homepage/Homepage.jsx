@@ -4,7 +4,7 @@ import Pronounce from "../../components/Pronounce/Pronounce";
 import Popup from "./Popup/Popup";
 import CtaButton from "../../components/CtaButton/CtaButton";
 import Navbar from "../../components/Navbar/Navbar";
-import LoadingAnimation from "../../components/LoadingAnimation/LoadingAnimation";
+import LoadingAnimation from "./LoadingAnimation/LoadingAnimation";
 import "./Homepage.css";
 
 function Homepage() {
@@ -18,7 +18,7 @@ function Homepage() {
 
   const wordInput = useRef();
 
-  const requestMicPermission = async () => {
+  const requestMicPermission = async (closePopup, setIsPopupOpen, setMicPermission) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
       stream.getTracks().forEach(track => track.stop());
@@ -51,22 +51,8 @@ function Homepage() {
     setIsPopupOpen(false);
   };
 
-  /*
-    Open popup reminder and request mic permission
-    if user visits for first time
-   */
-  useEffect(() => {
-    const isVisited = localStorage.getItem("isVisited");
-
-    if (isVisited !== "true") {
-      console.log(isVisited !== "true")
-      setIsPopupOpen(true);
-      localStorage.setItem("isVisited", "true");
-      requestMicPermission();
-    }
-
-    // Prepopulation the word search input
-    wordInput.current.value = "carpet";
+  useEffect(() => { // Prepopulation the word search input
+    wordInput.current.value = "carpet"; 
   }, []);
 
   return (
@@ -116,7 +102,13 @@ function Homepage() {
         wordNotFound={wordNotFound}
       />}
 
-      <LoadingAnimation />
+      {/* <LoadingAnimation 
+        isLoading={isLoading} 
+        requestMicPermission={requestMicPermission}
+        closePopup={closePopup}
+        setIsPopupOpen={setIsPopupOpen}
+        setMicPermission={setMicPermission}
+      /> */}
     </React.Fragment>
   );
 

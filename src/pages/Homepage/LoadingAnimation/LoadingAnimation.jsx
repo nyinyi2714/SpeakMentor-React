@@ -1,7 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import "./LoadingAnimation.css";
 
-function LoadingAnimation(isLoading) {
+function LoadingAnimation(props) {
+
+  const { 
+    isLoading, 
+    setIsPopupOpen, 
+    setMicPermission, 
+    closePopup,
+    requestMicPermission, 
+  } = props;
+
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingSpeed, setLoadingSpeed] = useState(1);
 
@@ -10,6 +19,23 @@ function LoadingAnimation(isLoading) {
 
   const hideLoadingPage = () => {
     loadingPage.current.classList.add("slide-up");
+    checkIsVisited();
+  };
+
+  /*
+    Open popup reminder and request mic permission
+    if user visits for first time
+   */
+  const checkIsVisited = () => {
+    const isVisited = localStorage.getItem("isVisited");
+
+    if (isVisited !== "true") {
+      localStorage.setItem("isVisited", "true");
+      setTimeout(() => {
+        setIsPopupOpen(true);
+        requestMicPermission(closePopup, setIsPopupOpen, setMicPermission);
+      }, [900])
+    }
   };
 
   useEffect(() => {

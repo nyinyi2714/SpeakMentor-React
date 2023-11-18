@@ -45,14 +45,14 @@
   gap: var(--spacing-medium);
 }
 
-.analyze-sentences button {
+.analyze-sentences__btn-container button {
   background-color: var(--primary-color);
   color: #fff;
   border-radius: 30px;
   padding: var(--spacing-small) var(--spacing-medium);
 }
 
-.analyze-sentences button:disabled {
+.analyze-sentences__btn-container button:disabled {
   opacity: 0.5;
   cursor: default;
 }
@@ -63,6 +63,7 @@
   bottom: 10vh;
   right: 5vw;
   background-color: var(--primary-color);
+  border: none;
   border-radius: 50%;
   width: 50px;
   height: 50px;

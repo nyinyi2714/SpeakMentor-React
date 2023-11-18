@@ -1,10 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import useSpeechRecognizer from "../../hooks/useSpeechRecognizer";
-import MicRecorder from "mic-recorder-to-mp3";
 import useGoogleTTS from "../../hooks/useGoogleTTS";
+
 import PopUp from "./PopUp/PopUp";
 import Spinner from "./Spinner/Spinner";
 import HelpSection from "./HelpSection/HelpSection";
+import Pronounce from "../../components/Pronounce/Pronounce";
+
+import MicRecorder from "mic-recorder-to-mp3";
 import "boxicons";
 import "./AnalyzeSentences.css";
 
@@ -39,6 +42,7 @@ function AnalyzeSentences() {
   const [currPageState, setCurrPageState] = useState(pageStates.isRecording);
   const [message, setMessage] = useState(messages.recordNow);
   const [displayHelp, setDisplayHelp] = useState(false);
+  const [currWordResult, setCurrWordResult] = useState(null);
 
   const userRecording = useRef();
 
@@ -211,7 +215,12 @@ function AnalyzeSentences() {
       }
 
       {/* Display the popup pronounce component */}
-      {/* TODO */}
+      {currPageState === pageStates.analyzed && 
+        currWordResult !== null && 
+        <PopUp content={<Pronounce word={"word"} />} />
+      }
+
+        {/* <PopUp content={<Pronounce word={"word"} />} /> */}
     </div>
   );
 }
