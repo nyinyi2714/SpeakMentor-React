@@ -21,7 +21,7 @@ function useAudio({ word }) {
 
   const textToSpeech = (word) => {
     if (isRecording || isReplaying || isSpeaking) return;
-    speak(word);
+    speak(word, isSlow);
   };
 
   const playSound = () => {

@@ -2,8 +2,8 @@ import "./Spinner.css";
 
 function Spinner() {
   return(
-    <div class="spinner-container">
-      Analyzing <div class="spinner" />
+    <div className="spinner-container">
+      Analyzing <div className="spinner" />
     </div>    
   );
 }

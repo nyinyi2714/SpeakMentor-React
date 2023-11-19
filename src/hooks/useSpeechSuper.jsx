@@ -2,6 +2,8 @@ import jsSHA from 'jssha';
 import config from "../config";
 
 function useSpeechSuper() {
+  const perfectScore = 70;
+
   const sendAudioToSpeechSuperAPI = async (audioURL, word) => {
     
     var baseUrl = "https://api.speechsuper.com/";
@@ -106,7 +108,45 @@ function useSpeechSuper() {
 
   };
 
-  return {sendAudioToSpeechSuperAPI};
+  const generateResult = (speechSuperResult) => {
+    if(!speechSuperResult) return;
+    const letters = [];
+
+    speechSuperResult.phonics.forEach((phonic, index) => {
+      letters.push(
+        <span
+          key={index}
+          style={{ color: chooseColorsForScores(phonic.overall) }}
+        >
+          {phonic.spell}
+        </span>
+      );
+    })
+
+    return letters;
+  };
+
+  const chooseColorsForScores = (score) => {
+    if (score >= perfectScore) {
+      return "#00d100"; // Green
+    } else if (score >= perfectScore - 20) {
+      return "#FFAA00"; // Yellow-Orange
+    } else {
+      return "#FF0000"; // Red
+    }
+  };
+
+  const checkIsPerfectScore = (speechSuperResult) => {
+    if (!speechSuperResult) return false;
+    return speechSuperResult.phonics.every(phonic => phonic.overall >= perfectScore);
+  };
+
+  return {
+    sendAudioToSpeechSuperAPI,
+    generateResult,
+    chooseColorsForScores,
+    checkIsPerfectScore
+  };
 
 }
 

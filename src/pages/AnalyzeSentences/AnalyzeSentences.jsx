@@ -32,6 +32,7 @@ function AnalyzeSentences() {
   const messages = {
     recordNow: "Please record yourself before clicking \"Next\".",
     editNow: "You can edit your transcript now if there's any mistake.",
+    practiceNow: "You can click on words to view the analysis and practice."
   };
 
   const [editedTranscript, setEditedTranscript] = useState("");
@@ -95,10 +96,6 @@ function AnalyzeSentences() {
     else setEditedTranscript(transcript);
   }, [transcript]);
 
-  useEffect(() => {
-    setMp3Recorder(new MicRecorder({ bitRate: 128 }));
-  }, []);
-
   const listenToGoogleTTS = () => {
     if(isSpeaking) stop();
     else speak(transcript);
@@ -128,12 +125,38 @@ function AnalyzeSentences() {
 
   const analyze = () => {
     // use useSpeechSuper API
+    // TODO
     setCurrPageState(pageStates.isAnalyzing);
+    // Once analysis is done, setMessage(messages.practiceNow);
   };
 
   const openHelpSection = () => {
     setDisplayHelp(prevState => !prevState);
   };
+
+  const closePopUp = () => {
+    setCurrWordResult(null);
+  };
+
+  // Close popup box with outside click
+  useEffect(() => {
+    function handleClickOutside(e) {   
+      if (e.target.id === "popup-wrapper") {
+        closePopUp();
+      } 
+    }
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setMp3Recorder(new MicRecorder({ bitRate: 128 }));
+  }, []);
 
   return(
     <div className="analyze-sentences">
@@ -172,7 +195,7 @@ function AnalyzeSentences() {
               <button 
                 className="btn" 
                 onClick={nextPageState}
-                // disabled={transcript.length <= 0 || isRecording}
+                disabled={transcript.length <= 0 || isRecording}
               >
                 Next
               </button>
@@ -184,7 +207,7 @@ function AnalyzeSentences() {
                 {isSpeaking ? "Stop" : "Text to Speech"}
               </button>
               <button className="btn" onClick={listenToYourself}>
-                {userRecording.current.paused ? "Listen to yourself" : "Pause"}
+                {(userRecording.current && userRecording.current.paused) ? "Listen to yourself" : "Pause"}
               </button>
               <button className="btn" onClick={prevPageState}>
                 Reset
@@ -197,7 +220,7 @@ function AnalyzeSentences() {
           
         </div>
       </div>
-      {displayHelp && <HelpSection />}
+      <HelpSection displayHelp={displayHelp} />
       <button 
         onClick={openHelpSection}
         className="btn analyze-sentences__help-btn"
@@ -215,12 +238,13 @@ function AnalyzeSentences() {
       }
 
       {/* Display the popup pronounce component */}
-      {currPageState === pageStates.analyzed && 
-        currWordResult !== null && 
-        <PopUp content={<Pronounce word={"word"} />} />
+      {(currPageState === pageStates.analyzed && 
+        currWordResult !== null) && 
+        <PopUp 
+          content={<Pronounce word={"word"} />} 
+          closePopUp={closePopUp} 
+        />
       }
-
-        {/* <PopUp content={<Pronounce word={"word"} />} /> */}
     </div>
   );
 }

@@ -1,7 +1,6 @@
 .help-popup {
   background-color: #fff;
   border-radius: 5px;
-  padding: var(--spacing-medium);
   margin-top: var(--spacing-medium);
 }
 
@@ -11,22 +10,32 @@
   margin-bottom: var(--spacing-medium);
 }
 
+.instruction > span {
+  color: var(--primary-color);  
+}
+
 .instruction {
   font-size: 1.3rem;
   margin-bottom: var(--spacing-small);
-  text-indent: var(--spacing-small);
-}
-
-.instruction > * {
-  text-indent: var(--spacing-small);
-}
-
-.instruction span::before {
-  content: "▶ ";
-  color: var(--primary-color);
 }
 
 .instruction p {
   margin-top: 5px;
   font-size: 1rem;
+}
+
+.expandable-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;  
+  transition: grid-template-rows 500ms;
+}
+
+.expandable-wrapper.open {
+  grid-template-rows: 1fr;
+  margin-bottom: var(--spacing-small);
+}
+
+.expandable-content {
+  min-height: 0;
+  overflow: hidden;
 }

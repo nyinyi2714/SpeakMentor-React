@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
+import useSpeechSuper from "../../hooks/useSpeechSuper";
 import useAudio from "../../hooks/useAudio";
 import soundEffect from "../../assets/rec.m4a";
 import config  from "../../config";
@@ -9,8 +10,6 @@ import "./Pronounce.css";
 function Pronounce(props) {
   const [laymanPhonetic, setLaymanPhonetic] = useState("");
   const [message, setMessage] = useState("Practice");
-
-  const perfectScore = 70;
   const { word } = props;
 
   const pronounceResult = useRef();
@@ -35,43 +34,13 @@ function Pronounce(props) {
     reset
   } = useAudio({ word });
 
+  const { generateResult, checkIsPerfectScore } = useSpeechSuper();
+
   let speechSuperResult = result;
 
+  // TODO handle Slow
   const handleSlow = () => {
     setIsSlow(state => !state);
-  };
-
-  const generateResult = (speechSuperResult) => {
-    if(!speechSuperResult) return;
-    const letters = [];
-
-    speechSuperResult.phonics.forEach((phonic, index) => {
-      letters.push(
-        <span
-          key={index}
-          style={{ color: chooseColorsForScores(phonic.overall) }}
-        >
-          {phonic.spell}
-        </span>
-      );
-    })
-
-    return letters;
-  };
-
-  const chooseColorsForScores = (score) => {
-    if (score >= perfectScore) {
-      return "#00d100"; // Green
-    } else if (score >= 50) {
-      return "#FFAA00"; // Yellow-Orange
-    } else {
-      return "#FF0000"; // Red
-    }
-  };
-
-  const checkIsPerfectScore = () => {
-    if (!speechSuperResult) return false;
-    return speechSuperResult.phonics.every(phonic => phonic.overall >= perfectScore);
   };
 
   const displayPractice = () => {
@@ -172,7 +141,7 @@ function Pronounce(props) {
                   <box-icon name="volume-full" size="16px" color="#4285f4" />
                 </button>
                 <span>Your Pronunciation</span>
-                {checkIsPerfectScore() && <span className="flex-right">Good Job!</span>}
+                {checkIsPerfectScore(speechSuperResult) && <span className="flex-right">Good Job!</span>}
               </div>
               
               <div className="pronounce__result" ref={pronounceResult}>

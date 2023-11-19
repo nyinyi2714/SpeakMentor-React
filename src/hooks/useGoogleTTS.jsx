@@ -6,7 +6,7 @@ function useGoogleTTS() {
   const [audio, setAudio] = useState(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const speak = (word) => {
+  const speak = (word, isSlow) => {
     setIsSpeaking(true);
 
     const body = {
@@ -33,6 +33,7 @@ function useGoogleTTS() {
       const audioUrl = URL.createObjectURL(audioBlob);
 
       const audioElement = new Audio(audioUrl);
+      audioElement.playbackRate = isSlow ? 0.6 : 1.1;
 
       // Attach an event listener for when the audio playback ends
       audioElement.addEventListener('ended', () => {

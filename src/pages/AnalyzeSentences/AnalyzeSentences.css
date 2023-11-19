@@ -41,6 +41,7 @@
 
 .analyze-sentences__btn-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: var(--spacing-medium);
 }
@@ -125,6 +126,8 @@
     opacity: 1;
   }
 }
+
+
 
 
 
