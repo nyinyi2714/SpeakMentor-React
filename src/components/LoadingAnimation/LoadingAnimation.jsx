@@ -39,7 +39,7 @@ function LoadingAnimation(props) {
   };
 
   useEffect(() => {
-    if(!isLoading) setLoadingSpeed(20);
+    if(!isLoading) setLoadingSpeed(7);
   }, [isLoading]);
 
   useEffect(() => {

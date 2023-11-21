@@ -1,33 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import useDictionaryAPI from "../../hooks/useDictionaryAPI";
 import Pronounce from "../../components/Pronounce/Pronounce";
-import Popup from "./Popup/Popup";
 import CtaButton from "../../components/CtaButton/CtaButton";
 import Navbar from "../../components/Navbar/Navbar";
-import LoadingAnimation from "./LoadingAnimation/LoadingAnimation";
 import "./Homepage.css";
 
-function Homepage() {
-  const [word, setWord] = useState("carpet");
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [micPermission, setMicPermission] = useState(true);
-  const [wordNotFound, setWordNotFound] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+function Homepage(props) {
 
+  const { setIsPopupOpen, setWordNotFound } = props;
+
+  const [word, setWord] = useState("carpet");
   const { checkWord } = useDictionaryAPI();
 
   const wordInput = useRef();
-
-  const requestMicPermission = async (closePopup, setIsPopupOpen, setMicPermission) => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-      stream.getTracks().forEach(track => track.stop());
-      closePopup();
-    } catch (err) {
-      setIsPopupOpen(true);
-      setMicPermission(false);
-    }
-  };
 
   const searchWordInput = async () => {
     // Check if word exists using dictionary API
@@ -47,11 +32,8 @@ function Homepage() {
     if (e.code === "Enter") searchWordInput();
   };
 
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
-
-  useEffect(() => { // Prepopulation the word search input
+  useEffect(() => { 
+    // Prepopulation the word search input
     wordInput.current.value = "carpet"; 
   }, []);
 
@@ -95,20 +77,6 @@ function Homepage() {
           </div>
         </div>
       </div>
-
-      {isPopupOpen && <Popup 
-        micPermission={micPermission}
-        closePopup={closePopup}
-        wordNotFound={wordNotFound}
-      />}
-
-      {/* <LoadingAnimation 
-        isLoading={isLoading} 
-        requestMicPermission={requestMicPermission}
-        closePopup={closePopup}
-        setIsPopupOpen={setIsPopupOpen}
-        setMicPermission={setMicPermission}
-      /> */}
     </React.Fragment>
   );
 
