@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
+
 import useSpeechSuper from "../../hooks/useSpeechSuper";
 import useAudio from "../../hooks/useAudio";
+import useBackend from "../../hooks/useBackend";
+
 import soundEffect from "../../assets/rec.m4a";
 import config  from "../../config";
 import "boxicons";
 import "./Pronounce.css";
 
 function Pronounce(props) {
-  const [laymanPhonetic, setLaymanPhonetic] = useState("");
+  const [laymanPhonetic, setLaymanPhonetic] = useState(null);
   const [message, setMessage] = useState("Practice");
   const { word } = props;
 
@@ -34,9 +37,10 @@ function Pronounce(props) {
     reset
   } = useAudio({ word });
 
-  const { generateResult, checkIsPerfectScore } = useSpeechSuper();
-
   let speechSuperResult = result;
+
+  const { generateResult, checkIsPerfectScore } = useSpeechSuper();
+  const { getLaymanPhonetic } = useBackend();
 
   // TODO handle Slow
   const handleSlow = () => {
@@ -46,6 +50,30 @@ function Pronounce(props) {
   const displayPractice = () => {
     setMessage(isRecording ? "Speak Now" : "Practice");
   };
+
+  const displayLaymanPhonetic = () => {
+    const dot = <span className="pronounce__dot">.</span>;
+    return (
+      <>
+        {laymanPhonetic.map((phrase, index) => (
+          <span key={index}>
+            {phrase}
+            {index < laymanPhonetic.length - 1 ? dot : null}
+          </span>
+        ))}
+      </>    
+    );
+  };
+
+  // Get layman phonetic from backend when word is changed
+  useMemo(() => {
+    setLaymanPhonetic(null);
+    // getLaymanPhonetic()
+    //   .then(laymanPhoneticData => {
+    //     // setLaymanPhonetic(laymanPhoneticData);
+    //     // TODO: refine laymanPhoneticData;
+    //   })
+  }, [word]);
 
   useEffect(() => {
     if(props.speechSuperResult) {
@@ -81,45 +109,34 @@ function Pronounce(props) {
     }
   }, [isAnalyzing]);
 
-  const getLaymanPhonetic = async () => {
-    try {
-      let response = await fetch(`${config.backendUrl}/search`, {
-        method: "POST",
-        body: { 
-          search: word 
-        },
-      });
-
-      response = await response.json();
-      if (response.ok) {
-        // TODO: check the backend json key (laymanPhonetic)
-        setLaymanPhonetic(response.laymans);
-        console.log(response);
-      } else {
-        console.error("Error fetching layman's phonetic.");
-      }
-    } catch (error) {
-      console.error("Error fetching layman's phonetic:", error);
-    }
-  };
-
   return (
     <div className="pronounce">
       <div className="pronounce__text-to-speech">
         <h2 className="pronounce__word">{word}</h2>
 
         <div>Sounds like</div>
-        <div className="pronounce__layman-pronunciation">
-          kaar <span className="pronounce__dot">.</span> puht
-          <button
-            className="pronounce__icon"
-            onClick={() => textToSpeech(word)}
-            disabled={isSpeaking}
-          >
-            <box-icon name="volume-full" size="16px" color="#4285f4" />
-          </button>
+        {/* Display laymanPhonetic if it is not null */}
+        {laymanPhonetic !== null && 
+          <div className="pronounce__layman-pronunciation">
+            {displayLaymanPhonetic()}
+            <button
+              className="pronounce__icon"
+              onClick={() => textToSpeech(word)}
+              disabled={isSpeaking}
+            >
+              <box-icon name="volume-full" size="16px" color="#4285f4" />
+            </button>
+          </div>
+        }
 
-        </div>
+        {/* If laymanPhonetic is null, it's still loading. Display skeleton loading */}
+        {laymanPhonetic === null && 
+          <div className="pronounce__layman-pronunciation--skeleton">
+            <div className="layman-phonetic" />
+            <div className="pronounce-word" />
+          </div>
+        }
+
 
         <div className="pronounce__toggle-btn">
           <ToggleSwitch isSlow={isSlow} handleSlow={handleSlow} />

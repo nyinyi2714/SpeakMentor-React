@@ -57,6 +57,42 @@
   margin: 0 5px;
 }
 
+.pronounce__layman-pronunciation--skeleton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.pronounce__layman-pronunciation--skeleton .layman-phonetic {
+  width: 100px;
+  height: 20px;
+  border-radius: 5px;
+
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+.pronounce__layman-pronunciation--skeleton .pronounce-word {
+  width: 30px;
+  height: 30px;
+  background-color: var(--light-grey);
+  border-radius: 50%;
+
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .pronounce__flex > .pronounce__icon,
 .pronounce__layman-pronunciation > .pronounce__icon {
   margin-left: var(--spacing-small);
