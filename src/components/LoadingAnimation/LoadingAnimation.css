@@ -36,6 +36,11 @@
   border-radius: 30px;
   background-color: var(--very-light-grey);
   overflow: hidden;
+  visibility: none;
+}
+
+.loading-bar.show {
+  visibility: visible;
 }
 
   .bar {

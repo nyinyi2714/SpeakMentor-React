@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import config from "../config";
 import axios from "axios";
 
-function useGoogleTTS() {
+function useGoogleTTS(speakingSpeed) {
   const [audio, setAudio] = useState(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -34,6 +34,7 @@ function useGoogleTTS() {
 
       const audioElement = new Audio(audioUrl);
       audioElement.playbackRate = isSlow ? 0.6 : 1.1;
+      if(speakingSpeed) audioElement.playbackRate = speakingSpeed;
 
       // Attach an event listener for when the audio playback ends
       audioElement.addEventListener('ended', () => {

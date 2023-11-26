@@ -4,14 +4,14 @@ import config from "../config";
 function useSpeechSuper() {
   const perfectScore = 70;
 
-  const sendAudioToSpeechSuperAPI = async (audioURL, word) => {
+  const sendAudioToSpeechSuperAPI = async (audioURL, word, isSingleWord) => {
     
     var baseUrl = "https://api.speechsuper.com/";
 
     const appKey = config.speechSuperAppKey;
     const secretKey = config.speechSuperSecretKey;
 
-    var coreType = "word.eval";
+    var coreType = isSingleWord ? "word.eval" : "para.eval";
     var refText = word; 
     var audioType = "mp3";
     var sampleRate = 16000;
@@ -41,7 +41,7 @@ function useSpeechSuper() {
       };
     })(/[xy]/g, function (c) {
       var r = Math.random() * 16 | 0,
-        v = c == "x" ? r : (r & 3 | 8);
+        v = c === "x" ? r : (r & 3 | 8);
       return v.toString(16);
     });
     var connectSig = getConnectSig();
@@ -80,7 +80,8 @@ function useSpeechSuper() {
           request: {
             coreType: coreType,
             refText: refText,
-            tokenId: createUUID()
+            tokenId: createUUID(),
+            paragraph_need_word_score: 1,
           }
         }
       }
@@ -99,11 +100,18 @@ function useSpeechSuper() {
 
     return response.json().then((res) => {
       console.log(res)
+      if(isSingleWord) {
+        return {
+          phonics: res.result.words[0].phonics,
+          overall: res.result.words[0].scores.overall
+        };
+      }
+      else {
+        return {
+          sentences: res.result.sentences
+        }
+      }
       
-      return {
-        phonics: res.result.words[0].phonics,
-        overall: res.result.words[0].scores.overall
-      };
     })
 
   };

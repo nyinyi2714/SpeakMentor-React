@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import useSpeechRecognizer from "../../hooks/useSpeechRecognizer";
 import useGoogleTTS from "../../hooks/useGoogleTTS";
+import useSpeechSuper from "../../hooks/useSpeechSuper";
 
 import PopUp from "./PopUp/PopUp";
 import Spinner from "./Spinner/Spinner";
@@ -20,7 +21,8 @@ function AnalyzeSentences() {
     transcript 
   } = useSpeechRecognizer();
 
-  const { speak, stop, isSpeaking } = useGoogleTTS();
+  const { speak, stop, isSpeaking } = useGoogleTTS(1);
+  const { sendAudioToSpeechSuperAPI, chooseColorsForScores } = useSpeechSuper();
 
   const pageStates = {
     isRecording: "isRecording",
@@ -31,8 +33,8 @@ function AnalyzeSentences() {
 
   const messages = {
     recordNow: "Please record yourself before clicking \"Next\".",
-    editNow: "You can edit your transcript now if there's any mistake.",
-    practiceNow: "You can click on words to view the analysis and practice."
+    editNow: "You can edit your transcript now if there's any mistake in speech recognization.",
+    practiceNow: "You can click on words to practice them."
   };
 
   const [editedTranscript, setEditedTranscript] = useState("");
@@ -44,6 +46,7 @@ function AnalyzeSentences() {
   const [message, setMessage] = useState(messages.recordNow);
   const [displayHelp, setDisplayHelp] = useState(false);
   const [currWordResult, setCurrWordResult] = useState(null);
+  const [speechSuperResultData, setSpeechSuperResultData] = useState(null);
 
   const userRecording = useRef();
 
@@ -125,9 +128,38 @@ function AnalyzeSentences() {
 
   const analyze = () => {
     // use useSpeechSuper API
-    // TODO
     setCurrPageState(pageStates.isAnalyzing);
-    // Once analysis is done, setMessage(messages.practiceNow);
+    sendAudioToSpeechSuperAPI(audioURL, editedTranscript, false).then(resultData => {
+
+      setSpeechSuperResultData(resultData.sentences);
+      setCurrPageState(pageStates.analyzed);
+      setMessage(messages.practiceNow);
+    })
+  };
+
+  const generateResultForSentences = (resultData) => {
+    if(!resultData) return;
+    let words = [];
+
+    const convertSentenceIntoWords = (sentence, words) => {
+      sentence.forEach((wordData, index) => {
+        words.push(
+          <span 
+          style={{color: chooseColorsForScores(wordData.overall)}}
+          key={index}
+          onClick={() => setCurrWordResult(wordData.word)}
+          >
+            {wordData.word + " "}
+          </span>
+        )
+      })
+    };
+    
+    resultData.forEach(sentence => {
+      convertSentenceIntoWords(sentence.details, words);
+    })
+
+    return words;
   };
 
   const openHelpSection = () => {
@@ -161,16 +193,27 @@ function AnalyzeSentences() {
   return(
     <div className="analyze-sentences">
       <div className="analyze-sentences__analyzer">
-        {isRecording && <div className="recording-icon">
-          REC
-          <div className="circle" />
-        </div>}
-        <textarea 
-          type="text" 
-          value={editedTranscript} 
-          readOnly={currPageState === pageStates.isRecording}
-          onChange={editTranscript} 
-        />
+        {isRecording && 
+          <div className="recording-icon">
+            REC
+            <div className="circle" />
+          </div>
+        }
+
+        {currPageState !== pageStates.analyzed && 
+          <textarea 
+            type="text" 
+            value={editedTranscript} 
+            readOnly={currPageState === pageStates.isRecording}
+            onChange={editTranscript} 
+          />
+        }
+        {currPageState === pageStates.analyzed &&
+          <div className="textarea">
+            {generateResultForSentences(speechSuperResultData)}
+          </div>
+        }
+
         {message && message.length > 0 && <p className="analyze-sentences__message">
           <box-icon name="error-circle" color="#5d5d5d" size="20px" />
           {message}
@@ -241,7 +284,7 @@ function AnalyzeSentences() {
       {(currPageState === pageStates.analyzed && 
         currWordResult !== null) && 
         <PopUp 
-          content={<Pronounce word={"word"} />} 
+          content={<Pronounce word={currWordResult} />} 
           closePopUp={closePopUp} 
         />
       }
@@ -250,3 +293,4 @@ function AnalyzeSentences() {
 }
 
 export default AnalyzeSentences;
+
