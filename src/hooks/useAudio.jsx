@@ -72,6 +72,7 @@ function useAudio({ word }) {
   const sendAudioToServer = async (audioURL) => {
     setIsAnalyzing(true);
     const resultData = await sendAudioToSpeechSuperAPI(audioURL, word, true);
+    // send resultData back to backend
     setResult(resultData);
     setIsAnalyzing(false);
   };

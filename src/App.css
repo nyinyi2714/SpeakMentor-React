@@ -54,3 +54,28 @@ input:focus-visible {
 .hidden {
   display: none !important;
 }
+
+.box-shadow {
+  box-shadow: 2px 2px var(--light-grey);
+}
+
+/* Webkit (Chrome, Safari) */
+body::-webkit-scrollbar {
+  width: 12px; /* You can adjust the width as needed */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a; /* Color of the thumb */
+  border-radius: 8px; /* Radius of the thumb */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the track */
+  border-radius: 10px; /* Radius of the track */
+}
+
+/* Firefox */
+body {
+  scrollbar-width: thin; /* "thin", "auto", or "none" */
+  scrollbar-color: #7a7a7a #f1f1f1; /* Color of the thumb and track */
+}

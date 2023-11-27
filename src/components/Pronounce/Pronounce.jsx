@@ -60,7 +60,7 @@ function Pronounce(props) {
             {index < laymanPhonetic.length - 1 ? dot : null}
           </span>
         ))}
-      </>    
+      </>
     );
   };
 
@@ -75,7 +75,7 @@ function Pronounce(props) {
   }, [word]);
 
   useEffect(() => {
-    if(props.speechSuperResult) {
+    if (props.speechSuperResult) {
       speechSuperResult = props.speechSuperResult;
     }
   }, []);
@@ -91,15 +91,15 @@ function Pronounce(props) {
   }, [isRecording]);
 
   useEffect(() => {
-    if(audioURL && !isRecording) resultContainer.current.classList.add("open");
+    if (audioURL && !isRecording) resultContainer.current.classList.add("open");
     else resultContainer.current.classList.remove("open");
   }, [audioURL]);
 
   useEffect(() => {
-    if(isAnalyzing) analyzingMessage.current.classList.add("show");
+    if (isAnalyzing) analyzingMessage.current.classList.add("show");
     else setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
-    
-    if(isAnalyzing || speechSuperResult === null) {
+
+    if (isAnalyzing || speechSuperResult === null) {
       resultDisplay.current.classList.remove("show");
     } else {
       resultContainer.current.classList.remove("open");
@@ -115,7 +115,7 @@ function Pronounce(props) {
 
         <div>Sounds like</div>
         {/* Display laymanPhonetic if it is not null */}
-        {laymanPhonetic !== null && 
+        {laymanPhonetic !== null &&
           <div className="pronounce__layman-pronunciation">
             {displayLaymanPhonetic()}
             <button
@@ -129,7 +129,7 @@ function Pronounce(props) {
         }
 
         {/* If laymanPhonetic is null, it's still loading. Display skeleton loading */}
-        {laymanPhonetic === null && 
+        {laymanPhonetic === null &&
           <div className="pronounce__layman-pronunciation--skeleton">
             <div className="layman-phonetic" />
             <div className="pronounce-word" />
@@ -159,17 +159,33 @@ function Pronounce(props) {
                 <span>Your Pronunciation</span>
                 {checkIsPerfectScore(speechSuperResult) && <span className="flex-right">Good Job!</span>}
               </div>
-              
+
               <div className="pronounce__result" ref={pronounceResult}>
                 {generateResult(speechSuperResult)}
               </div>
+              
+              <div className="pronounce__feedback--wrapper">
+                <div className="pronounce__feedback box-shadow">
+                  <div className="feedback__item">
+                    <h3>car</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                  </div>
+                </div>
+                <div className="pronounce__feedback box-shadow">
+                  <div className="feedback__item">
+                    <h3>car</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                  </div>
+                </div>
+              </div>
+
             </div>
             <div className="pronounce__analyzing" ref={analyzingMessage}>
               Analyzing
               <span className="pronounce__loader" />
             </div>
           </div>
-          
+
         </div>
 
         <button
