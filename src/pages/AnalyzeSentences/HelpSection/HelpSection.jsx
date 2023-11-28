@@ -26,7 +26,7 @@ function HelpSection({ displayHelp }) {
           </div>
           <div className="instruction">
             <span>Practice</span>
-            <p>Once your voice is analyzed, click on words to view the analysis or practice.</p>
+            <p>Once your voice is analyzed, click on words to practice them.</p>
           </div>
         </div>
       </div>

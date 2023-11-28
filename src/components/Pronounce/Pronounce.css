@@ -163,41 +163,26 @@
   margin-left: var(--spacing-small);
 }
 
-/* Spinner */
-
-.pronounce__loader {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+.pronounce__spinner-container {
   position: relative;
-  animation: rotate 1s linear infinite;
-  margin-left: var(--spacing-small);
-  position: absolute;
+  display: flex;
+  gap: var(--spacing-small);
 }
-.pronounce__loader::before {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  inset: 0px;
-  border-radius: 50%;
+
+.pronounce__spinner {
+  width: 17px;
+  height: 17px;
   border: 2px solid var(--primary-color);
-  animation: prixClipFix 2s linear infinite;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-@keyframes rotate {
-  100%   {transform: rotate(360deg)}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
-
-@keyframes prixClipFix {
-    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
-    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
-    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
-    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
-    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
-}
-
-/* End of Spinner */
 
 .pronounce__icon > span {
   font-size: 0.9rem;
@@ -209,11 +194,25 @@
 }
 
 .pronounce__result {
-  margin: var(--spacing-medium) var(--spacing-small);
-  font-size: 1.8rem;
-  font-weight: bold;
-  letter-spacing: 1px;
+  overflow: hidden;
+  display: none;
 }
+
+  .pronounce__result.show {
+    display: block;
+  }
+
+  .pronounce__result > span {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin: var(--spacing-small) 0;
+  }
+
+  .pronounce__result > p {
+    font-size: 1rem;
+  }
 
 .pronounce__feedback--wrapper {
   display: flex;
@@ -222,7 +221,8 @@
 }
 
 .pronounce__feedback {
-  margin: var(--spacing-medium) var(--spacing-small);
+  margin: var(--spacing-medium) 0;
+  margin-right: var(--spacing-small);
   padding: var(--spacing-small);
   border: 1px solid var(--light-grey);
   border-radius: 5px;

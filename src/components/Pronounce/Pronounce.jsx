@@ -101,10 +101,15 @@ function Pronounce(props) {
 
     if (isAnalyzing || speechSuperResult === null) {
       resultDisplay.current.classList.remove("show");
+      pronounceResult.current.classList.remove("show");
     } else {
       resultContainer.current.classList.remove("open");
-      setTimeout(() => resultDisplay.current.classList.add("show"), 400);
-      setTimeout(() => resultContainer.current.classList.add("open"), 400);
+      pronounceResult.current.classList.remove("show");
+      setTimeout(() => {
+        resultDisplay.current.classList.add("show");
+        resultContainer.current.classList.add("open");
+        pronounceResult.current.classList.add("show");
+      }, 400);
     }
   }, [isAnalyzing]);
 
@@ -162,27 +167,30 @@ function Pronounce(props) {
 
               <div className="pronounce__result" ref={pronounceResult}>
                 {generateResult(speechSuperResult)}
-              </div>
-              
-              <div className="pronounce__feedback--wrapper">
-                <div className="pronounce__feedback box-shadow">
-                  <div className="feedback__item">
-                    <h3>car</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+
+                {!checkIsPerfectScore(speechSuperResult) && <p>You may have mispronounce: </p>}
+                <div className="pronounce__feedback--wrapper">
+                  <div className="pronounce__feedback box-shadow">
+                    <div className="feedback__item">
+                      <h3>car</h3>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                    </div>
                   </div>
-                </div>
-                <div className="pronounce__feedback box-shadow">
-                  <div className="feedback__item">
-                    <h3>car</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                  <div className="pronounce__feedback box-shadow">
+                    <div className="feedback__item">
+                      <h3>car</h3>
+                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
+
             </div>
             <div className="pronounce__analyzing" ref={analyzingMessage}>
-              Analyzing
-              <span className="pronounce__loader" />
+              <div className="pronounce__spinner-container">
+                Analyzing <div className="pronounce__spinner" />
+              </div>
             </div>
           </div>
 

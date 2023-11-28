@@ -4,7 +4,7 @@ import useGoogleTTS from "../../hooks/useGoogleTTS";
 import useSpeechSuper from "../../hooks/useSpeechSuper";
 
 import PopUp from "./PopUp/PopUp";
-import Spinner from "./Spinner/Spinner";
+import Spinner from "../../components/Spinner/Spinner";
 import HelpSection from "./HelpSection/HelpSection";
 import Pronounce from "../../components/Pronounce/Pronounce";
 
@@ -137,6 +137,11 @@ function AnalyzeSentences() {
     })
   };
 
+  function stripNonLetters(word) {
+    // Remove any characters that aren't letters
+    return word.replace(/[^a-zA-Z]/g, '');
+  }
+
   const generateResultForSentences = (resultData) => {
     if(!resultData) return;
     let words = [];
@@ -147,7 +152,7 @@ function AnalyzeSentences() {
           <span 
           style={{color: chooseColorsForScores(wordData.overall)}}
           key={index}
-          onClick={() => setCurrWordResult(wordData.word)}
+          onClick={() => setCurrWordResult(stripNonLetters(wordData.word))}
           >
             {wordData.word + " "}
           </span>
