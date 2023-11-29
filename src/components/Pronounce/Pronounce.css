@@ -141,7 +141,8 @@
 }
 
 .pronounce__result-container {
-  display: block;
+  display: none;
+  overflow: hidden;
 }
 
 .pronounce__result-container .flex-right {
@@ -195,12 +196,8 @@
 
 .pronounce__result {
   overflow: hidden;
-  display: none;
+  display: block;
 }
-
-  .pronounce__result.show {
-    display: block;
-  }
 
   .pronounce__result > span {
     font-size: 1.8rem;

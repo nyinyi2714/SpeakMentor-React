@@ -13,9 +13,9 @@ function Pronounce(props) {
   const [laymanPhonetic, setLaymanPhonetic] = useState(null);
   const [message, setMessage] = useState("Practice");
   const [displayCompliment, setDisplayCompliment] = useState(false);
+  const [tempResult, setTempResult] = useState(null);
   const { word } = props;
 
-  const pronounceResult = useRef();
   const resultContainer = useRef();
   const resultDisplay = useRef();
   const analyzingMessage = useRef();
@@ -99,20 +99,17 @@ function Pronounce(props) {
   }, [audioURL]);
 
   useEffect(() => {
-    if (!analyzingMessage.current || !resultDisplay.current || !resultContainer.current || !pronounceResult.current) return;
+    if (!analyzingMessage.current || !resultDisplay.current || !resultContainer.current) return;
     if (isAnalyzing && audioURL) analyzingMessage.current.classList.add("show");
     else setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
 
     if (isAnalyzing || speechSuperResult === null) {
       resultDisplay.current.classList.remove("show");
-      pronounceResult.current.classList.remove("show");
     } else {
       resultContainer.current.classList.remove("open");
-      pronounceResult.current.classList.remove("show");
       setTimeout(() => {
         resultDisplay.current.classList.add("show");
         resultContainer.current.classList.add("open");
-        pronounceResult.current.classList.add("show");
       }, 400);
     }
   }, [isAnalyzing]);
@@ -122,6 +119,10 @@ function Pronounce(props) {
       if (checkIsPerfectScore(speechSuperResult)) setDisplayCompliment(true);
       else setDisplayCompliment(false);
     }, 400)
+
+    if(speechSuperResult) {
+      setTempResult(speechSuperResult)
+    }
   }, [speechSuperResult])
 
   return (
@@ -176,11 +177,11 @@ function Pronounce(props) {
                 {displayCompliment && <span className="flex-right">Good Job!</span>}
               </div>
 
-              <div className="pronounce__result" ref={pronounceResult}>
-                {generateResult(speechSuperResult)}
+              <div className="pronounce__result">
+                {generateResult(tempResult)}
 
                 {
-                  !checkIsPerfectScore(speechSuperResult) &&
+                  !checkIsPerfectScore(tempResult) &&
                   <>
                     <p>You may have mispronounce: </p>
                     <div className="pronounce__feedback--wrapper">
