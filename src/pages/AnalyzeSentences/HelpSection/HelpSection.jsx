@@ -2,7 +2,7 @@ import "./HelpSection.css";
 
 function HelpSection({ displayHelp }) {
   return (
-    <div className={`expandable-wrapper ${displayHelp && "open"}`}>
+    <div className={`expandable-wrapper ${displayHelp && "open"}`} id="help-section">
       <div className="help-popup expandable-content">
         <div style={{ margin: "2rem" }}>
           <h1>Instructions</h1>

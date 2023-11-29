@@ -39,9 +39,9 @@ function Navbar() {
         
         <div className="media_button">
           <button className="main_media_button" id="mediaButton" onClick={toggleMenu}>
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </div>

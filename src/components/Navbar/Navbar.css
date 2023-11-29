@@ -55,14 +55,16 @@
     background: none;
     border: none;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
   
   .main_media_button span {
-    display: block;
+    display: inline-block;
     width: 30px;
     height: 3px;
     background-color: var(--primary-color);
-    margin: 6px 0;
   }
   
   /* Media queries for responsive design */
@@ -78,7 +80,7 @@
       box-shadow: 0 5px 10px var(--light-grey);
       z-index: 5;
 
-      transition: 1000ms;
+      transition: 800ms;
       overflow: hidden;
     }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import useSpeechRecognizer from "../../hooks/useSpeechRecognizer";
 import useGoogleTTS from "../../hooks/useGoogleTTS";
 import useSpeechSuper from "../../hooks/useSpeechSuper";
@@ -50,6 +51,7 @@ function AnalyzeSentences() {
   const [speechSuperResultData, setSpeechSuperResultData] = useState(null);
 
   const userRecording = useRef();
+  const linkToHelpSection = useRef();
 
   const record = () => {
     // Reset the result
@@ -169,6 +171,12 @@ function AnalyzeSentences() {
   };
 
   const openHelpSection = () => {
+    if(!displayHelp) {
+      setTimeout(() => {
+        linkToHelpSection.current.click();
+      }, 400);
+    }
+
     setDisplayHelp(prevState => !prevState);
   };
 
@@ -297,6 +305,7 @@ function AnalyzeSentences() {
           />
         }
       </div>
+      <a href="#help-section" style={{ display: "none" }} ref={linkToHelpSection}></a>
     </React.Fragment>
   );
 }
