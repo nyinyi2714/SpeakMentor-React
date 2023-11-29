@@ -4,7 +4,7 @@ import useGoogleTTS from "../../hooks/useGoogleTTS";
 import useSpeechSuper from "../../hooks/useSpeechSuper";
 
 import PopUp from "./PopUp/PopUp";
-import Spinner from "../../components/Spinner/Spinner";
+import Spinner from "./Spinner/Spinner";
 import HelpSection from "./HelpSection/HelpSection";
 import Pronounce from "../../components/Pronounce/Pronounce";
 
