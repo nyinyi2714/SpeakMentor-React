@@ -21,7 +21,6 @@ function App() {
   const { user, setUser } = useStateContext();
   const { authenticationRoute } = useRoute();
 
-  const [showLoading, setShowLoading] = useState(true);
   const [micPermission, setMicPermission] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [wordNotFound, setWordNotFound] = useState("");
@@ -46,14 +45,6 @@ function App() {
       // TODO: get user from localStorage
     }
 
-    // Check if session storage to see if user visits the website first time during the session
-    const isFirstTime = sessionStorage.getItem('firstTime');
-    if (isFirstTime === 'false') {
-      // Set firstTime to false if it doesn't exist
-      setShowLoading(false);
-    } else {
-      sessionStorage.setItem('firstTime', 'false');
-    }
   }, []);
 
   return (
@@ -67,7 +58,7 @@ function App() {
         <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
       </Routes>
 
-      {showLoading && <LoadingAnimation
+      {<LoadingAnimation
         requestMicPermission={requestMicPermission}
         closePopup={closePopup}
         setIsPopupOpen={setIsPopupOpen}

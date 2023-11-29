@@ -1,0 +1,128 @@
+/* Navbar.css */
+
+.navbar {
+  position: relative;
+  color: var(--primary-color);
+  }
+  
+  .container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    background-color: #fff;
+    padding: var(--spacing-medium) var(--spacing-large);
+    height: 60px;
+    box-shadow: 0 0px 10px var(--light-grey);
+    border-bottom: 1px solid var(--light-grey);
+  }
+  
+  .logo img {
+    width: 100%;
+    max-width: 140px;
+    position: relative;
+    top: 3px;
+  }
+
+  .main_list.mobile { 
+    display: none;
+  }
+  
+  .main_list ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  .main_list li {
+    margin-right: 20px;
+  }
+  
+  .main_list a {
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .media_button {
+    display: none; /* Initially hide the media button */
+  }
+  
+  .open .media_button {
+    display: block; /* Show the media button when the menu is open */
+  }
+  
+  .main_media_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .main_media_button span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 6px 0;
+  }
+  
+  /* Media queries for responsive design */
+  @media screen and (max-width: 768px) {
+    .main_list.mobile {
+      display: block;
+      position: fixed;
+      top: -50%;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      padding: 20px 0;
+      box-shadow: 0 5px 10px var(--light-grey);
+      z-index: 5;
+
+      transition: 1000ms;
+      overflow: hidden;
+    }
+
+    .main_list.desktop {
+      display: none;
+    }
+
+    .logo img {
+      top: 0;
+    }
+
+    .main_list ul {
+      flex-direction: column;
+      gap: .5rem;
+
+      min-height: 0;
+      overflow: hidden;
+      
+    }
+  
+    .main_list.show {
+      top: 61px;
+    }
+  
+    .main_list li {
+      width: 100%;
+      margin: 0;
+      padding: 10px 0;
+      text-align: center;
+      transition: 200ms;
+      cursor: pointer;
+    }
+
+    .main_list li:hover {
+      background-color: var(--very-light-grey);
+    }
+
+    .main_list a {
+      width: 100%;
+      display: inline-block;
+    }
+  
+    .media_button {
+      display: block;
+    }
+  }
+  

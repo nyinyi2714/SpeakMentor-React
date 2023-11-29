@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useSpeechRecognizer from "../../hooks/useSpeechRecognizer";
 import useGoogleTTS from "../../hooks/useGoogleTTS";
 import useSpeechSuper from "../../hooks/useSpeechSuper";
@@ -7,18 +7,19 @@ import PopUp from "./PopUp/PopUp";
 import Spinner from "./Spinner/Spinner";
 import HelpSection from "./HelpSection/HelpSection";
 import Pronounce from "../../components/Pronounce/Pronounce";
+import Navbar from "../../components/Navbar/Navbar";
 
 import MicRecorder from "mic-recorder-to-mp3";
 import "boxicons";
 import "./AnalyzeSentences.css";
 
 function AnalyzeSentences() {
-  const { 
+  const {
     startRecording,
     stopRecording,
     resetTranscript,
     listening,
-    transcript 
+    transcript
   } = useSpeechRecognizer();
 
   const { speak, stop, isSpeaking } = useGoogleTTS(1);
@@ -63,12 +64,12 @@ function AnalyzeSentences() {
   const pause = () => {
     // pause the audio Recording
     Mp3Recorder
-    .stop()
-    .getMp3()
-    .then(([buffer, blob]) => {
-      // Store the recorded audio data blob
-      setRecordedAudioData((prevData) => [...prevData, blob]);
-    })
+      .stop()
+      .getMp3()
+      .then(([buffer, blob]) => {
+        // Store the recorded audio data blob
+        setRecordedAudioData((prevData) => [...prevData, blob]);
+      })
 
     // Stop the speech recognizer recording
     stopRecording();
@@ -87,7 +88,7 @@ function AnalyzeSentences() {
 
   // Concatenate the audio blob after each pause
   useEffect(() => {
-    if(recordedAudioData.length <= 0) return;
+    if (recordedAudioData.length <= 0) return;
     const concatenatedBlob = new Blob(recordedAudioData);
     const blobURL = URL.createObjectURL(concatenatedBlob);
     setAudioURL(blobURL);
@@ -95,18 +96,18 @@ function AnalyzeSentences() {
 
   // Update the trascript
   useEffect(() => {
-    if(transcript.length <= 0) setEditedTranscript("Click Record to start");
+    if (transcript.length <= 0) setEditedTranscript("Click Record to start");
     else setEditedTranscript(transcript);
   }, [transcript]);
 
   const listenToGoogleTTS = () => {
-    if(isSpeaking) stop();
+    if (isSpeaking) stop();
     else speak(transcript);
   };
 
   const listenToYourself = () => {
     const audio = userRecording.current;
-  
+
     if (audio.paused) {
       audio.play();
     } else {
@@ -143,23 +144,23 @@ function AnalyzeSentences() {
   }
 
   const generateResultForSentences = (resultData) => {
-    if(!resultData) return;
+    if (!resultData) return;
     let words = [];
 
     const convertSentenceIntoWords = (sentence, words) => {
       sentence.forEach((wordData, index) => {
         words.push(
-          <span 
-          style={{color: chooseColorsForScores(wordData.overall)}}
-          key={index}
-          onClick={() => setCurrWordResult(stripNonLetters(wordData.word))}
+          <span
+            style={{ color: chooseColorsForScores(wordData.overall) }}
+            key={index}
+            onClick={() => setCurrWordResult(stripNonLetters(wordData.word))}
           >
             {wordData.word + " "}
           </span>
         )
       })
     };
-    
+
     resultData.forEach(sentence => {
       convertSentenceIntoWords(sentence.details, words);
     })
@@ -177,14 +178,14 @@ function AnalyzeSentences() {
 
   // Close popup box with outside click
   useEffect(() => {
-    function handleClickOutside(e) {   
+    function handleClickOutside(e) {
       if (e.target.id === "popup-wrapper") {
         closePopUp();
-      } 
+      }
     }
-  
+
     document.addEventListener('mousedown', handleClickOutside);
-  
+
     // Clean up the event listener when the component unmounts
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -195,105 +196,108 @@ function AnalyzeSentences() {
     setMp3Recorder(new MicRecorder({ bitRate: 128 }));
   }, []);
 
-  return(
-    <div className="analyze-sentences">
-      <div className="analyze-sentences__analyzer">
-        {isRecording && 
-          <div className="recording-icon">
-            REC
-            <div className="circle" />
+  return (
+    <React.Fragment>
+      <Navbar />
+      <div className="analyze-sentences">
+        <div className="analyze-sentences__analyzer">
+          {isRecording &&
+            <div className="recording-icon">
+              REC
+              <div className="circle" />
+            </div>
+          }
+
+          {currPageState !== pageStates.analyzed &&
+            <textarea
+              type="text"
+              value={editedTranscript}
+              readOnly={currPageState === pageStates.isRecording}
+              onChange={editTranscript}
+            />
+          }
+          {currPageState === pageStates.analyzed &&
+            <div className="textarea">
+              {generateResultForSentences(speechSuperResultData)}
+            </div>
+          }
+
+          {message && message.length > 0 && <p className="analyze-sentences__message">
+            <box-icon name="error-circle" color="#5d5d5d" size="20px" />
+            {message}
+          </p>
+          }
+          <div className="analyze-sentences__btn-container">
+            {currPageState === pageStates.isRecording &&
+              <>
+                <button
+                  onClick={listening ? pause : record}
+                  className="btn"
+                >
+                  {listening ? "Pause" : "Record"}
+                </button>
+                <button
+                  className="btn"
+                  onClick={reset}
+                  disabled={isRecording}
+                >
+                  Reset
+                </button>
+                <button
+                  className="btn"
+                  onClick={nextPageState}
+                  disabled={transcript.length <= 0 || isRecording}
+                >
+                  Next
+                </button>
+              </>
+            }
+            {currPageState !== pageStates.isRecording &&
+              <>
+                <button className="btn" onClick={listenToGoogleTTS}>
+                  {isSpeaking ? "Stop" : "Text to Speech"}
+                </button>
+                <button className="btn" onClick={listenToYourself}>
+                  {(userRecording.current && userRecording.current.paused) ? "Listen to yourself" : "Pause"}
+                </button>
+                <button className="btn" onClick={prevPageState}>
+                  Reset
+                </button>
+                {currPageState !== pageStates.analyzed &&
+                  <button className="btn" onClick={analyze}>Analyze</button>
+                }
+              </>
+            }
+
           </div>
+        </div>
+        <HelpSection displayHelp={displayHelp} />
+        <button
+          onClick={openHelpSection}
+          className="btn analyze-sentences__help-btn"
+        >
+          <div>
+            <box-icon name="question-mark" color="#4285f4" size="20px" />
+          </div>
+        </button>
+        {/* User's audio recording */}
+        <audio src={audioURL} ref={userRecording} />
+
+        {/* Display Spinner while analyzing the audio */}
+        {currPageState === pageStates.isAnalyzing &&
+          <PopUp content={Spinner()} />
         }
 
-        {currPageState !== pageStates.analyzed && 
-          <textarea 
-            type="text" 
-            value={editedTranscript} 
-            readOnly={currPageState === pageStates.isRecording}
-            onChange={editTranscript} 
+        {/* Display the popup pronounce component */}
+        {(currPageState === pageStates.analyzed &&
+          currWordResult !== null) &&
+          <PopUp
+            content={<Pronounce word={currWordResult} />}
+            closePopUp={closePopUp}
           />
         }
-        {currPageState === pageStates.analyzed &&
-          <div className="textarea">
-            {generateResultForSentences(speechSuperResultData)}
-          </div>
-        }
-
-        {message && message.length > 0 && <p className="analyze-sentences__message">
-          <box-icon name="error-circle" color="#5d5d5d" size="20px" />
-          {message}
-          </p>
-        }
-        <div className="analyze-sentences__btn-container">
-          {currPageState === pageStates.isRecording &&
-            <>
-              <button 
-                onClick={listening ? pause : record}
-                className="btn"
-              >
-                {listening ? "Pause" : "Record"}
-              </button>
-              <button 
-                className="btn" 
-                onClick={reset}
-                disabled={isRecording}
-              >
-                Reset
-              </button>
-              <button 
-                className="btn" 
-                onClick={nextPageState}
-                disabled={transcript.length <= 0 || isRecording}
-              >
-                Next
-              </button>
-            </>
-          }
-          {currPageState !== pageStates.isRecording && 
-            <>
-              <button className="btn" onClick={listenToGoogleTTS}>
-                {isSpeaking ? "Stop" : "Text to Speech"}
-              </button>
-              <button className="btn" onClick={listenToYourself}>
-                {(userRecording.current && userRecording.current.paused) ? "Listen to yourself" : "Pause"}
-              </button>
-              <button className="btn" onClick={prevPageState}>
-                Reset
-              </button>
-              {currPageState !== pageStates.analyzed && 
-                <button className="btn" onClick={analyze}>Analyze</button> 
-              }
-            </>
-          }
-          
-        </div>
       </div>
-      <HelpSection displayHelp={displayHelp} />
-      <button 
-        onClick={openHelpSection}
-        className="btn analyze-sentences__help-btn"
-      >
-        <div>
-          <box-icon name="question-mark" color="#4285f4" size="20px" />
-        </div>
-      </button>
-      {/* User's audio recording */}
-      <audio src={audioURL} ref={userRecording} />
-
-      {/* Display Spinner while analyzing the audio */}
-      {currPageState === pageStates.isAnalyzing && 
-        <PopUp content={Spinner()} />
-      }
-
-      {/* Display the popup pronounce component */}
-      {(currPageState === pageStates.analyzed && 
-        currWordResult !== null) && 
-        <PopUp 
-          content={<Pronounce word={currWordResult} />} 
-          closePopUp={closePopUp} 
-        />
-      }
-    </div>
+    </React.Fragment>
   );
 }
 

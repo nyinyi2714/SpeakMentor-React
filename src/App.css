@@ -67,7 +67,7 @@ input:focus-visible {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--grey); /* Color of the thumb */
-  border-radius: 8px; /* Radius of the thumb */
+
 }
 
 ::-webkit-scrollbar-track {

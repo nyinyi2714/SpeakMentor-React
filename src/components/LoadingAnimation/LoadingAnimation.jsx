@@ -19,6 +19,7 @@ function LoadingAnimation(props) {
   const loadingBar = useRef();
 
   const hideLoadingPage = () => {
+    if(!loadingPage.current) return;
     loadingPage.current.classList.add("slide-up");
     checkIsVisited();
   };

@@ -12,6 +12,7 @@ import "./Pronounce.css";
 function Pronounce(props) {
   const [laymanPhonetic, setLaymanPhonetic] = useState(null);
   const [message, setMessage] = useState("Practice");
+  const [displayCompliment, setDisplayCompliment] = useState(false);
   const { word } = props;
 
   const pronounceResult = useRef();
@@ -81,6 +82,7 @@ function Pronounce(props) {
   }, []);
 
   useEffect(() => {
+    if (!resultContainer.current) return;
     resultContainer.current.classList.remove("open");
     reset();
   }, [word]);
@@ -91,12 +93,14 @@ function Pronounce(props) {
   }, [isRecording]);
 
   useEffect(() => {
+    if (!resultContainer.current) return;
     if (audioURL && !isRecording) resultContainer.current.classList.add("open");
     else resultContainer.current.classList.remove("open");
   }, [audioURL]);
 
   useEffect(() => {
-    if (isAnalyzing) analyzingMessage.current.classList.add("show");
+    if (!analyzingMessage.current || !resultDisplay.current || !resultContainer.current || !pronounceResult.current) return;
+    if (isAnalyzing && audioURL) analyzingMessage.current.classList.add("show");
     else setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
 
     if (isAnalyzing || speechSuperResult === null) {
@@ -112,6 +116,13 @@ function Pronounce(props) {
       }, 400);
     }
   }, [isAnalyzing]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (checkIsPerfectScore(speechSuperResult)) setDisplayCompliment(true);
+      else setDisplayCompliment(false);
+    }, 400)
+  }, [speechSuperResult])
 
   return (
     <div className="pronounce">
@@ -162,29 +173,34 @@ function Pronounce(props) {
                   <box-icon name="volume-full" size="16px" color="#4285f4" />
                 </button>
                 <span>Your Pronunciation</span>
-                {checkIsPerfectScore(speechSuperResult) && <span className="flex-right">Good Job!</span>}
+                {displayCompliment && <span className="flex-right">Good Job!</span>}
               </div>
 
               <div className="pronounce__result" ref={pronounceResult}>
                 {generateResult(speechSuperResult)}
 
-                {!checkIsPerfectScore(speechSuperResult) && <p>You may have mispronounce: </p>}
-                <div className="pronounce__feedback--wrapper">
-                  <div className="pronounce__feedback box-shadow">
-                    <div className="feedback__item">
-                      <h3>car</h3>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                {
+                  !checkIsPerfectScore(speechSuperResult) &&
+                  <>
+                    <p>You may have mispronounce: </p>
+                    <div className="pronounce__feedback--wrapper">
+                      <div className="pronounce__feedback box-shadow">
+                        <div className="feedback__item">
+                          <h3>car</h3>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                        </div>
+                      </div>
+                      <div className="pronounce__feedback box-shadow">
+                        <div className="feedback__item">
+                          <h3>car</h3>
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="pronounce__feedback box-shadow">
-                    <div className="feedback__item">
-                      <h3>car</h3>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
-                    </div>
-                  </div>
-                </div>
+                  </>
+                }
+                
               </div>
-
 
             </div>
             <div className="pronounce__analyzing" ref={analyzingMessage}>
