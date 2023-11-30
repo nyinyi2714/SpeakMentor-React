@@ -10,6 +10,7 @@ import Register from "./pages/Register/Register";
 import Assessment from "./pages/Assessment/Assessment";
 import Instructions from "./pages/Instructions/Instructions";
 import AnalyzeSentences from "./pages/AnalyzeSentences/AnalyzeSentences";
+import Frontpage from "./pages/Frontpage/Frontpage";
 
 import LoadingAnimation from "./components/LoadingAnimation/LoadingAnimation";
 import Popup from "./components/Popup/Popup";
@@ -50,7 +51,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route exact path="/" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
+        <Route exact path="/" element={<Frontpage />} />
+        <Route path="/homepage" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
         <Route path="/login" element={authenticationRoute(false, Login)} />
         <Route path="/register" element={authenticationRoute(false, Register)} />
         <Route path="/assessment" element={<Assessment />} />
