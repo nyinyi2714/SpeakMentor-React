@@ -118,6 +118,7 @@ function useSpeechSuper() {
   const generateResult = (speechSuperResult) => {
     if(!speechSuperResult) return;
     const letters = [];
+    const dot = <span className="pronounce__dot">.</span>;
 
     speechSuperResult.laymans.forEach((layman, index) => {
       letters.push(
@@ -126,6 +127,7 @@ function useSpeechSuper() {
           style={{ color: chooseColorsForScores(layman.score) }}
         >
           {layman.phrase}
+          {index < speechSuperResult.laymans.length - 1 ? dot : null}
         </span>
       );
     })
@@ -150,7 +152,8 @@ function useSpeechSuper() {
     speechSuperResult.feedbacks.forEach((item, index) => {
       feedbacks.push(feedbackContainer(item.phrase, item.suggestion, index));
     })
-    
+
+    return feedbacks;
   };
 
   const chooseColorsForScores = (score) => {

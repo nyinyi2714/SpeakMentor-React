@@ -12,10 +12,16 @@
     align-items: center;
     z-index: 10;
     background-color: #fff;
-    padding: var(--spacing-medium) var(--spacing-large);
+    padding: var(--spacing-medium);
     height: 60px;
     box-shadow: 0 0px 10px var(--light-grey);
     border-bottom: 1px solid var(--light-grey);
+  }
+
+  @media (min-width: 800px) {
+    .container {
+      padding: var(--spacing-medium) var(--spacing-large);
+    }
   }
   
   .logo img {
@@ -68,7 +74,7 @@
   }
   
   /* Media queries for responsive design */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 800px) {
     .main_list.mobile {
       display: block;
       position: fixed;

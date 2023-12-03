@@ -69,7 +69,7 @@ function Pronounce(props) {
 
   // Get layman phonetic from backend when word is changed
   useEffect(() => {
-    // setLaymanPhonetic(null);
+    setLaymanPhonetic(null);
     getLaymanPhonetic(word)
       .then(laymanPhoneticData => {
         setLaymanPhonetic(laymanPhoneticData);

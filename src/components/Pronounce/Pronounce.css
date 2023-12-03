@@ -55,6 +55,7 @@
   position: relative;
   bottom: 3px;
   margin: 0 5px;
+  color: #000;
 }
 
 .pronounce__layman-pronunciation--skeleton {
@@ -220,18 +221,18 @@
 .pronounce__feedback {
   margin: var(--spacing-medium) 0;
   margin-right: var(--spacing-small);
-  padding: var(--spacing-small);
+  padding: .8rem;
   border: 1px solid var(--light-grey);
   border-radius: 5px;
   min-width: 200px;
 }
   .pronounce__feedback h3 {
     font-size: .9rem;
-    margin-bottom: var(--spacing-medium);
+    margin-bottom: var(--spacing-small);
   }
 
   .pronounce__feedback p {
-    font-size: .8rem;
+    font-size: .85rem;
   }
 
 
