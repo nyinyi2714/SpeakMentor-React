@@ -102,8 +102,7 @@ function useSpeechSuper() {
       console.log(res)
       if(isSingleWord) {
         return {
-          phonics: res.result.words[0].phonics,
-          overall: res.result.words[0].scores.overall
+          phonics: res.result.words[0].scores.stress,
         };
       }
       else {
@@ -120,18 +119,38 @@ function useSpeechSuper() {
     if(!speechSuperResult) return;
     const letters = [];
 
-    speechSuperResult.phonics.forEach((phonic, index) => {
+    speechSuperResult.laymans.forEach((layman, index) => {
       letters.push(
         <span
           key={index}
-          style={{ color: chooseColorsForScores(phonic.overall) }}
+          style={{ color: chooseColorsForScores(layman.score) }}
         >
-          {phonic.spell}
+          {layman.phrase}
         </span>
       );
     })
 
     return letters;
+  };
+
+  const generateFeedback = (speechSuperResult) => {
+    if(!speechSuperResult) return;
+    const feedbacks = [];
+
+    const feedbackContainer = (phrase, suggestion, index) => {
+      return(
+        <div className="pronounce__feedback box-shadow" key={index}>
+          <div className="feedback__item">
+            <h3>{phrase}</h3>
+            <p>{suggestion}</p>
+          </div>
+        </div>
+      );
+    };
+    speechSuperResult.feedbacks.forEach((item, index) => {
+      feedbacks.push(feedbackContainer(item.phrase, item.suggestion, index));
+    })
+    
   };
 
   const chooseColorsForScores = (score) => {
@@ -146,12 +165,13 @@ function useSpeechSuper() {
 
   const checkIsPerfectScore = (speechSuperResult) => {
     if (!speechSuperResult) return false;
-    return speechSuperResult.phonics.every(phonic => phonic.overall >= perfectScore);
+    return speechSuperResult.laymans.every(layman => layman.score >= perfectScore);
   };
 
   return {
     sendAudioToSpeechSuperAPI,
     generateResult,
+    generateFeedback,
     chooseColorsForScores,
     checkIsPerfectScore
   };

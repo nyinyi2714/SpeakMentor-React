@@ -3,11 +3,13 @@ import { backendUrl } from "../config";
 import useGoogleTTS from "../hooks/useGoogleTTS";
 import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";
+import useBackend from "./useBackend";
 
 function useAudio({ word }) {
 
   const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
   const { speak, isSpeaking } = useGoogleTTS();
+  const { getFeedback } = useBackend();
 
   const [audioURL, setAudioURL] = useState(null);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -72,8 +74,9 @@ function useAudio({ word }) {
   const sendAudioToServer = async (audioURL) => {
     setIsAnalyzing(true);
     const resultData = await sendAudioToSpeechSuperAPI(audioURL, word, true);
-    // send resultData back to backend
-    setResult(resultData);
+    // TODO: send resultData back to backend
+    const resultDataInLayman = await getFeedback(resultData.phonics, word);
+    setResult(resultDataInLayman);
     setIsAnalyzing(false);
   };
 

@@ -39,7 +39,7 @@ function Pronounce(props) {
 
   let speechSuperResult = result;
 
-  const { generateResult, checkIsPerfectScore } = useSpeechSuper();
+  const { generateResult, generateFeedback, checkIsPerfectScore } = useSpeechSuper();
   const { getLaymanPhonetic } = useBackend();
 
   // TODO handle Slow
@@ -52,6 +52,8 @@ function Pronounce(props) {
   };
 
   const displayLaymanPhonetic = () => {
+    if(!laymanPhonetic) return;
+
     const dot = <span className="pronounce__dot">.</span>;
     return (
       <>
@@ -66,13 +68,12 @@ function Pronounce(props) {
   };
 
   // Get layman phonetic from backend when word is changed
-  useMemo(() => {
-    setLaymanPhonetic(null);
-    // getLaymanPhonetic()
-    //   .then(laymanPhoneticData => {
-    //     // setLaymanPhonetic(laymanPhoneticData);
-    //     // TODO: refine laymanPhoneticData;
-    //   })
+  useEffect(() => {
+    // setLaymanPhonetic(null);
+    getLaymanPhonetic(word)
+      .then(laymanPhoneticData => {
+        setLaymanPhonetic(laymanPhoneticData);
+      })
   }, [word]);
 
   useEffect(() => {
@@ -185,18 +186,7 @@ function Pronounce(props) {
                   <>
                     <p>You may have mispronounce: </p>
                     <div className="pronounce__feedback--wrapper">
-                      <div className="pronounce__feedback box-shadow">
-                        <div className="feedback__item">
-                          <h3>car</h3>
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
-                        </div>
-                      </div>
-                      <div className="pronounce__feedback box-shadow">
-                        <div className="feedback__item">
-                          <h3>car</h3>
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, aspernatur!</p>
-                        </div>
-                      </div>
+                      {generateFeedback(tempResult)}
                     </div>
                   </>
                 }
