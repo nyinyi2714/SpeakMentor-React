@@ -1,6 +1,6 @@
 .display-steps {
     max-width: 500px;
-    padding: var(--spacing-medium) 0;
+    padding: 0 var(--spacing-medium) 3rem;
     display: flex;
     background-color: transparent;
 
@@ -14,16 +14,15 @@
     height: 28px;
     width: 28px;
     color: var(--primary-color);
-    transition: 500ms ease-in-out;
-
+    transition: 300ms ease-in-out;
     font-weight: bold;
-    
+    position: relative;
     display: grid;
     place-items: center;
  }
 
  .step-circle.finished {
-    transition-delay: 500ms;
+    transition-delay: 300ms;
     background-color: var(--primary-color);
     color: #fff;
  }
@@ -31,6 +30,16 @@
  .step-circle > * {
     position: relative;
     bottom: 1px;
+ }
+
+ .step-circle::after {
+   position: absolute;
+   top: 110%;
+   left: -57%;
+   width: 53px;
+   text-align: center;
+   color: var(--primary-color);
+   content: attr(data-step);
  }
 
  .line {
@@ -55,7 +64,7 @@
     width: 0%;
     height: 3px;
     background-color: var(--primary-color);
-    transition: 500ms ease-in-out;
+    transition: 300ms ease-in-out;
   }
 
   .line.finished > span {

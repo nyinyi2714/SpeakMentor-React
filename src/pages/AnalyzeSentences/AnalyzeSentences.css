@@ -11,12 +11,6 @@
   }
 }
 
-.display-current-step {
-  color: var(--primary-color);
-  padding-left: var(--spacing-small);
-  font-size: 1.3rem;
-}
-
 .analyze-sentences__analyzer {
   background-color: #fff;
   padding: 20px;

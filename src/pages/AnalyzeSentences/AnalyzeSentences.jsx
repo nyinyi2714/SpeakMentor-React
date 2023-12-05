@@ -232,7 +232,6 @@ function AnalyzeSentences() {
     <React.Fragment>
       <Navbar />
       <div className="analyze-sentences">
-        <div className="display-current-step">Current Step: <strong>{currPageState}</strong></div>
         <DisplaySteps currentStep={currStep[currPageState]} />
         <div className="analyze-sentences__analyzer">
           {isRecording &&
