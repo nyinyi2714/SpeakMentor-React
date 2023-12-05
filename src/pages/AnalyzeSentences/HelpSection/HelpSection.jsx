@@ -16,13 +16,10 @@ function HelpSection({ displayHelp }) {
             <p>If you need a fresh start, hit <i>"Reset"</i> to clear both your recording and transcript.</p>
           </div>
           <div className="instruction">
-            <span>Preview</span>
+            <span>Edit</span>
             <p>You can listen your recording by clicking <i>"Listen to yourself"</i>.</p>
             <p>You can listen to correct pronunciation by clicking <i>"Speak"</i>.</p>
-          </div>
-          <div className="instruction">
-            <span>Analyze</span>
-            <p>When you're satisfied with your recording and edit, click <i>"Analyze"</i> to evaluate your voice.</p>
+            <p>When you're satisfied the transcript, click <i>"Analyze"</i> to analyze your voice input.</p>
           </div>
           <div className="instruction">
             <span>Practice</span>

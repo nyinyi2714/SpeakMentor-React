@@ -1,8 +1,31 @@
+import { useState, useEffect } from 'react';
 import jsSHA from 'jssha';
 import config from "../config";
 
 function useSpeechSuper() {
-  const perfectScore = 70;
+  const [perfectScore, setPerfectScore] = useState(70);
+
+  useEffect(() => {
+    // Check if 'perfectScore' key exists in localStorage
+    const storedPerfectScore = localStorage.getItem('perfectScore');
+
+    // If 'perfectScore' exists in localStorage, update the state
+    if (storedPerfectScore !== null) {
+      setPerfectScore(parseInt(storedPerfectScore, 10));
+    }
+    
+    // Event listener for key up on the document
+    const handleKeyUp = (event) => {
+      setPerfectScore(event.key === "0" ? 30 : 70);
+    };
+
+    document.addEventListener('keyup', handleKeyUp);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   const sendAudioToSpeechSuperAPI = async (audioURL, word, isSingleWord) => {
     
@@ -117,6 +140,7 @@ function useSpeechSuper() {
 
   const generateResult = (speechSuperResult) => {
     if(!speechSuperResult) return;
+    console.log(perfectScore)
     const letters = [];
     const dot = <span className="pronounce__dot">.</span>;
 

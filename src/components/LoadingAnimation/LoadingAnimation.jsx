@@ -11,8 +11,6 @@ function LoadingAnimation(props) {
     requestMicPermission, 
   } = props;
 
-  const [loadingProgress, setLoadingProgress] = useState(-20);
-  const [loadingSpeed, setLoadingSpeed] = useState(1);
   const [isLogoLoaded, setIsLogoLoaded] = useState(false);
 
   const loadingPage = useRef();
@@ -40,24 +38,6 @@ function LoadingAnimation(props) {
     }
   };
 
-  useEffect(() => {
-    if(!isLoading) setLoadingSpeed(7);
-  }, [isLoading]);
-
-  useEffect(() => {
-    // Start a timer to increase loadingProgress gradually
-    const timer = setInterval(() => {
-      if (isLogoLoaded && loadingProgress < 100) {
-        setLoadingProgress((prevProgress) => prevProgress + loadingSpeed);
-      } else {
-        clearInterval(timer);
-      }
-    }, 100); // Change the interval to 100 milliseconds
-
-    // Clear the timer when the component unmounts or loadingProgress reaches 100
-    return () => clearInterval(timer);
-  }, [loadingProgress, isLogoLoaded]);
-
   return(
     <div 
       className="loading-animation" 
@@ -67,12 +47,9 @@ function LoadingAnimation(props) {
         <img src="/images/main-logo.png" alt="main-logo" onLoad={() => setIsLogoLoaded(true)} />
         <div className={`loading-bar ${isLogoLoaded && "show"}`}>
           <span 
-            className="bar" 
+            className={`bar ${isLogoLoaded && "load"}`}
             ref={loadingBar} 
             onTransitionEnd={hideLoadingPage}
-            style={{
-              width:` ${loadingProgress}%`,
-            }}
           />
         </div>
       </div>

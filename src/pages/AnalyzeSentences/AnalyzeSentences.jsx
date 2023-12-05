@@ -9,6 +9,7 @@ import Spinner from "./Spinner/Spinner";
 import HelpSection from "./HelpSection/HelpSection";
 import Pronounce from "../../components/Pronounce/Pronounce";
 import Navbar from "../../components/Navbar/Navbar";
+import DisplaySteps from "./DisplaySteps/DisplaySteps";
 
 import MicRecorder from "mic-recorder-to-mp3";
 import "boxicons";
@@ -27,11 +28,18 @@ function AnalyzeSentences() {
   const { sendAudioToSpeechSuperAPI, chooseColorsForScores } = useSpeechSuper();
 
   const pageStates = {
-    isRecording: "isRecording",
-    isEditing: "isEditing",
-    isAnalyzing: "isAnalyzing",
-    analyzed: "analyzed",
+    isRecording: "Record",
+    isEditing: "Edit",
+    isAnalyzing: "Analyze",
+    analyzed: "Practice",
   };
+
+  const currStep = {
+    "Record": 1,
+    "Edit": 2,
+    "Analyze": 2,
+    "Practice": 3,
+  }
 
   const messages = {
     recordNow: "Please record yourself before clicking \"Next\".",
@@ -49,6 +57,7 @@ function AnalyzeSentences() {
   const [displayHelp, setDisplayHelp] = useState(false);
   const [currWordResult, setCurrWordResult] = useState(null);
   const [speechSuperResultData, setSpeechSuperResultData] = useState(null);
+  const [isListeningToYourSelf, setIsListeningToYourself] = useState(false);
 
   const userRecording = useRef();
   const linkToHelpSection = useRef();
@@ -104,18 +113,33 @@ function AnalyzeSentences() {
 
   const listenToGoogleTTS = () => {
     if (isSpeaking) stop();
-    else speak(transcript);
+    else speak(editedTranscript);
   };
 
   const listenToYourself = () => {
     const audio = userRecording.current;
-
-    if (audio.paused) {
-      audio.play();
-    } else {
+    if (isListeningToYourSelf) {
       audio.pause();
+    } else {
+      audio.play();
     }
+    setIsListeningToYourself(prev => !prev);
   };
+
+  useEffect(() => {
+    const handleAudioEnded = () => {
+      setIsListeningToYourself(false);
+    };
+
+    // Add the 'ended' event listener when the component mounts
+    userRecording.current.addEventListener('ended', handleAudioEnded);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      if(!userRecording.current) return;
+      userRecording.current.removeEventListener('ended', handleAudioEnded);
+    };
+  }, []);
 
   // Go to next stage of the voice analysis
   const nextPageState = () => {
@@ -208,6 +232,8 @@ function AnalyzeSentences() {
     <React.Fragment>
       <Navbar />
       <div className="analyze-sentences">
+        <div className="display-current-step">Current Step: <strong>{currPageState}</strong></div>
+        <DisplaySteps currentStep={currStep[currPageState]} />
         <div className="analyze-sentences__analyzer">
           {isRecording &&
             <div className="recording-icon">
@@ -266,7 +292,7 @@ function AnalyzeSentences() {
                   {isSpeaking ? "Stop" : "Text to Speech"}
                 </button>
                 <button className="btn" onClick={listenToYourself}>
-                  {(userRecording.current && userRecording.current.paused) ? "Listen to yourself" : "Pause"}
+                  {userRecording.current && (isListeningToYourSelf ? "Pause" : "Listen to yourself")}
                 </button>
                 <button className="btn" onClick={prevPageState}>
                   Reset

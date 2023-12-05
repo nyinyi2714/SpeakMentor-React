@@ -1,8 +1,20 @@
 /* AnalyzeSentences.css */
 .analyze-sentences {
   min-height: calc(100vh - 60px);
-  padding: var(--spacing-large);
+  padding: var(--spacing-large) var(--spacing-small);
   background: var(--main-background-color);
+}
+
+@media (min-width: 400px) {
+  .analyze-sentences {
+    padding: var(--spacing-large);
+  }
+}
+
+.display-current-step {
+  color: var(--primary-color);
+  padding-left: var(--spacing-small);
+  font-size: 1.3rem;
 }
 
 .analyze-sentences__analyzer {

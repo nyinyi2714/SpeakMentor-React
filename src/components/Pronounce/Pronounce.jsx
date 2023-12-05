@@ -101,7 +101,7 @@ function Pronounce(props) {
 
   useEffect(() => {
     if (!analyzingMessage.current || !resultDisplay.current || !resultContainer.current) return;
-    if (isAnalyzing && audioURL) analyzingMessage.current.classList.add("show");
+    if (isAnalyzing && audioURL && analyzingMessage.current) analyzingMessage.current.classList.add("show");
     else setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
 
     if (isAnalyzing || speechSuperResult === null) {
@@ -184,7 +184,7 @@ function Pronounce(props) {
                 {
                   !checkIsPerfectScore(tempResult) &&
                   <>
-                    <p>You may have mispronounce: </p>
+                    <p>You may have mispronounced: </p>
                     <div className="pronounce__feedback--wrapper">
                       {generateFeedback(tempResult)}
                     </div>
