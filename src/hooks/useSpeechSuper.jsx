@@ -5,18 +5,11 @@ import config from "../config";
 function useSpeechSuper() {
   const [perfectScore, setPerfectScore] = useState(70);
 
-  useEffect(() => {
-    // Check if 'perfectScore' key exists in localStorage
-    const storedPerfectScore = localStorage.getItem('perfectScore');
-
-    // If 'perfectScore' exists in localStorage, update the state
-    if (storedPerfectScore !== null) {
-      setPerfectScore(parseInt(storedPerfectScore, 10));
-    }
-    
+  useEffect(() => {    
     // Event listener for key up on the document
     const handleKeyUp = (event) => {
-      setPerfectScore(event.key === "0" ? 30 : 70);
+      if(event.key === "0") setPerfectScore(30);
+      else if(event.key === "9") setPerfectScore(70);
     };
 
     document.addEventListener('keyup', handleKeyUp);
@@ -140,10 +133,9 @@ function useSpeechSuper() {
 
   const generateResult = (speechSuperResult) => {
     if(!speechSuperResult) return;
-    console.log(perfectScore)
     const letters = [];
     const dot = <span className="pronounce__dot">.</span>;
-
+    console.log(perfectScore)
     speechSuperResult.laymans.forEach((layman, index) => {
       letters.push(
         <span

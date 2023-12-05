@@ -15,6 +15,7 @@
     width: 28px;
     color: var(--primary-color);
     transition: 500ms ease-in-out;
+
     font-weight: bold;
     
     display: grid;
@@ -22,6 +23,7 @@
  }
 
  .step-circle.finished {
+    transition-delay: 500ms;
     background-color: var(--primary-color);
     color: #fff;
  }
