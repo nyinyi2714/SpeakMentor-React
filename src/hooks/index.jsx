@@ -1,6 +1,5 @@
 import useAudio from "./useAudio";
 import useBackend from "./useBackend";
-import useFeedback from "./useFeedback";
 import useGoogleTTS from "./useGoogleTTS";
 import useSpeechRecognizer from "./useSpeechRecognizer";
 import useSpeechSuper from "./useSpeechSuper";
@@ -12,7 +11,6 @@ import useValidateInput from "./useValidateInput";
 export {
   useAudio,
   useBackend,
-  useFeedback,
   useGoogleTTS,
   useSpeechRecognizer,
   useSpeechSuper,
