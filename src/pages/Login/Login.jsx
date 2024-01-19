@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import useAuthenticate from "../../hooks/useAutheticate";
-import useValidateInput from "../../hooks/useValidateInput";
-import Boxicons from "boxicons";
+import { useAuthenticate, useValidateInput } from "../../hooks";
+import "boxicons";
 import "./Login.css";
 
 function Login() {

@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import useSpeechRecognizer from "../../hooks/useSpeechRecognizer";
-import useGoogleTTS from "../../hooks/useGoogleTTS";
-import useSpeechSuper from "../../hooks/useSpeechSuper";
 
-import PopUp from "./PopUp/PopUp";
-import Spinner from "./Spinner/Spinner";
-import HelpSection from "./HelpSection/HelpSection";
-import Pronounce from "../../components/Pronounce/Pronounce";
-import Navbar from "../../components/Navbar/Navbar";
-import DisplaySteps from "./DisplaySteps/DisplaySteps";
+import { Link } from "react-router-dom";
+import { useSpeechRecognizer, useGoogleTTS, useSpeechSuper } from "../../hooks";
+
+import { PopUp, Spinner, DisplaySteps, HelpSection } from "./index";
+import { Pronounce, Navbar } from "../../components";
 
 import MicRecorder from "mic-recorder-to-mp3";
 import "boxicons";

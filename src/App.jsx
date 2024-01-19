@@ -2,20 +2,11 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import { useStateContext } from "./StateContext";
-import useRoute from "./hooks/useRoute";
-
-import Homepage from "./pages/Homepage/Homepage";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import Assessment from "./pages/Assessment/Assessment";
-import Instructions from "./pages/Instructions/Instructions";
-import AnalyzeSentences from "./pages/AnalyzeSentences/AnalyzeSentences";
-
-import LoadingAnimation from "./components/LoadingAnimation/LoadingAnimation";
-import Popup from "./components/Popup/Popup";
+import { useRoute } from "./hooks";
+import { Homepage, Login, Register, Assessment, Instructions, AnalyzeSentences } from './pages';
+import { LoadingAnimation, Popup } from "./components";
 
 import './App.css';
-
 
 function App() {
   const { user, setUser } = useStateContext();

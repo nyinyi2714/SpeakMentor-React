@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import useAuthenticate from "../../hooks/useAutheticate";
-import useValidateInput from "../../hooks/useValidateInput";
+import { useAuthenticate, useValidateInput } from "../../hooks";
 import "./Register.css";
 
 function Register() {

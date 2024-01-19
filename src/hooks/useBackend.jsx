@@ -15,7 +15,6 @@ function useBackend() {
 
       if (response.ok) {
         response = await response.json();
-        // TODO: check the backend json key (laymanPhonetic)
         console.log(response);
         return response.laymans;
       } else {
