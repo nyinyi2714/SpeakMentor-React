@@ -10,7 +10,7 @@ function Homepage(props) {
 
   const { setIsPopupOpen, setWordNotFound } = props;
 
-  const [word, setWord] = useState("carpet");
+  const [word, setWord] = useState("example");
   const { checkWord } = useDictionaryAPI();
 
   const wordInput = useRef();
@@ -35,7 +35,7 @@ function Homepage(props) {
 
   useEffect(() => { 
     // Prepopulation the word search input
-    wordInput.current.value = "carpet"; 
+    wordInput.current.value = "example"; 
   }, []);
 
   return (

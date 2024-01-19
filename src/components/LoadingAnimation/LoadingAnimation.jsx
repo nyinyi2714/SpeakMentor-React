@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import "./LoadingAnimation.css";
 
 function LoadingAnimation(props) {

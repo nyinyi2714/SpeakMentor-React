@@ -135,7 +135,6 @@ function useSpeechSuper() {
     if(!speechSuperResult) return;
     const letters = [];
     const dot = <span className="pronounce__dot">.</span>;
-    console.log(perfectScore)
     speechSuperResult.laymans.forEach((layman, index) => {
       letters.push(
         <span
