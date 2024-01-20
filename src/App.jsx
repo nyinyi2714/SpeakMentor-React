@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { useStateContext } from "./StateContext";
 import { useRoute } from "./hooks";
 import { Homepage, Login, Register, Assessment, Instructions, AnalyzeSentences } from './pages';
-import { LoadingAnimation, Popup } from "./components";
+import { LoadingAnimation, Popup, Navbar } from "./components";
 
 import './App.css';
 
@@ -40,6 +40,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Routes>
         <Route exact path="/" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
         <Route path="/login" element={authenticationRoute(false, Login)} />

@@ -1,24 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useFeedback } from "./index";
 import jsSHA from 'jssha';
 import config from "../config";
 
 function useSpeechSuper() {
+  const { getFeedback } = useFeedback();
+
   const [perfectScore, setPerfectScore] = useState(70);
-
-  useEffect(() => {    
-    // Event listener for key up on the document
-    const handleKeyUp = (event) => {
-      if(event.key === "0") setPerfectScore(30);
-      else if(event.key === "9") setPerfectScore(70);
-    };
-
-    document.addEventListener('keyup', handleKeyUp);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      document.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
 
   const sendAudioToSpeechSuperAPI = async (audioURL, word, isSingleWord) => {
     
@@ -118,7 +106,8 @@ function useSpeechSuper() {
       console.log(res)
       if(isSingleWord) {
         return {
-          phonics: res.result.words[0].scores.stress,
+          phonics: res.result.words[0].phonemes,
+          phonemes: res.result.words[0].scores.stress,
         };
       }
       else {
@@ -131,18 +120,42 @@ function useSpeechSuper() {
 
   };
 
-  const generateResult = (speechSuperResult) => {
+  function extractPhonemes(inputArray, phoneticsObj) {
+    let resultArray = [];
+    const phoneticString = phoneticsObj.map(phoneticObj => phoneticObj.phonetic).join('-');
+
+    for (let i = 0; i < inputArray.length; i++) {
+      let currentPhoneme = inputArray[i].phoneme;
+      let beforeDot = false;
+
+      if(currentPhoneme.pronunciation >= perfectScore) continue;
+
+      if (i > 0 && i < inputArray.length-1 && phoneticString.indexOf(`-${inputArray[i+1].phoneme}`) !== -1) {
+        beforeDot = true;
+      }
+
+      resultArray.push({
+        phoneme: currentPhoneme,
+        pronunciation: inputArray[i].pronunciation,
+        beforeDot: beforeDot,
+      });
+    }
+    return resultArray;
+}
+
+  const generateResult = (speechSuperResult, phonetics) => {
     if(!speechSuperResult) return;
     const letters = [];
     const dot = <span className="pronounce__dot">.</span>;
-    speechSuperResult.laymans.forEach((layman, index) => {
+    const formattedResult = extractPhonemes(speechSuperResult.phonics, phonetics);
+    formattedResult.forEach((item, index) => {
       letters.push(
         <span
           key={index}
-          style={{ color: chooseColorsForScores(layman.score) }}
+          style={{ color: chooseColorsForScores(item.pronunciation) }}
         >
-          {layman.phrase}
-          {index < speechSuperResult.laymans.length - 1 ? dot : null}
+          {item.phoneme}
+          {item.beforeDot ? dot : null}
         </span>
       );
     })
@@ -164,10 +177,13 @@ function useSpeechSuper() {
         </div>
       );
     };
-    speechSuperResult.feedbacks.forEach((item, index) => {
-      feedbacks.push(feedbackContainer(item.phrase, item.suggestion, index));
+    speechSuperResult.phonics.forEach((phonic, index) => {
+      if(phonic.pronunciation < perfectScore) {
+        const feedback  = getFeedback(phonic.phoneme);
+        feedbacks.push(feedbackContainer(phonic.phoneme, feedback, index));
+      }
+      
     })
-
     return feedbacks;
   };
 
@@ -183,7 +199,24 @@ function useSpeechSuper() {
 
   const checkIsPerfectScore = (speechSuperResult) => {
     if (!speechSuperResult) return false;
-    return speechSuperResult.laymans.every(layman => layman.score >= perfectScore);
+    return speechSuperResult.phonics.every(item => item.pronunciation >= perfectScore);
+  };
+
+  const getPhonetics = async (word) => {
+    const { phonemes } = await sendAudioToSpeechSuperAPI(null, word, true);
+    return phonemes.map(phoneme => ({
+      phonetic: phoneme.phonetic,
+      isStress: phoneme.ref_stress === 1,
+    }));
+  }
+
+  const phoneticsObjToHtml = (phoneticObj) => {
+    return phoneticObj.map((obj, index) => (
+      <span key={index} style={{ fontWeight: obj.isStress ? 'bold' : 'normal' }}>
+        {obj.phonetic}
+        {index !== phoneticObj.length - 1 && '-'}
+      </span>
+    ));
   };
 
   return {
@@ -191,7 +224,9 @@ function useSpeechSuper() {
     generateResult,
     generateFeedback,
     chooseColorsForScores,
-    checkIsPerfectScore
+    checkIsPerfectScore,
+    getPhonetics,
+    phoneticsObjToHtml,
   };
 
 }

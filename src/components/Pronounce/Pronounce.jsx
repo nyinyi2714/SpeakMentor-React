@@ -1,17 +1,13 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
-
-import useSpeechSuper from "../../hooks/useSpeechSuper";
-import useAudio from "../../hooks/useAudio";
-import useBackend from "../../hooks/useBackend";
-
+import { useSpeechSuper, useAudio } from "../../hooks";
 import soundEffect from "../../assets/rec.m4a";
 import "boxicons";
 import "./Pronounce.css";
 
 function Pronounce(props) {
-  const [laymanPhonetic, setLaymanPhonetic] = useState(null);
-  const [message, setMessage] = useState("Practice");
+  const [laymanPhonetic, setLaymanPhonetic] = useState();
+  const [message, setMessage] = useState("");
   const [displayCompliment, setDisplayCompliment] = useState(false);
   const [tempResult, setTempResult] = useState(null);
   const { word } = props;
@@ -39,8 +35,7 @@ function Pronounce(props) {
 
   let speechSuperResult = result;
 
-  const { generateResult, generateFeedback, checkIsPerfectScore } = useSpeechSuper();
-  const { getLaymanPhonetic } = useBackend();
+  const { generateResult, generateFeedback, checkIsPerfectScore, getPhonetics, phoneticsObjToHtml } = useSpeechSuper();
 
   // TODO handle Slow
   const handleSlow = () => {
@@ -51,29 +46,13 @@ function Pronounce(props) {
     setMessage(isRecording ? "Speak Now" : "Practice");
   };
 
-  const displayLaymanPhonetic = () => {
-    if(!laymanPhonetic) return;
-
-    const dot = <span className="pronounce__dot">.</span>;
-    return (
-      <>
-        {laymanPhonetic.map((phrase, index) => (
-          <span key={index}>
-            {phrase}
-            {index < laymanPhonetic.length - 1 ? dot : null}
-          </span>
-        ))}
-      </>
-    );
-  };
-
-  // Get layman phonetic from backend when word is changed
+  // Get phonetic from backend when word is changed
   useEffect(() => {
     setLaymanPhonetic(null);
-    getLaymanPhonetic(word)
-      .then(laymanPhoneticData => {
-        setLaymanPhonetic(laymanPhoneticData);
-      })
+    getPhonetics(word)
+     .then(data => {
+      setLaymanPhonetic(data);
+     })
   }, [word]);
 
   useEffect(() => {
@@ -133,9 +112,9 @@ function Pronounce(props) {
 
         <div>Sounds like</div>
         {/* Display laymanPhonetic if it is not null */}
-        {laymanPhonetic !== null &&
+        {laymanPhonetic &&
           <div className="pronounce__layman-pronunciation">
-            {displayLaymanPhonetic()}
+            {phoneticsObjToHtml(laymanPhonetic)}
             <button
               className="pronounce__icon"
               onClick={() => textToSpeech(word)}
@@ -179,7 +158,7 @@ function Pronounce(props) {
               </div>
 
               <div className="pronounce__result">
-                {generateResult(tempResult)}
+                {generateResult(tempResult, laymanPhonetic)}
 
                 {
                   !checkIsPerfectScore(tempResult) &&

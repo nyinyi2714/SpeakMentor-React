@@ -6,7 +6,6 @@ function useDictionaryAPI() {
     try {
       let response = await fetch(config.dictionaryAPI + word);
       response = await response.json();
-
       if(response.length > 0 && response[0].hasOwnProperty("word")) {
         return true;
       } 
@@ -17,8 +16,8 @@ function useDictionaryAPI() {
     }
   };
 
-  return{
-    checkWord
+  return {
+    checkWord,
   };
 }
 

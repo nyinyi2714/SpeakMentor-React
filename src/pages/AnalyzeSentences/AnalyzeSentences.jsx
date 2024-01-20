@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 import { useSpeechRecognizer, useGoogleTTS, useSpeechSuper } from "../../hooks";
 
 import { PopUp, Spinner, DisplaySteps, HelpSection } from "./index";
@@ -169,11 +169,11 @@ function AnalyzeSentences() {
     let words = [];
 
     const convertSentenceIntoWords = (sentence, words) => {
-      sentence.forEach((wordData, index) => {
+      sentence.forEach((wordData) => {
         words.push(
           <span
             style={{ color: chooseColorsForScores(wordData.overall) }}
-            key={index}
+            key={uuidv4()}
             onClick={() => setCurrWordResult(stripNonLetters(wordData.word))}
           >
             {wordData.word + " "}
@@ -225,7 +225,6 @@ function AnalyzeSentences() {
 
   return (
     <React.Fragment>
-      <Navbar />
       <div className="analyze-sentences">
         <DisplaySteps currentStep={currStep[currPageState]} />
         <div className="analyze-sentences__analyzer">

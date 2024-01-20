@@ -1,13 +1,13 @@
 import phonemeData from "../assets/phonemes";
 
 function useFeedback() {
-
-  const generateFeedback = (result) => {
-    
+  const generalGuidance = "Listen to the pronunciation carefully and try to imitate the sound."
+  const getFeedback = (phoneme) => {
+    return phonemeData[phoneme]?.pronunciationGuidance ?? generalGuidance;
   }
 
   return ({
-    generateFeedback,
+    getFeedback,
   });
 }
 

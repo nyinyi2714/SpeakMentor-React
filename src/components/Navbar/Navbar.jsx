@@ -26,14 +26,14 @@ function Navbar() {
               <Link to="/analyze-sentences">Sentences</Link>
             </li>
             <li>
-              <Link to="#">Assessment</Link>
+              <Link to="/assessment">Assessment</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="#">Profile</Link>
             </li>
             <li>
               <Link to="#">Log In</Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         
@@ -55,14 +55,14 @@ function Navbar() {
               <Link to="/analyze-sentences" onClick={() => setIsMenuOpen(false)}>Sentences</Link>
             </li>
             <li>
-              <Link to="#" onClick={() => setIsMenuOpen(false)}>Assessment</Link>
+              <Link to="/assessment" onClick={() => setIsMenuOpen(false)}>Assessment</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="#" onClick={() => setIsMenuOpen(false)}>Profile</Link>
             </li>
             <li>
               <Link to="#" onClick={() => setIsMenuOpen(false)}>Log In</Link>
-            </li>
+            </li> */}
           </ul>
       </div>
     </div>
