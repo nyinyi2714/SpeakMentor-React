@@ -7,7 +7,6 @@ import { PopUp, Spinner, DisplaySteps, HelpSection } from "./index";
 import { Pronounce, Navbar } from "../../components";
 
 import MicRecorder from "mic-recorder-to-mp3";
-import "boxicons";
 import "./AnalyzeSentences.css";
 
 function AnalyzeSentences() {

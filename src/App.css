@@ -3,6 +3,7 @@
   --spacing-medium: 1rem;
   --spacing-large: 2rem;
   --primary-color: #4285f4;
+  --light-primary-color: #e0f7fa;
   --dark-primary-color: #161e5f;
   --light-grey: lightgrey;
   --very-light-grey: rgb(237, 237, 237);
@@ -67,12 +68,14 @@ input:focus-visible {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--grey); /* Color of the thumb */
+  border-radius: 10px;
+  background-color: var(--light-grey); /* Color of the thumb */
 
 }
 
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Color of the track */
   border-radius: 10px; /* Radius of the track */
+  overflow: hidden;
 }
 

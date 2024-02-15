@@ -6,7 +6,6 @@ import useAudio from "../../hooks/useAudio";
 import useBackend from "../../hooks/useBackend";
 
 import soundEffect from "../../assets/rec.m4a";
-import "boxicons";
 import "./Pronounce.css";
 
 function Pronounce(props) {

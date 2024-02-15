@@ -4,6 +4,9 @@ const config = {
   speechSuperAppKey: process.env.REACT_APP_SPEECHSUPER_API_KEY,
   speechSuperSecretKey: process.env.REACT_APP_SPEECHSUPER_SECRET_KEY,
   googleTTSKey: process.env.REACT_APP_GOOGLE_TTS_KEY,
+  azureSpeechKey: process.env.REACT_APP_AZURE_SPEECH_KEY,
+  azureRegionKey: process.env.REACT_APP_AZURE_SPEECH_REGION,
+  azureEndpoint: process.env.REACT_APP_AZURE_SPEECH_ENDPOINT,
 };
 
 export default config;

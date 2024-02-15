@@ -3,9 +3,10 @@ import { Routes, Route } from "react-router-dom";
 
 import { useStateContext } from "./StateContext";
 import { useRoute } from "./hooks";
-import { Homepage, Login, Register, Assessment, Instructions, AnalyzeSentences } from './pages';
+import { Homepage, Login, Register, Assessment, Instructions, AnalyzeSentences, ChatBot } from './pages';
 import { LoadingAnimation, Popup } from "./components";
 
+import "boxicons";
 import './App.css';
 
 function App() {
@@ -47,14 +48,15 @@ function App() {
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/instructions" element={<Instructions />} />
         <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
+        <Route path="/chatbot" element={<ChatBot />} />
       </Routes>
 
-      {<LoadingAnimation
+      {/* {<LoadingAnimation
         requestMicPermission={requestMicPermission}
         closePopup={closePopup}
         setIsPopupOpen={setIsPopupOpen}
         setMicPermission={setMicPermission}
-      />}
+      />} */}
 
       {isPopupOpen && <Popup
         micPermission={micPermission}
