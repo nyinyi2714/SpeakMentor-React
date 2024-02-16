@@ -1,66 +1,67 @@
-# SpeakMentor.io README
+# SpeakMentor
 
-Welcome to SpeakMentor.io! This guide will help you clone and run the application on your local machine.
+This repository contains the source code for a web application designed to assist users in improving their English pronunciation. The app empowers users to record themselves speaking English words and receive targeted feedback on their pronunciation at the syllable level.
+
+**Note:**
+Currently, the app is under maintenance for switching from SpeechSuper API to Microsoft Azure services for speech analysis.
+
+
+## Key Features
+
+1. **Speech recording and playback:**
+Users can record their pronunciations of English words and listen back to them for comparison.
+
+2. **Syllable-level feedback:**
+The app utilizes advanced speech analysis technology to identify and pinpoint mispronounced syllables within each word.
+
+3. **Text-to-speech functionality:**
+Users can input text and instantly hear the correct pronunciation thanks to Google Text to Speech API integration.
+
+4. **Responsive design:**
+The app seamlessly adapts to different screen sizes, ensuring optimal user experience across mobile and desktop devices.
+
+## Technology Stack
+
+- **Frontend:** React.js
+- **Hosting:** AWS Amplify
+- **Speech Recognition:** React Speech Recognition
+- **Speech Analysis:** Microsoft Azure Speech Analysis
+- **Text-to-Speech:** Google Text to Speech API
 
 ## Prerequisites
 
 Before you begin, make sure you have the following software installed on your system:
 
-- **Node.js:** Download and install Node.js [here](https://nodejs.org/).
-
-## Clone the Repository
-
-1. Open your terminal or command prompt.
-2. Navigate to the directory where you want to clone the repository.
-
-    ```bash
-    cd /path/to/your/directory
-    ```
-
-3. Clone the repository from GitHub using the following command:
-
-    ```bash
-    git clone https://github.com/nyinyi2714/check-pronunciation-frontend.git
-    ```
-
-4. Change your working directory to the cloned repository:
-
-    ```bash
-    cd check-pronunciation-frontend
-    ```
+- **Node.js:** [Download and install Node.js here.](https://nodejs.org/)
 
 ## Setting Up Environment Variables
 
 To configure environment-specific settings for your app, create a `.env` file in the root directory of your project.
 
-**Sample `.env` file structure:**
+**Sample .env file structure:**
 
-```plaintext
-REACT_APP_SPEECHSUPER_APP_KEY=appKey
-REACT_APP_SPEECHSUPER_SECRET_KEY=secretKey
-```
-Alternatively you can also do the following on Macos:
+    ```dotenv
+    REACT_APP_GOOGLE_TTS_KEY=
+    REACT_APP_AZURE_SPEECH_KEY=
+    REACT_APP_AZURE_SPEECH_REGION=
+    REACT_APP_AZURE_SPEECH_ENDPOINT=
 
-``` javascript
-REACT_APP_SPEECHSUPER_API_KEY=appKey REACT_APP_SPEECHSUPER_SECRET_KEY=secretKey npm start
-```
-> run the command on the terminal
+## Getting Started
+To run the application locally, follow these steps:
 
+1. **Clone the repository:**
 
-Replace appKey and secretKey with the actual app key and secret key.
+   ```bash
+   git clone https://github.com/your-username/SpeakMentor.git
 
-## Install Dependencies
-Before running the app, you need to install its dependencies. In the project's root directory, run the following command:
+2. **Install Dependencies:**
 
-```bash
+    ```bash
+    cd SpeakMentor-React
     npm install
-```
-This command will read the package.json file and install all the necessary packages.
 
-## Running the App
-To start the development server and run the app locally, use the following command:
-
-```bash
+3. **Start the Development Server:**
+    ```bash 
     npm start
-```
-This will start the development server and open your app in your default web browser at http://localhost:3000.
+
+This will start the development server and open the app in your default web browser at http://localhost:3000.
