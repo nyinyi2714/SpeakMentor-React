@@ -52,7 +52,7 @@ To run the application locally, follow these steps:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/SpeakMentor.git
+   git clone https://github.com/nyinyi2714/SpeakMentor-React.git
 
 2. **Install Dependencies:**
 
