@@ -4,7 +4,8 @@ import Register from "./Register/Register";
 import Assessment from "./Assessment/Assessment";
 import Instructions from "./Instructions/Instructions";
 import AnalyzeSentences from "./AnalyzeSentences/AnalyzeSentences";
-import ChatBot from "./ChatBot/ChatBot";
+import ChatBotPage from "./ChatBotPage/ChatBotPage";
+import SubscriptionPage from "./SubscriptionPage/SubscriptionPage";
 
 export {
   Homepage,
@@ -13,5 +14,6 @@ export {
   Assessment,
   Instructions,
   AnalyzeSentences,
-  ChatBot,
+  ChatBotPage,
+  SubscriptionPage,
 };

@@ -3,7 +3,16 @@ import { Routes, Route } from "react-router-dom";
 
 import { useStateContext } from "./StateContext";
 import { useRoute } from "./hooks";
-import { Homepage, Login, Register, Assessment, Instructions, AnalyzeSentences, ChatBot } from './pages';
+import { 
+  Homepage, 
+  Login, 
+  Register, 
+  Assessment, 
+  Instructions, 
+  AnalyzeSentences, 
+  ChatBotPage, 
+  SubscriptionPage,
+} from './pages';
 import { LoadingAnimation, Popup } from "./components";
 
 import "boxicons";
@@ -48,7 +57,8 @@ function App() {
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/instructions" element={<Instructions />} />
         <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
-        <Route path="/chatbot" element={<ChatBot />} />
+        <Route path="/chatbot" element={<ChatBotPage />} />
+        <Route path="/subscriptions" element={<SubscriptionPage />} />
       </Routes>
 
       {/* {<LoadingAnimation

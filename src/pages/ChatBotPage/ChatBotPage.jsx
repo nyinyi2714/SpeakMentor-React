@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useGoogleTTS } from "../../hooks";
 import { Navbar } from "../../components";
 
-import "./ChatBot.css";
+import "./ChatBotPage.css";
 
-function ChatBot() {
+function ChatBotPage() {
   const { speak, isSpeaking } = useGoogleTTS();
 
   const [messages, setMessages] = useState([
@@ -151,4 +151,4 @@ function ChatBot() {
   );
 }
 
-export default ChatBot;
+export default ChatBotPage;

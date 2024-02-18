@@ -1,0 +1,146 @@
+.subscription-page {
+  min-height: calc(100vh - 60px);
+  padding: var(--spacing-large);
+  background: var(--main-background-color);
+  color: var(--dark-primary-color);
+}
+
+.subscription-page > h1 {
+  font-size: 2.5rem;
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+.subscription-options {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  text-align: left;
+}
+
+.subscription-option {
+  max-width: 300px;
+  outline: 1px solid var(--light-grey);
+  box-shadow: 2px 2px 4px rgba(0,0,0, 0.3);
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 850px) {
+  .subscription-options {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .subscription-option {
+    max-width: none;
+    width: clamp(250px, 70vw, 600px);
+  }
+
+  .subscription-option:first-child {
+    margin-bottom: 2rem;
+  }
+}
+
+.subscription-option.anual {
+  outline: none;
+  color: #fff;  
+  background: linear-gradient(210deg, var(--dark-primary-color), var(--primary-color));
+  box-shadow: 2px 2px 4px var(--dark-primary-color);
+  position: relative;
+  border-radius: 0 10px 10px 10px;
+}
+
+.subscription-option.anual .best-deal {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  position: absolute;
+  color: #fff;
+  background-color: var(--dark-primary-color);
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-radius: 10px 10px 0 0;
+  font-weight: bold;
+
+  top: 0;
+  left: 0;
+  transform: translateY(-98%);
+  z-index: 5;
+}
+
+.best-deal * {
+  position: relative;
+  bottom: 2px;
+}
+ 
+.subscription-option.anual * {
+  color: inherit !important;
+}
+
+.subscription-option h2 {
+  font-size: 1.3rem;
+}
+
+.subscription-option h3 {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+.subscription-option .small-text {
+  position: relative;
+  bottom: 2px;
+  font-size: 1rem;
+  color: var(--grey);
+  margin-left: .5rem;
+}
+
+.subscription-option p {
+  color: var(--grey);
+  margin-bottom: 1rem;
+}
+
+.subscription-option .features {
+  padding: 1rem 0;
+  border-top: 1px solid var(--light-grey);
+}
+
+.subscription-option .features > li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0.5rem 0;
+}
+
+.subscription-option p.small-text {
+  margin: 0;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.subscription-btn {
+  border-radius: 5px;
+  border: none;
+  color: var(--primary-color);
+  outline: 1px solid var(--primary-color);
+  padding: var(--spacing-small);
+
+  font-size: 1.1rem;
+  width: 100%;
+  background: transparent;
+  margin-top: auto;
+
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.subscription-btn:hover {
+  /* outline-width: 2px; */
+  box-shadow: 2px 2px 0px;
+}
+
+.subscription-option.anual .subscription-btn {
+  outline-color: #fff;
+}
+

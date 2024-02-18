@@ -27,11 +27,6 @@
     color: #fff;
  }
 
- .step-circle > * {
-    position: relative;
-    bottom: 1px;
- }
-
  .step-circle::after {
    position: absolute;
    top: 110%;
