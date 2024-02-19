@@ -1,0 +1,51 @@
+.payment-form {
+  display: none;
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 1.5rem;
+
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px var(--light-grey);
+  background-color: #fff;
+}
+
+.payment-form.loaded {
+  display: block;
+}
+
+.payment-loading {
+  font-weight: normal;
+  margin-top: 20vh;
+}
+
+.payment-form .payment-btn {
+  margin-top: 1.5rem;
+  width: 100%;
+
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1rem;
+  font-size: 1.2rem;
+  position: relative;
+
+  z-index: 3;
+  overflow: hidden;
+}
+
+.payment-form .payment-btn::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 200%;
+  transition: transform 400ms ease-in-out;
+
+  background: linear-gradient(to right, var(--primary-color), #4bc8f2, var(--primary-color));
+  z-index: -1;
+}
+
+.payment-form .payment-btn:hover::before {
+  transform: translateX(-50%);
+}

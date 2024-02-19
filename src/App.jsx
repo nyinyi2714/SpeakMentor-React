@@ -12,6 +12,8 @@ import {
   AnalyzeSentences, 
   ChatBotPage, 
   SubscriptionPage,
+  PaymentPage,
+  PaymentComplete
 } from './pages';
 import { LoadingAnimation, Popup } from "./components";
 
@@ -59,6 +61,8 @@ function App() {
         <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
         <Route path="/chatbot" element={<ChatBotPage />} />
         <Route path="/subscriptions" element={<SubscriptionPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/payment-complete" element={<PaymentComplete />} />
       </Routes>
 
       {/* {<LoadingAnimation

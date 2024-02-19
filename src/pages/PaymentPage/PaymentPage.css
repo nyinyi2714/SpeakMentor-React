@@ -1,0 +1,11 @@
+.payment-page {
+  min-height: calc(100vh - 60px);
+  padding: var(--spacing-large);
+  background: var(--main-background-color);
+  color: var(--dark-primary-color);
+  text-align: center;
+}
+
+.payment-page h1 {
+  margin-bottom: 1.5rem;
+}

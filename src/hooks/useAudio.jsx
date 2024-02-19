@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { backendUrl } from "../config";
 import useGoogleTTS from "../hooks/useGoogleTTS";
 import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";

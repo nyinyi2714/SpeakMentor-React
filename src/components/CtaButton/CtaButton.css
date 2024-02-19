@@ -4,10 +4,10 @@
   color: var(--primary-color);
   background-color: inherit;
   border: none;
-  outline: 1px solid;
+  outline: 2px solid;
   border-radius: 5px;
 
-  padding: .5rem var(--spacing-medium);
+  padding: 0.8rem 1rem;
   max-width: 240px;
   cursor: pointer;
   position: relative;

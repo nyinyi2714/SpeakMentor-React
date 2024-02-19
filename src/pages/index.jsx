@@ -6,6 +6,8 @@ import Instructions from "./Instructions/Instructions";
 import AnalyzeSentences from "./AnalyzeSentences/AnalyzeSentences";
 import ChatBotPage from "./ChatBotPage/ChatBotPage";
 import SubscriptionPage from "./SubscriptionPage/SubscriptionPage";
+import PaymentPage from "./PaymentPage/PaymentPage";
+import PaymentComplete from "./PaymentComplete/PaymentComplete";
 
 export {
   Homepage,
@@ -16,4 +18,6 @@ export {
   AnalyzeSentences,
   ChatBotPage,
   SubscriptionPage,
+  PaymentPage,
+  PaymentComplete,
 };

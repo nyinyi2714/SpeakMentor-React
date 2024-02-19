@@ -41,7 +41,7 @@ function Pronounce(props) {
   const { generateResult, generateFeedback, checkIsPerfectScore } = useSpeechSuper();
   const { getLaymanPhonetic } = useBackend();
 
-  // TODO handle Slow
+  // handle Slow
   const handleSlow = () => {
     setIsSlow(state => !state);
   };
