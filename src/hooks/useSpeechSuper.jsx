@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import config from "../config";
 
 function useSpeechSuper() {
-  const [perfectScore, setPerfectScore] = useState(70);
+  const perfectScore = 90;
 
   const sendAudioToSpeechSuperAPI = async (audioBlob, word, isSingleWord) => {
     // Create a FormData object
@@ -18,7 +18,8 @@ function useSpeechSuper() {
     try {
       response = await fetch(config.backendUrl + "/audio/processaudio", {
         method: "POST",
-        // The Content-Type header is not needed here, as the browser will automatically set it with the correct boundary for multipart/form-data
+        // The Content-Type header is not needed here, 
+        // as the browser will automatically set it with the correct boundary for multipart/form-data
         body: formData
       });
   

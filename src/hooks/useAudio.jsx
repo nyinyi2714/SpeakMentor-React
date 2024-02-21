@@ -64,7 +64,6 @@ function useAudio({ word }) {
         .getMp3()
         .then(([buffer, blob]) => {
           setAudioBlob(blob);
-          //console.log(blob)
           const blobURL = URL.createObjectURL(blob);
           setAudioURL(blobURL);
           sendAudioToServer(blobURL);
@@ -73,13 +72,10 @@ function useAudio({ word }) {
     }, [3000])
   }
 
-  const sendAudioToServer = async (audioURL) => {
+  const sendAudioToServer = async () => {
     setIsAnalyzing(true);
-    //console.log(audioBlob, word, true)
     const resultData = await sendAudioToSpeechSuperAPI(audioBlob, word, true);
-    // TODO: send resultData back to backend
-    //const resultDataInLayman = await getFeedback(resultData.phonics, word);
-    //setResult(resultDataInLayman);
+    setResult(resultData);
     setIsAnalyzing(false);
   };
 
