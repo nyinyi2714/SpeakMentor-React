@@ -13,8 +13,10 @@ import {
   ChatBotPage, 
   SubscriptionPage,
   PaymentPage,
-  PaymentComplete
+  PaymentComplete,
+  LandingPage,
 } from './pages';
+
 import { LoadingAnimation, Popup } from "./components";
 
 import "boxicons";
@@ -53,7 +55,8 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route exact path="/" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
+      <Route path="/" element={<LandingPage />} />
+        <Route exact path="/words" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
         <Route path="/login" element={authenticationRoute(false, Login)} />
         <Route path="/register" element={authenticationRoute(false, Register)} />
         <Route path="/assessment" element={<Assessment />} />

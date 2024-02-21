@@ -8,6 +8,7 @@ import ChatBotPage from "./ChatBotPage/ChatBotPage";
 import SubscriptionPage from "./SubscriptionPage/SubscriptionPage";
 import PaymentPage from "./PaymentPage/PaymentPage";
 import PaymentComplete from "./PaymentComplete/PaymentComplete";
+import LandingPage from "./LandingPage/LandingPage";
 
 export {
   Homepage,
@@ -20,4 +21,5 @@ export {
   SubscriptionPage,
   PaymentPage,
   PaymentComplete,
+  LandingPage,
 };
