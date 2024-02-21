@@ -31,7 +31,7 @@ function ChatBotPage() {
   };  
 
   const handleTextToSpeech = (e) => {
-    const text = e.target.value;
+    const text = e.target.dataset.value;
     if(text?.length > 0) speak(text);
   };
 
@@ -96,9 +96,14 @@ function ChatBotPage() {
                       <button 
                         className="text-to-speech" 
                         onClick={handleTextToSpeech}
-                        value={message.text}
+                        data-value={message.text}
                       >
-                        <box-icon name="volume-full" size="16px" color="#4285f4" />
+                        <box-icon 
+                          name="volume-full" 
+                          size="16px" 
+                          color="#4285f4" 
+                          data-value={message.text}
+                        />
                       </button>
                     }
                   </div>

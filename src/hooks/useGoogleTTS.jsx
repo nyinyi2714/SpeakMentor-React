@@ -31,9 +31,9 @@ function useGoogleTTS(speakingSpeed) {
       const audioContent = response.data.audioContent;
       const audioBlob = new Blob([Uint8Array.from(atob(audioContent), c => c.charCodeAt(0))], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
-
       const audioElement = new Audio(audioUrl);
-      audioElement.playbackRate = isSlow ? 0.6 : 1.1;
+
+      audioElement.playbackRate = isSlow ? 0.6 : 1;
       if(speakingSpeed) audioElement.playbackRate = speakingSpeed;
 
       // Attach an event listener for when the audio playback ends
