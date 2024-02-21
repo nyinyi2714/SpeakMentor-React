@@ -68,7 +68,6 @@ function ChatBotPage() {
 
   return (
     <React.Fragment>
-      <Navbar />
       <div className="chatbot-page">
 
         <div className="chatbot">

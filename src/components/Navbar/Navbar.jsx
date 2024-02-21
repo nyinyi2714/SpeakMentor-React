@@ -20,19 +20,19 @@ function Navbar() {
         <div className={`main_list desktop ${isMenuOpen ? "show" : ""}`} id="mainListDiv">
           <ul>
             <li>
-              <Link to="/">Single Word</Link>
+              <Link to="/words">Words</Link>
             </li>
             <li>
               <Link to="/analyze-sentences">Sentences</Link>
             </li>
             <li>
-              <Link to="#">Assessment</Link>
+              <Link to="/assessment">Assessment</Link>
             </li>
             <li>
               <Link to="#">Profile</Link>
             </li>
             <li>
-              <Link to="#">Log In</Link>
+              <Link to="/login">Log In</Link>
             </li>
           </ul>
         </div>

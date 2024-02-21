@@ -11,7 +11,6 @@ import "./SubscriptionPage.css";
 function SubscriptionPage() {
   return (
     <>
-      <Navbar />
       <div className="subscription-page">
         <h1>Choose Your Plan</h1>
         <div className="subscription-options">

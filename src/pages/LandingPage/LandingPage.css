@@ -1,0 +1,204 @@
+@import url('https://fonts.cdnfonts.com/css/bagel-fat-one');
+
+div {
+    color: #a6acfd;
+}
+
+.frontpage {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Quiet Sans', sans-serif;
+}
+
+h1 {
+    padding: 30px;
+    font-size: 50px;
+}
+
+.title {
+    font-weight: 300;
+}
+
+.landingpage-logo {
+    transform: scale(0.6)
+}
+
+.welcome-div {
+    font-family: 'Bagel Fat One', sans-serif;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 60px);
+    width: 100%;
+    background-image: url("/public/images/lpi2.png");
+}
+
+.welcome-div .logo {
+    width: 100%;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-div {
+    padding: 30px;
+}
+
+.button-div button {
+    border-style: none;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    background: #726ae0;
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background 100ms ease-in-out, transform 150ms ease;
+    margin: 5px;
+    width: 130px;
+    text-align: center;
+}
+
+.button-div button:hover, button:focus {
+    background: #4e44cf;
+    color: #ffffff;
+    transform: scale(1.02);
+}
+
+.title {
+    text-align: left;
+    font-size: 200px;
+}
+
+
+/* about section */
+.about-div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+}
+
+.about-text {
+    padding: 30px;
+    text-align: left;
+    font-size: 25px;
+}
+
+.about-title {
+    
+    font-family: 'Bagel Fat One', sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    text-align: left;
+}
+
+.about-body {
+    display: flex;
+    width: calc(100% - 50vw);
+    flex-direction: column;
+}
+
+/* features section */
+.features-div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.features-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.features-title {
+    font-family: 'Bagel Fat One', sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.features-text {
+    padding: 30px;
+    text-align: left;
+    font-size: 25px;
+}
+
+/* creators section */
+.creators-div {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+.creators-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 50vw);
+}
+
+.creators-title {
+    font-family: 'Bagel Fat One', sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.creator-icons {
+    display: flex;
+}
+
+.creator-icon-photo {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    flex-direction: column;
+}
+
+.creator-icon-photo:not(:last-child) {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    flex-direction: column;
+    
+    margin-right: 40px;
+}
+
+.creator-icon-photo img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border: #4e44cf 2px solid;
+    margin: 10px;
+}
+
+.creators-text {
+    padding: 30px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.creator-name {
+    font-size: 20px;
+    text-align: center;
+}
+
+.creator-role {
+    font-size: 15px;
+    text-align: center;
+}

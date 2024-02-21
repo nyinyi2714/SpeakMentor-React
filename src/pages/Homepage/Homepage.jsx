@@ -38,7 +38,6 @@ function Homepage(props) {
 
   return (
     <React.Fragment>
-      <Navbar />
       <div className="homepage-wrapper">
         <div className="homepage">
           <div className="homepage__search-word">
