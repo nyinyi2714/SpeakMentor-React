@@ -43,6 +43,7 @@ function AnalyzeSentences() {
 
   const [editedTranscript, setEditedTranscript] = useState("");
   const [audioURL, setAudioURL] = useState("");
+  const [audioBlob, setAudioBlob] = useState(null); // Store the audio blob
   const [recordedAudioData, setRecordedAudioData] = useState([]); // Store recorded audio data blobs
   const [Mp3Recorder, setMp3Recorder] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -94,6 +95,8 @@ function AnalyzeSentences() {
   // Concatenate the audio blob after each pause
   useEffect(() => {
     if (recordedAudioData.length <= 0) return;
+    const audioBlob = new Blob(recordedAudioData);
+    setAudioBlob(audioBlob);
     const concatenatedBlob = new Blob(recordedAudioData);
     const blobURL = URL.createObjectURL(concatenatedBlob);
     setAudioURL(blobURL);
@@ -150,9 +153,9 @@ function AnalyzeSentences() {
   const analyze = () => {
     // use useSpeechSuper API
     setCurrPageState(pageStates.isAnalyzing);
-    sendAudioToSpeechSuperAPI(audioURL, editedTranscript, false).then(resultData => {
+    sendAudioToSpeechSuperAPI(audioBlob, editedTranscript, false).then(resultData => {
 
-      setSpeechSuperResultData(resultData.sentences);
+      setSpeechSuperResultData(resultData);
       setCurrPageState(pageStates.analyzed);
       setMessage(messages.practiceNow);
     })
@@ -164,29 +167,47 @@ function AnalyzeSentences() {
   }
 
   const generateResultForSentences = (resultData) => {
-    if (!resultData) return;
+    if (!resultData || !resultData.result || !resultData.result.NBest) return;
     let words = [];
-
-    const convertSentenceIntoWords = (sentence, words) => {
-      sentence.forEach((wordData, index) => {
-        words.push(
-          <span
-            style={{ color: chooseColorsForScores(wordData.overall) }}
-            key={index}
-            onClick={() => setCurrWordResult(stripNonLetters(wordData.word))}
-          >
-            {wordData.word + " "}
-          </span>
-        )
-      })
+  
+    // Assuming 'chooseColorsForScores' and 'setCurrWordResult' are defined elsewhere in your code
+    const chooseColorsForScores = (score) => {
+      // Define your logic for choosing colors based on score
+      // This is a placeholder function
+      if (score >= 90) return 'green';
+      else if (score >= 75) return 'orange';
+      else return 'red';
     };
-
-    resultData.forEach(sentence => {
-      convertSentenceIntoWords(sentence.details, words);
-    })
-
+  
+    const stripNonLetters = (word) => {
+      // Presumably, you have this function defined to strip non-letter characters
+      return word.replace(/[^a-zA-Z]+/g, '');
+    };
+  
+    const convertSentenceIntoWords = (sentence, wordsArray) => {
+      sentence.forEach((wordData, index) => {
+        const overallScore = wordData.PronunciationAssessment ? wordData.PronunciationAssessment.AccuracyScore : 0;
+        wordsArray.push(
+          <span
+            style={{ color: chooseColorsForScores(overallScore) }}
+            key={index}
+            onClick={() => setCurrWordResult(stripNonLetters(wordData.Word))}
+          >
+            {wordData.Word + " "}
+          </span>
+        );
+      });
+    };
+  
+    // Assuming the best result is the first in the NBest array
+    const bestResult = resultData.result.NBest[0];
+    if (bestResult && bestResult.Words) {
+      convertSentenceIntoWords(bestResult.Words, words);
+    }
+  
     return words;
   };
+  
 
   const openHelpSection = () => {
     if(!displayHelp) {
