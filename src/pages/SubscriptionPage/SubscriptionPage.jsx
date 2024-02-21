@@ -6,9 +6,17 @@ import WhiteTickSvg from "../../assets/white-tick.svg";
 import CrossSvg from "../../assets/cross.svg";
 import StarSvg from "../../assets/stars.svg";
 
+import { useNavigate } from "react-router-dom";
 import "./SubscriptionPage.css";
 
 function SubscriptionPage() {
+
+  const navigate = useNavigate();
+
+  const handleBuySubscription = () => {
+    navigate("/payment");
+  };
+
   return (
     <>
       <Navbar />
@@ -28,7 +36,7 @@ function SubscriptionPage() {
               <li><img src={TickSvg} /> Practice Sentences (up to 200 words)</li>
               <li><img src={CrossSvg} /> Conversations with AI Chatbot</li>
             </ul>
-            <button className="subscription-btn">Start Exploring</button>
+            <button onClick={handleBuySubscription} className="subscription-btn">Start Exploring</button>
           </section>
 
           <section
@@ -50,7 +58,7 @@ function SubscriptionPage() {
               <li><img src={WhiteTickSvg} /> Practice Sentences (up to <span className="underline">1000</span> words)</li>
               <li><img src={WhiteTickSvg} /> Conversations with AI Chatbot</li>
             </ul>
-            <button className="subscription-btn">Unlock Your Full Potential</button>
+            <button onClick={handleBuySubscription} className="subscription-btn">Unlock Your Full Potential</button>
           </section>  
 
           <section
@@ -66,7 +74,7 @@ function SubscriptionPage() {
               <li><img src={TickSvg} /> Practice Sentences (up to <span className="underline">1000</span> words)</li>
               <li><img src={TickSvg} /> Conversations with AI Chatbot</li>
             </ul>
-            <button className="subscription-btn">Start Practicing Today</button>
+            <button onClick={handleBuySubscription} className="subscription-btn">Start Practicing Today</button>
           </section>
           
         </div>

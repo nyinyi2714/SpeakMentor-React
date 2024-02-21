@@ -11,8 +11,8 @@ function PaymentComplete() {
           <img src="images/payment-complete.png" alt="thank-you-note" />
           <h1>Your Payment is Successful!</h1>
           <p>You've done it! Your payment is complete, and you're ready to unlock your full pronunciation potential.</p>
-          <Link to="/">Start Your Journey!</Link>
-          {/* TODO: redirect to single words page */}
+          <Link to="/words">Start Your Journey!</Link>
+
         </div>
       </div>
     </>

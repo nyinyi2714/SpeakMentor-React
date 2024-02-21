@@ -29,7 +29,7 @@ function Navbar() {
               <Link to="#">Assessment</Link>
             </li>
             <li>
-              <Link to="#">Profile</Link>
+              <Link to="/subscriptions">Pricing</Link>
             </li>
             <li>
               <Link to="#">Log In</Link>

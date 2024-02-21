@@ -1,24 +1,8 @@
 import { useState, useEffect } from 'react';
-import jsSHA from 'jssha';
 import config from "../config";
 
 function useSpeechSuper() {
   const [perfectScore, setPerfectScore] = useState(70);
-
-  useEffect(() => {    
-    // Event listener for key up on the document
-    const handleKeyUp = (event) => {
-      if(event.key === "0") setPerfectScore(30);
-      else if(event.key === "9") setPerfectScore(70);
-    };
-
-    document.addEventListener('keyup', handleKeyUp);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      document.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
 
   const sendAudioToSpeechSuperAPI = async (audioBlob, word, isSingleWord) => {
     // Create a FormData object
@@ -70,7 +54,6 @@ function useSpeechSuper() {
 
     return letters;
   };
-
 
   const generateFeedback = (speechSuperResult) => {
     if(!speechSuperResult) return;

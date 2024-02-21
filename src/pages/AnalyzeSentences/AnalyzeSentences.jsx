@@ -154,39 +154,24 @@ function AnalyzeSentences() {
     // use useSpeechSuper API
     setCurrPageState(pageStates.isAnalyzing);
     sendAudioToSpeechSuperAPI(audioBlob, editedTranscript, false).then(resultData => {
-
       setSpeechSuperResultData(resultData);
       setCurrPageState(pageStates.analyzed);
       setMessage(messages.practiceNow);
     })
   };
 
-  function stripNonLetters(word) {
-    // Remove any characters that aren't letters
-    return word.replace(/[^a-zA-Z]/g, '');
-  }
-
   const generateResultForSentences = (resultData) => {
     if (!resultData || !resultData.result || !resultData.result.NBest) return;
     let words = [];
   
-    // Assuming 'chooseColorsForScores' and 'setCurrWordResult' are defined elsewhere in your code
-    const chooseColorsForScores = (score) => {
-      // Define your logic for choosing colors based on score
-      // This is a placeholder function
-      if (score >= 90) return 'green';
-      else if (score >= 75) return 'orange';
-      else return 'red';
-    };
-  
     const stripNonLetters = (word) => {
-      // Presumably, you have this function defined to strip non-letter characters
+      // function defined to strip non-letter characters
       return word.replace(/[^a-zA-Z]+/g, '');
     };
   
     const convertSentenceIntoWords = (sentence, wordsArray) => {
       sentence.forEach((wordData, index) => {
-        const overallScore = wordData.PronunciationAssessment ? wordData.PronunciationAssessment.AccuracyScore : 0;
+        const overallScore = wordData?.PronunciationAssessment.AccuracyScore ?? 0;
         wordsArray.push(
           <span
             style={{ color: chooseColorsForScores(overallScore) }}
@@ -207,7 +192,6 @@ function AnalyzeSentences() {
   
     return words;
   };
-  
 
   const openHelpSection = () => {
     if(!displayHelp) {
@@ -351,4 +335,6 @@ function AnalyzeSentences() {
 }
 
 export default AnalyzeSentences;
+
+
 

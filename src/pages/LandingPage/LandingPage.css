@@ -71,8 +71,7 @@
   text-align: center;
 }
 
-.button-div a:hover,
-a:focus {
+.button-div a:hover {
   background: #4e44cf;
   color: #ffffff;
   transform: scale(1.02);
