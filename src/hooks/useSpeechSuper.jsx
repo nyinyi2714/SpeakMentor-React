@@ -32,7 +32,7 @@ function useSpeechSuper() {
     let response;
   
     try {
-      response = await fetch(config.backendUrl + "/audio/processaudio", {
+      response = await fetch(config.backendUrl + "/process_audio", {
         method: "POST",
         // The Content-Type header is not needed here, as the browser will automatically set it with the correct boundary for multipart/form-data
         body: formData

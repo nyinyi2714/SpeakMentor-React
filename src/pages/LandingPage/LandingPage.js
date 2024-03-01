@@ -22,6 +22,7 @@ const LandingPage = () => {
 
 return (
   <React.Fragment className='frontpage'>
+    <div className='frontpage-body'>
       <div className='welcome-div'>
           <div>
               <h1 className='title'>Welcome to <br/></h1>
@@ -93,6 +94,7 @@ return (
                 </div>
             </div>
         </div>
+    </div>
   </React.Fragment>
 )
 }

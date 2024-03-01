@@ -1,15 +1,14 @@
 @import url('https://fonts.cdnfonts.com/css/bagel-fat-one');
 
-div {
-    color: #a6acfd;
-}
-
 .frontpage {
     min-height: calc(100vh - 60px);
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-family: 'Quiet Sans', sans-serif;
+}
+
+.frontpage-body {
+    color: #726AE0;
 }
 
 h1 {
@@ -25,9 +24,13 @@ h1 {
     transform: scale(0.6)
 }
 
+img {
+    max-width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+}
+
 .welcome-div {
     font-family: 'Bagel Fat One', sans-serif;
-    color: #ffffff;
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
@@ -36,6 +39,9 @@ h1 {
     height: calc(100vh - 60px);
     width: 100%;
     background-image: url("/public/images/lpi2.png");
+    background-position: center; /* Keeps the image centered */
+    background-size: cover; /* Covers the entire div, might crop the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
 }
 
 .welcome-div .logo {
@@ -83,7 +89,7 @@ h1 {
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: row;
     width: 100%;
 }
@@ -92,6 +98,7 @@ h1 {
     padding: 30px;
     text-align: left;
     font-size: 25px;
+    color: black;
 }
 
 .about-title {
@@ -133,6 +140,7 @@ h1 {
     padding: 30px;
     text-align: left;
     font-size: 25px;
+    color: black;
 }
 
 /* creators section */
@@ -142,7 +150,7 @@ h1 {
     flex-wrap: nowrap;
     align-items: center;
     flex-direction: column;
-    width: 100%;
+    max-width: 100%;
     margin-bottom: 60px;
 }
 
@@ -157,6 +165,7 @@ h1 {
     font-family: 'Bagel Fat One', sans-serif;
     font-size: 40px;
     font-weight: 300;
+    text-align: center;
 }
 
 .creator-icons {
@@ -181,9 +190,9 @@ h1 {
 
 .creator-icon-photo img {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    border: #4e44cf 2px solid;
+    max-width: 100%;
+    height: auto;
+    border: #4e44cf 5px solid;
     margin: 10px;
 }
 
@@ -191,6 +200,7 @@ h1 {
     padding: 30px;
     text-align: center;
     font-size: 25px;
+    color: black;
 }
 
 .creator-name {

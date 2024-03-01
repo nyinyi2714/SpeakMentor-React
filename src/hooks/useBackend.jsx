@@ -2,6 +2,7 @@ import config from "../config";
 
 function useBackend() {
   const getLaymanPhonetic = async (word) => {
+    console.log("Fetching layman's phonetic for", word);
     try {
       let response = await fetch(`${config.backendUrl}/search`, {
         method: "POST",
@@ -12,11 +13,9 @@ function useBackend() {
           "search": word, 
         }),
       });
-
       if (response.ok) {
         response = await response.json();
-        console.log(response);
-        return response.laymans;
+        return response[0].laymans;
       } else {
         console.error("Error fetching layman's phonetic.");
       }
