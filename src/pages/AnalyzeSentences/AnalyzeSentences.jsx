@@ -161,7 +161,7 @@ function AnalyzeSentences() {
   };
 
   const generateResultForSentences = (resultData) => {
-    if (!resultData || !resultData.result || !resultData.result.NBest) return;
+    if (!resultData) return;
     let words = [];
   
     const stripNonLetters = (word) => {
@@ -185,7 +185,8 @@ function AnalyzeSentences() {
     };
   
     // Assuming the best result is the first in the NBest array
-    const bestResult = resultData.result.NBest[0];
+    const bestResult = resultData.NBest[0];
+    console.log("bestResult: ", bestResult);
     if (bestResult && bestResult.Words) {
       convertSentenceIntoWords(bestResult.Words, words);
     }

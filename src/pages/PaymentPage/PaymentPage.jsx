@@ -18,7 +18,7 @@ function Payment() {
   useEffect(() => {
     const handleFetchClientSecret = async () => {
       // TODO: change backend port
-      const res = await fetch(`${backendUrl}/create-payment-intent`);
+      const res = await fetch(`http://localhost:5000/create-payment-intent`);
       const { clientSecret } = await res.json();
       setClientSecret(clientSecret);
     };

@@ -1,0 +1,92 @@
+.suggested-words {
+  margin: 0 auto;
+  width: 100%;
+  height: max-content;
+  max-width: 450px;
+  background-color: #fff;
+  border-radius: 10px;
+
+  padding: var(--spacing-large);
+}
+
+.suggested-words > h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--spacing-small);
+}
+
+.suggested-words > h3 {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: var(--grey);
+  margin-bottom: var(--spacing-medium);
+}
+
+.word-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.word-list > .word {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  padding: var(--spacing-small);
+  border-bottom: 1px solid var(--light-grey);
+}
+
+.word-list > .word:first-child {
+  border-top: 1px solid var(--light-grey);
+}
+
+.word box-icon {
+  display: grid;
+  place-items: center;
+  font-size: 0;
+  border: 1px solid var(--light-grey);
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.word.disabled box-icon {
+  cursor: default;
+  animation: fading 800ms ease-in-out infinite;
+}
+
+@keyframes fading {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.word .practice-btn {
+  background-color: transparent;
+  padding: 0.4rem 0.7rem;
+  color: var(--primary-color);
+  border-radius: 30px;
+  border: 1px solid;
+  transition: 300ms ease-in-out;
+}
+
+.word .practice-btn:hover {
+  color: #fff;
+  background-color: var(--primary-color);
+}
+
+.word .practice-btn:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.word .practice-btn:disabled:hover {
+  color: var(--primary-color);
+  background-color: #fff;
+}
+ 

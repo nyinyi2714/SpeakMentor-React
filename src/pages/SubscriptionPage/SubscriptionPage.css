@@ -19,7 +19,7 @@
 }
 
 .subscription-option {
-  max-width: 320px;
+  max-width: 330px;
   outline: 1px solid var(--light-grey);
   box-shadow: 2px 2px 4px rgba(0,0,0, 0.3);
   background-color: #fff;
@@ -107,6 +107,7 @@
 
 .subscription-option .features {
   padding: 1rem 0;
+  line-height: 1.3rem;
   border-top: 1px solid var(--light-grey);
 }
 

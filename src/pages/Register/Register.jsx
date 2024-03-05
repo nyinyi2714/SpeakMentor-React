@@ -85,9 +85,9 @@ function Register() {
 
   return(
     <div className="register"> 
-      <div className="register__left-side">
+      <div className="register__wrapper">
         <Link to="/" className="register__home-url">
-          <box-icon name="arrow-back" size="16px" color="#5d5d5d" />
+          <box-icon name="arrow-back" size="16px" />
           Home
         </Link>
         
@@ -153,8 +153,6 @@ function Register() {
           <Link to="/login" className="link">Login</Link>
         </div>
       </div>
-      
-      <div className="register__image"></div>
 
     </div>
   );

@@ -134,7 +134,9 @@ function Pronounce(props) {
         {/* Display laymanPhonetic if it is not null */}
         {laymanPhonetic !== null &&
           <div className="pronounce__layman-pronunciation">
-            {displayLaymanPhonetic()}
+            {/* TODO */}
+            {/* {displayLaymanPhonetic()} */}
+            uhg · zam · pl
             <button
               className="pronounce__icon"
               onClick={() => textToSpeech(word)}

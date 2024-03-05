@@ -59,13 +59,13 @@ function Login() {
 
   return(
     <div className="login">
-      <div className="login__left-side">
+      <div className="login__wrapper">
       <Link to="/" className="login__home-url">
-        <box-icon name="arrow-back" size="16px" color="#5d5d5d" />
+        <box-icon name="arrow-back" size="16px" />
         <span>Home</span>
       </Link>
 
-        <form className="login__form" onSubmit={handleLogin}> 
+        <form className="login__form" onSubmit={handleLogin} id="login"> 
           <div className="login__form--heading">
             <h1>Hello!</h1>
             <h2>Log into your account</h2>
@@ -96,12 +96,13 @@ function Login() {
               value={password} 
               onFocus={activateLabel} 
               onBlur={deactivateLabel} 
+              id="password"
             />
           </div>
           <button 
             type="submit" 
             onClick={handleLogin} 
-            className="btn login__btn"
+            className="login__btn"
           >
             Login
           </button>
@@ -111,9 +112,6 @@ function Login() {
           <div>Don't have an account?</div>
           <Link to="/register" className="link">Register</Link>
         </div>
-      </div>
-
-      <div className="login__image">
       </div>
     </div>
   );

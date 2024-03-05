@@ -242,7 +242,7 @@
 }
 
 .pronounce__icon.practice.is-recording:disabled {
-  width: 115px;
+  width: 120px;
   color: black;
   animation: fading 1.2s linear infinite;
 }

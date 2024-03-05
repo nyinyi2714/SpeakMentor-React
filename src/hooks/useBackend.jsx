@@ -16,7 +16,7 @@ function useBackend() {
       if (response.ok) {
         response = await response.json();
         console.log(response);
-        return response.laymans;
+        return response[0].laymans;
       } else {
         console.error("Error fetching layman's phonetic.");
       }

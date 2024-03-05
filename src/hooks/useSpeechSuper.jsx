@@ -8,21 +8,21 @@ function useSpeechSuper() {
     // Create a FormData object
     const formData = new FormData();
     // Append the audio blob to the form data. The 'audio' is the field name for the server to access the audio file.
-    formData.append('audio', new Blob([audioBlob], { type: "audio/mp3"}), 'audio.mp3');
+    formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
     // Append other fields to the form data
     formData.append('word', word);
     formData.append('isSingleWord', isSingleWord);
 
     let response;
-  
+
     try {
-      response = await fetch(config.backendUrl + "/audio/processaudio", {
+      response = await fetch(config.backendUrl + "/process_audio", {
         method: "POST",
         // The Content-Type header is not needed here, 
         // as the browser will automatically set it with the correct boundary for multipart/form-data
         body: formData
       });
-  
+
       if (response.ok) {
         response = await response.json();
         console.log(response);
@@ -34,9 +34,9 @@ function useSpeechSuper() {
       console.error("Error fetching speech super result:", error);
     }
 
-    
+
   };
-  
+
   const generateResult = (speechSuperResult) => {
     if (!speechSuperResult) return;
     const letters = [];
@@ -57,11 +57,11 @@ function useSpeechSuper() {
   };
 
   const generateFeedback = (speechSuperResult) => {
-    if(!speechSuperResult) return;
+    if (!speechSuperResult) return;
     const feedbacks = [];
 
     const feedbackContainer = (phrase, suggestion, index) => {
-      return(
+      return (
         <div className="pronounce__feedback box-shadow" key={index}>
           <div className="feedback__item">
             <h3>{phrase}</h3>

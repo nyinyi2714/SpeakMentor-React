@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import useDictionaryAPI from "../../hooks/useDictionaryAPI";
 
-import { Pronounce, CtaButton, Navbar } from "../../components";
+import { Pronounce, Navbar } from "../../components";
+import SuggestedWords from "./SuggestedWords/SuggestedWords";
 import "./Homepage.css";
 
 function Homepage(props) {
@@ -61,20 +62,7 @@ function Homepage(props) {
             word={word}
           />
         </div>
-        <div className="homepage__welcome-section">
-          <p>
-            <img id="logo" src="/images/main-logo.png" alt="logo" />
-            Ready to enhance your pronunciation skills? Start practicing with phrases and sentences.
-            <CtaButton text="Practice Now" />
-          </p>
-          <div className="image-wrapper">
-            <img 
-              id="background-mic"
-              src="/images/background-image--mic.png" 
-              alt="background-mic"
-            />
-          </div>
-        </div>
+        <SuggestedWords />
       </div>
     </React.Fragment>
   );

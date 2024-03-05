@@ -3,7 +3,7 @@ import { Navbar } from "../../components";
 
 import TickSvg from "../../assets/tick.svg";
 import WhiteTickSvg from "../../assets/white-tick.svg";
-import CrossSvg from "../../assets/cross.svg";
+import ExclamationSvg from "../../assets/exclamation.svg";
 import StarSvg from "../../assets/stars.svg";
 
 import { useNavigate } from "react-router-dom";
@@ -32,9 +32,9 @@ function SubscriptionPage() {
             </h3>
             <p>Try practicing single words and explore the platform at no cost.</p>
             <ul className="features">
-              <li><img src={TickSvg} /> Practice 50 Single Words per day</li>
-              <li><img src={TickSvg} /> Practice Sentences (up to 200 words)</li>
-              <li><img src={CrossSvg} /> Conversations with AI Chatbot</li>
+              <li><img src={ExclamationSvg} /> Practice Single Words (50 Words Per Day)</li>
+              <li><img src={ExclamationSvg} /> Practice Sentences (up to 200 Words)</li>
+              <li><img src={ExclamationSvg} /> Conversations with AI Chatbot (10 Mins Per Day)</li>
             </ul>
             <button onClick={handleBuySubscription} className="subscription-btn">Start Exploring</button>
           </section>
@@ -42,7 +42,7 @@ function SubscriptionPage() {
           <section
             className="subscription-option anual">
             <span className="best-deal">Best Value 35% OFF <img src={StarSvg} /></span>
-            <h2>ANUAL PLAN</h2> 
+            <h2>ANNUAL PLAN</h2> 
             <h3>
               $12.99
               <span className="small-text">per month</span>
@@ -51,12 +51,12 @@ function SubscriptionPage() {
               Unlock your full potential with unlimited words, sentence practice, and Conversations with AI Chatbot. 
             </p>
             <p>
-              <i>Charge anually at 155.88 USD</i>
+              <i>Charge annually at 155.88 USD</i>
             </p>
             <ul className="features">
               <li><img src={WhiteTickSvg} /> Practice <span className="underline">Unlimited</span> Single Words</li>
               <li><img src={WhiteTickSvg} /> Practice Sentences (up to <span className="underline">1000</span> words)</li>
-              <li><img src={WhiteTickSvg} /> Conversations with AI Chatbot</li>
+              <li><img src={WhiteTickSvg} /> <span className="underline">Unlimited</span> Conversations with AI Chatbot</li>
             </ul>
             <button onClick={handleBuySubscription} className="subscription-btn">Unlock Your Full Potential</button>
           </section>  
@@ -72,7 +72,7 @@ function SubscriptionPage() {
             <ul className="features">
               <li><img src={TickSvg} /> Practice <span className="underline">Unlimited</span> Single Words</li>
               <li><img src={TickSvg} /> Practice Sentences (up to <span className="underline">1000</span> words)</li>
-              <li><img src={TickSvg} /> Conversations with AI Chatbot</li>
+              <li><img src={TickSvg} /> <span className="underline">Unlimited</span> Conversations with AI Chatbot</li>
             </ul>
             <button onClick={handleBuySubscription} className="subscription-btn">Start Practicing Today</button>
           </section>
