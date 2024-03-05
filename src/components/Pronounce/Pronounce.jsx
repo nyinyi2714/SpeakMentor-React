@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
 
 import useSpeechSuper from "../../hooks/useSpeechSuper";
@@ -134,9 +134,8 @@ function Pronounce(props) {
         {/* Display laymanPhonetic if it is not null */}
         {laymanPhonetic !== null &&
           <div className="pronounce__layman-pronunciation">
-            {/* TODO */}
-            {/* {displayLaymanPhonetic()} */}
-            uhg · zam · pl
+            {displayLaymanPhonetic()}
+
             <button
               className="pronounce__icon"
               onClick={() => textToSpeech(word)}
