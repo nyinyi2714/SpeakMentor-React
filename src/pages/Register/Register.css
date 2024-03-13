@@ -101,6 +101,23 @@
   margin-bottom: var(--spacing-medium);
 }
 
+.register .register__btn:hover {
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.7rem;
+  color: #ffffff;
+  background: linear-gradient(90deg, rgba(58,58,198,1) 0%, rgba(0,176,212,1) 100%);
+  margin-bottom: var(--spacing-medium);
+  scale: 1.02;
+}
+
+/* on click */
+.register .register__btn:active {
+  transform: scale(0.95);
+  transition: 200ms ease-in-out;
+}
+
 .register__login-invite .link {
   display: block;
   width: max-content;

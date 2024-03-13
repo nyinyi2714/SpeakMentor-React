@@ -4,6 +4,12 @@
   position: relative;
   color: var(--primary-color);
   }
+
+  .user {
+    font-weight: 600;
+    color: var(--primary-color);
+    scale: 1.5;
+  }
   
   .container {
     position: relative;

@@ -15,6 +15,8 @@ function Register() {
 
   const navigate = useNavigate();
 
+  const {register} = useAuthenticate();
+
   const { validateEmail, validatePassword } = useValidateInput();
 
   const handleUsername = (e) => {
@@ -81,6 +83,7 @@ function Register() {
 
   const handleRegister = (e) => {
     e.preventDefault();
+    register(username, email, password);
     
   };
 

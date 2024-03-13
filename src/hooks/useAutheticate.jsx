@@ -14,18 +14,22 @@ function useAuthenticate() {
   const login = async (email, password) => {
     try {
 
-      let response = await fetch(`${config.backendUrl}/auth/login`, {
-        method: "POST",
-        body: {email, password},
+      let response = await fetch(`${config.backendUrl}/login`, {
+        method: "POST", // Method is part of the options object
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }), // Ensure the body is a string
       });
 
-      response = await response.json();
-      if (response.ok) {
-        saveUser(response.user);
+      if (response.status === 200) {
+        const responseData = await response.json(); // Convert to JSON here
+        console.log(responseData);
+        saveUser(responseData.user);
         console.log("login successfully.");
-        navigate("/");
+        navigate("/words");
       } else {
-        console.error("Error logging in.");
+        console.error("Error logging in. Status code:", response.status);
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -34,25 +38,28 @@ function useAuthenticate() {
 
   const register = async (username, email, password) => {
     try {
-
-      let response = await fetch(`${config.backendUrl}/auth/register`, {
-        method: "POST",
-        body: {username, email, password},
+      let response = await fetch(`${config.backendUrl}/signup`, {
+        method: "POST", // Method is part of the options object
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }), // Ensure the body is a string
       });
-
-      response = await response.json();
-      if (response.ok) {
-        saveUser(response.user);
-        console.log("registered successfully.");
-        navigate("/");
+  
+      if (response.status === 201) {
+        const responseData = await response.json(); // Convert to JSON here
+        console.log(responseData);
+        saveUser(responseData.user);
+        console.log("register successfully.");
+        navigate("/login");
       } else {
-        console.error("Error registering.");
+        console.error("Error registering. Status code:", response.status);
       }
     } catch (error) {
       console.error("Error registering:", error);
     }
   };
-
+  
   return({
     login,
     register,
