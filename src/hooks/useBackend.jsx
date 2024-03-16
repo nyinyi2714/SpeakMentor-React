@@ -25,34 +25,8 @@ function useBackend() {
     }
   };
 
-  const getFeedback = async (speechSuperData, word) => {
-    try {
-      let response = await fetch(`${config.backendUrl}/feedback`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          word: word,
-          response: speechSuperData 
-        }),
-      });
-
-      if (response.ok) {
-        response = await response.json();
-        console.log(response);
-        return response;
-      } else {
-        console.error("Server Error fetching feedback from backend.");
-      }
-    } catch (error) {
-      console.error("Frontend Error fetching feedback from backend: ", error);
-    }
-  };
-
   return({
     getLaymanPhonetic,
-    getFeedback,
   });
 }
 

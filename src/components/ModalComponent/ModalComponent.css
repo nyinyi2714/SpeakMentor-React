@@ -1,0 +1,22 @@
+.modal-close-btn {
+  width: max-content;
+  margin: 0 auto;
+  color: var(--primary-color);
+  background-color: transparent;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid;
+  border-radius: 5px;
+  flex: 1 1 50px;
+}
+
+.modal-close-btn.save {
+  color: #fff;
+  background-color: var(--primary-color);
+  border: none;
+}
+
+.modal-btn-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}

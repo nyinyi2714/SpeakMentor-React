@@ -1,7 +1,42 @@
 .conversations-container {
+  position: absolute;
+  top: calc(47px + var(--spacing-small));
+  left: 0;
+  border: 1px solid var(--light-grey);
   border-radius: 10px;
   background-color: #fff;
+
+  width: calc(100% - 2 * var(--spacing-small));
+  margin: 0 var(--spacing-small);
   padding: var(--spacing-medium);
-  box-shadow: 2px 2px 10px var(--light-grey);
-  width: 280px;
+  z-index: 10;
+
+  transform: translateY(calc(-100% - var(--spacing-small)));
+  transition: 500ms ease-in-out;
+}
+
+.conversations-container.open {
+  transform: translateY(0);
+}
+
+.conversations-container h3 {
+  font-weight: normal;
+  padding: 0.5rem 0.5rem 1rem;
+  border-bottom: 1px solid var(--light-grey);
+}
+
+.conversations-container button {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  padding: var(--spacing-medium);
+  border: none;
+  border-radius: 5px;
+  text-align: left;
+
+  transition: 100ms;
+}
+
+.conversations-container button:hover {
+  background-color: var(--very-light-grey);
 }

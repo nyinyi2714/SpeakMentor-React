@@ -4,6 +4,7 @@
   background: var(--main-background-color);
   display: grid;
   grid-template-columns: 1fr;
+  align-items: center;
 }
 
 .chatbot {
@@ -13,13 +14,41 @@
   margin: 0 auto;
   background-color: #fff;
   border-radius: 10px;
-  overflow: hidden;
   box-shadow: 2px 2px 10px var(--light-grey);
-  padding: var(--spacing-small) var(--spacing-small) 0;
+  padding: 0 var(--spacing-small);
 
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Display Saved Conversations */
+
+.open-saved-conversations {
+  background-color: #fff;
+  border: none;
+  padding: 0.8rem;
+  width: 100%;
+  background-color: #fff;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 15;
+  border-bottom: 1px solid var(--light-grey);
+  margin-bottom: 0.5rem;
+}
+
+.open-saved-conversations box-icon {
+  transition: 300ms ease-in-out;
+}
+
+.open-saved-conversations.open box-icon {
+  transform: rotate(-180deg);
+}
+
+/* Chat Messages */
 
 .messages {
   height: 100%;
@@ -28,9 +57,11 @@
   transition: height 500ms ease-in-out;
 }
 
+/* Chatbot controls and input */
+
 .input-container {
   width: 100%;
-  height: max-content;
+  height: 68px;
   padding: var(--spacing-medium);
   margin-top: var(--spacing-medium);
   border-top: 1px solid var(--light-grey);
@@ -43,12 +74,15 @@
 
 .chatbot-button {
   font-size: 1.1rem;
-  padding: 8px 12px;
   background-color:  #fff;
   color: var(--primary-color);
   border: 2px solid;
   border-radius: 10px;
   cursor: pointer;
+
+  transition: opacity 200ms ease-in-out 300ms;
+  display: grid;
+  place-items: center;
 }
 
 .chatbot-button:disabled {
@@ -61,21 +95,19 @@
   height: 40px;
 }
 
-.chatbot-button.icon {
+.chatbot-button.microphone {
   border-radius: 50%; 
   background-color: var(--primary-color);
   padding: 5px 7px;
 }
 
-.chatbot-button {
-  transition: opacity 200ms ease-in-out 300ms;
-  display: grid;
-  place-items: center;
-}
+.chatbot-button.stop {
+  display: block;
+  border: none;
+  padding: 0.3rem;
+  background-color: #fff;
+  animation: fading 1200ms linear infinite;
 
-.chatbot-button.microphone.active {
-  cursor: default;
-  animation: fading 1000ms linear infinite;
 }
 
 @keyframes fading {
@@ -83,7 +115,7 @@
     opacity: 0.8;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.3;
   }
   100% {
     opacity: 0.8;
@@ -91,10 +123,26 @@
 }
 
 .chatbot-button.float-right {
+  padding: 8px 12px;
   position: absolute;
   height: min-content;
   right: var(--spacing-small);
 }
+
+/* Popup Modal for entering conversation name */
+.modal-conversation-title h3 {
+  font-weight: normal;
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.modal-conversation-title input {
+  display: block;
+  width: 100%;
+  padding: 0.3rem 0.2rem;
+}
+
+/* Mobile Responsive CSS */
 
 @media (max-width: 550px) {
   .chatbot-page {

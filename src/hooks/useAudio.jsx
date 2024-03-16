@@ -2,13 +2,12 @@ import { useState, useRef } from "react";
 import useGoogleTTS from "../hooks/useGoogleTTS";
 import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";
-import useBackend from "./useBackend";
+import config from "../config";
 
 function useAudio({ word }) {
 
   const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
   const { speak, isSpeaking } = useGoogleTTS();
-  const { getFeedback } = useBackend();
 
   const [audioURL, setAudioURL] = useState(null);
   const [isReplaying, setIsReplaying] = useState(false);
@@ -70,6 +69,47 @@ function useAudio({ word }) {
     }, [3000])
   }
 
+  const recordForChatBot = () => {
+    if(!checkMicrophonePermission()) return;
+    playSound();
+
+    setIsRecording(true);
+
+    const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+    Mp3Recorder.start();
+
+    const sendUserAudio = async (audioBlob) => {
+      try {
+        const formData = new FormData();
+        formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
+
+        let response = await fetch(config.backendUrl + "/chatbot", {
+          method: "POST",
+          body: formData
+        });
+
+        response = await response.json();
+        return response;
+        
+      } catch(err) {
+        console.error(err);
+      }
+    };
+  
+    const endRecording = () => {
+      Mp3Recorder
+        .stop()
+        .getMp3()
+        .then(([buffer, blob]) => {
+          const res = sendUserAudio(blob);
+          setIsRecording(false);
+          return res;
+        })  
+    }
+
+    return endRecording;
+  };
+
   const sendAudioToServer = async (audioBlob) => {
     setIsAnalyzing(true);
     const resultData = await sendAudioToSpeechSuperAPI(audioBlob, word, true);
@@ -101,6 +141,7 @@ function useAudio({ word }) {
     playAudio,
     setIsSlow,
     reset,
+    recordForChatBot,
   };
 }
 
