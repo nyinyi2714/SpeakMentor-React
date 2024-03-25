@@ -3,17 +3,13 @@ import { useGoogleTTS } from "../../../hooks";
 
 import "./Message.css";
 
-export default function Message({ message, setIsLoading }) {
+export default function Message({ message }) {
   const { speak, isSpeaking } = useGoogleTTS();
 
   const handleTextToSpeech = (e) => {
     const text = e.target.dataset.value;
     if(text?.length > 0) speak(text);
   };
-
-  useEffect(() => {
-    setIsLoading(isSpeaking);
-  }, [isSpeaking]);
 
   return (
     <div className="message-container">

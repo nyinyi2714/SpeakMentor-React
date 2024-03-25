@@ -36,7 +36,6 @@ function Navbar() {
         <li><Link to="/words" onClick={() => setIsMenuOpen(false)}>Single Word</Link></li>
         <li><Link to="/analyze-sentences" onClick={() => setIsMenuOpen(false)}>Sentences</Link></li>
         <li><Link to="/chatbot" onClick={() => setIsMenuOpen(false)}>Practice with AI</Link></li>
-        <li><Link to="#" onClick={() => setIsMenuOpen(false)}>Assessment</Link></li>
         <li><Link to="/subscriptions" onClick={() => setIsMenuOpen(false)}>Pricing</Link></li>
         <li><Link to={user ? "/" : "/login"} onClick={handleLogOut}>{loginText}</Link></li>
       </ul>
