@@ -21,7 +21,6 @@ function SubscriptionPage() {
     <>
       <Navbar />
       <div className="subscription-page">
-        <h1>Choose Your Plan</h1>
         <div className="subscription-options">
           <section
             className="subscription-option">
@@ -32,9 +31,9 @@ function SubscriptionPage() {
             </h3>
             <p>Try practicing single words and explore the platform at no cost.</p>
             <ul className="features">
-              <li><img src={ExclamationSvg} /> Practice Single Words (50 Words Per Day)</li>
+              <li><img src={ExclamationSvg} /> Practice Single Words (5 Words Per Day)</li>
               <li><img src={ExclamationSvg} /> Practice Sentences (up to 200 Words)</li>
-              <li><img src={ExclamationSvg} /> Conversations with AI Chatbot (10 Mins Per Day)</li>
+              <li><img src={ExclamationSvg} /> Conversations with AI Chatbot (1 Min Per Day)</li>
             </ul>
             <button onClick={handleBuySubscription} className="subscription-btn">Start Exploring</button>
           </section>

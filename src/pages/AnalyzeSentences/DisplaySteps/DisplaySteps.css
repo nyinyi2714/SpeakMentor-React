@@ -1,5 +1,6 @@
 .display-steps {
     max-width: 500px;
+    margin: auto;
     padding: 0 var(--spacing-medium) 3rem;
     display: flex;
     background-color: transparent;

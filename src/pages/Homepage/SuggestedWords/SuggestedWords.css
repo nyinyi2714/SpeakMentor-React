@@ -2,8 +2,10 @@
   width: 100%;
   height: max-content;
   max-width: 450px;
+  margin: auto;
   background-color: #fff;
   border-radius: 10px;
+  border: 1px solid var(--light-grey);
 
   padding: var(--spacing-large);
 }
@@ -29,7 +31,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-small);
-  padding: var(--spacing-small);
+  padding: var(--spacing-small) 0;
   border-bottom: 1px solid var(--light-grey);
 }
 
@@ -72,6 +74,7 @@
   border-radius: 30px;
   border: 1px solid;
   transition: 300ms ease-in-out;
+  margin-left: auto;
 }
 
 .word .practice-btn:hover {

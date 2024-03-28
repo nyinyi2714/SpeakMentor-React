@@ -7,8 +7,6 @@ import {
   Homepage, 
   Login, 
   Register, 
-  Assessment, 
-  Instructions, 
   AnalyzeSentences, 
   ChatBotPage, 
   SubscriptionPage,
@@ -59,8 +57,6 @@ function App() {
         <Route exact path="/words" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
         <Route path="/login" element={authenticationRoute(false, Login)} />
         <Route path="/register" element={authenticationRoute(false, Register)} />
-        <Route path="/assessment" element={<Assessment />} />
-        <Route path="/instructions" element={<Instructions />} />
         <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
         <Route path="/chatbot" element={<ChatBotPage />} />
         <Route path="/subscriptions" element={<SubscriptionPage />} />

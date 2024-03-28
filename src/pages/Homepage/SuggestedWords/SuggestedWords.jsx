@@ -16,24 +16,29 @@ export default function SuggestedWords() {
       <h2>Suggested Words</h2>
       <h3>Based on your previous performance</h3>
       <div className="word-list">
-        <div className={`word ${isSpeaking && "disabled"}`} >Communication
+        <div className={`word ${isSpeaking && "disabled"}`} >
           <box-icon onClick={handleSpeak} data-value="communication" name="volume-full" size="16px" color="#4285f4" />
+          Communication
           <button className="practice-btn" disabled={isSpeaking}>Practice</button>
         </div>
-        <div className="word">Treasure
+        <div className="word">
           <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
+          Treasure
           <button className="practice-btn">Practice</button>
         </div>
-        <div className="word">Pearl
+        <div className="word">
           <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
+          Pearl
           <button className="practice-btn">Practice</button>
         </div>
-        <div className="word">Vegetables
+        <div className="word">
           <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
+          Vegetables
           <button className="practice-btn">Practice</button>
         </div>
-        <div className="word">Crisps
+        <div className="word">
           <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
+          Crisps
           <button className="practice-btn">Practice</button>
         </div>
       </div>

@@ -1,8 +1,12 @@
-/* AnalyzeSentences.css */
 .analyze-sentences {
   min-height: calc(100vh - 60px);
   padding: var(--spacing-large) var(--spacing-small);
   background: var(--main-background-color);
+
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content 1fr;
 }
 
 @media (min-width: 400px) {
@@ -12,21 +16,32 @@
 }
 
 .analyze-sentences__analyzer {
+  width: clamp(250px, 80vw, 600px);
+  margin: 0 auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
+  display: grid;
+  grid-template-areas: 
+  "rec-btn"
+  "textarea"
+  "message"
+  "control";
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content 1fr max-content max-content;
 }
 
 .analyze-sentences textarea, .textarea {
   font-family: inherit;
   width: 100%;
   height: auto;
-  min-height: 150px;
+  min-height: 300px;
   border: 1px solid var(--light-grey);
   border-radius: 5px;
   padding: 10px;
   margin-bottom: var(--spacing-medium);
   resize: vertical;
+  grid-area: textarea;
 }
 
 .textarea > span {
@@ -44,18 +59,21 @@
 }
 
 .analyze-sentences__message {
+  grid-area: message;
   color: var(--grey);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  gap: 0.1rem;
   font-style: italic;
   margin-bottom: var(--spacing-medium);
 }
 
 .analyze-sentences__btn-container {
+  grid-area: control;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: var(--spacing-medium);
+  gap: var(--spacing-small);
 }
 
 .analyze-sentences__btn-container button {
@@ -67,38 +85,31 @@
 
 .analyze-sentences__btn-container button:disabled {
   opacity: 0.5;
-  cursor: default;
+  cursor: not-allowed;
 }
 
-.analyze-sentences .analyze-sentences__help-btn {
-  display: block;
-  position: fixed;
-  bottom: 10vh;
-  right: 5vw;
-  background-color: var(--primary-color);
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-}
-
-.analyze-sentences__help-btn > div {
-  position: absolute;
+.analyze-sentences .analyze-sentences_icon {
+  width: 35px;
+  height: 35px;
   background-color: #fff;
-  padding: 0;
-  border-radius: 50%;
-  width: 27px;
-  height: 27px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border: 2px solid var(--primary-color);
+
+  display: grid;
+  place-content: center;
 }
 
-.analyze-sentences__help-btn box-icon {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
+.analyze-sentences .analyze-sentences_icon > img {
+  width: 35px;
+  max-width: none;
+}
+
+.analyze-sentences_icon.reset {
+  border: none;
+}
+
+.analyze-sentences_icon.reset:focus {
+  transition: 300ms ease-in-out;
+  transform: rotate(360deg);
 }
 
 .analyze-sentences audio {

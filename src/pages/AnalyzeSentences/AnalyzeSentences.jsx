@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { Link } from "react-router-dom";
 import { useSpeechRecognizer, useGoogleTTS, useSpeechSuper } from "../../hooks";
 
-import { PopUp, Spinner, DisplaySteps, HelpSection } from "./index";
+import { PopUp, Spinner, DisplaySteps } from "./index";
 import { Pronounce, Navbar } from "../../components";
+
+import resetSvg from '../../assets/reset.svg';
 
 import MicRecorder from "mic-recorder-to-mp3";
 import "./AnalyzeSentences.css";
@@ -25,18 +26,18 @@ function AnalyzeSentences() {
     isRecording: "Record",
     isEditing: "Edit",
     isAnalyzing: "Analyze",
-    analyzed: "Practice",
+    analyzed: "Analysis",
   };
 
   const currStep = {
     "Record": 1,
     "Edit": 2,
     "Analyze": 2,
-    "Practice": 3,
+    "Analysis": 3,
   }
 
   const messages = {
-    recordNow: "Please record yourself before clicking \"Next\".",
+    recordNow: "Please record yourself before going to next step.",
     editNow: "You can edit your transcript now if there's any mistake in speech recognization.",
     practiceNow: "You can click on words to practice them."
   };
@@ -270,18 +271,18 @@ function AnalyzeSentences() {
                   {listening ? "Pause" : "Record"}
                 </button>
                 <button
-                  className="btn"
+                  className="btn analyze-sentences_icon reset"
                   onClick={reset}
                   disabled={isRecording}
                 >
-                  Reset
+                  <img src={resetSvg} />
                 </button>
                 <button
-                  className="btn"
+                  className="btn analyze-sentences_icon"
                   onClick={nextPageState}
                   disabled={transcript.length <= 0 || isRecording}
                 >
-                  Next
+                  <box-icon name='right-arrow-alt' color='#4285f4' />
                 </button>
               </>
             }
@@ -293,8 +294,8 @@ function AnalyzeSentences() {
                 <button className="btn" onClick={listenToYourself}>
                   {userRecording.current && (isListeningToYourSelf ? "Pause" : "Listen to yourself")}
                 </button>
-                <button className="btn" onClick={prevPageState}>
-                  Reset
+                <button className="btn analyze-sentences_icon reset" onClick={prevPageState}>
+                <box-icon name='reset' color='#ff0000' />
                 </button>
                 {currPageState !== pageStates.analyzed &&
                   <button className="btn" onClick={analyze}>Analyze</button>
@@ -304,15 +305,7 @@ function AnalyzeSentences() {
 
           </div>
         </div>
-        <HelpSection displayHelp={displayHelp} />
-        <button
-          onClick={openHelpSection}
-          className="btn analyze-sentences__help-btn"
-        >
-          <div>
-            <box-icon name="question-mark" color="#4285f4" size="20px" />
-          </div>
-        </button>
+
         {/* User's audio recording */}
         <audio src={audioURL} ref={userRecording} />
 

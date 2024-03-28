@@ -1,15 +1,12 @@
 .homepage-wrapper {
   font-size: 0.9rem;
-  display: flex;
+  display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: max-content 1fr;
   gap: 2rem;
   min-height: calc(100vh - 60px);
   padding: var(--spacing-medium);
   background: var(--main-background-color);
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
 }
 
 @media (min-width: 800px) {

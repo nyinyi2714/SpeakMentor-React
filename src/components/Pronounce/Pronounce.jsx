@@ -36,6 +36,7 @@ function Pronounce(props) {
     reset
   } = useAudio({ word });
 
+  console.log(result)
   let speechSuperResult = result;
 
   const { generateResult, generateFeedback, checkIsPerfectScore } = useSpeechSuper();
@@ -134,7 +135,8 @@ function Pronounce(props) {
         {/* Display laymanPhonetic if it is not null */}
         {laymanPhonetic !== null &&
           <div className="pronounce__layman-pronunciation">
-            {displayLaymanPhonetic()}
+            uhg · zam · pl
+            {/* {displayLaymanPhonetic()} */}
 
             <button
               className="pronounce__icon"
