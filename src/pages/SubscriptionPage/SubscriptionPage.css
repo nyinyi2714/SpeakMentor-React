@@ -1,8 +1,11 @@
 .subscription-page {
   min-height: calc(100vh - 60px);
   padding: var(--spacing-large);
-  background: var(--main-background-color);
+  background: var(--f-i-f-t-h);
   color: var(--dark-primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .subscription-page > h1 {

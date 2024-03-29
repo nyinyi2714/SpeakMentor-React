@@ -1,7 +1,7 @@
 .chatbot-page {
   min-height: calc(100vh - 60px);
   padding: var(--spacing-large);
-  background: var(--main-background-color);
+  background: var(--f-i-f-t-h);
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;

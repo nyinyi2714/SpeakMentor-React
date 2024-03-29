@@ -2,7 +2,7 @@
 .analyze-sentences {
   min-height: calc(100vh - 60px);
   padding: var(--spacing-large) var(--spacing-small);
-  background: var(--main-background-color);
+  background: var(--f-i-f-t-h);
 }
 
 @media (min-width: 400px) {

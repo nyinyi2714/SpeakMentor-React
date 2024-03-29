@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/NavbarV2/Navbar";
 
 import { useStateContext } from "./StateContext";
 import { useRoute } from "./hooks";
@@ -54,6 +55,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Routes>
       <Route path="/" element={<LandingPage />} />
         <Route exact path="/words" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />

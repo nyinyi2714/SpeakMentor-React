@@ -7,8 +7,7 @@
   height: 100vh;
   display: grid;
   place-items: center;
-  background: url("/public/images/login-bg.png") no-repeat;
-  background-size: cover;
+  background-color: var(--f-i-f-t-h);
 }
 
 .login__wrapper {
@@ -106,8 +105,7 @@
   border-radius: 5px;
   padding: 0.7rem;
   color: #ffffff;
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(58,58,198,1) 0%, rgba(0,176,212,1) 100%);
+  background-color: var(--s-e-v-e-n-t-h);
   margin-bottom: var(--spacing-medium);
 }
 
@@ -117,8 +115,7 @@
   border-radius: 5px;
   padding: 0.7rem;
   color: #ffffff;
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(58,58,198,1) 0%, rgba(0,176,212,1) 100%);
+  background-color: var(--s-e-v-e-n-t-h);
   margin-bottom: var(--spacing-medium);
   scale: 1.02;
 }

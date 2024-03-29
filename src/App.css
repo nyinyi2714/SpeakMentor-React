@@ -9,6 +9,20 @@
   --very-light-grey: rgb(237, 237, 237);
   --grey: #5d5d5d;
   --main-background-color: linear-gradient(to bottom right, #4286f427, #4286f40b, #4286f438);
+
+    /* Color styles */
+  --m-a-i-n: rgb(255, 255, 255);
+  --s-e-c-o-n-d-a-r-y: rgba(254, 233, 214, 1);
+  --t-r-i-n-a-r-y: rgba(255, 211, 171, 1);
+  --f-o-u-r-t-h: rgba(255, 232, 199, 1);
+  --f-i-f-t-h: rgb(214, 178, 137);
+  --t-e-x-t_-m-a-i-n: rgba(101, 77, 59, 1);
+  --t-e-x-t_-s-e-c-o-n-d-a-r-y: rgba(66, 60, 51, 1);
+  --t-e-x-t_-t-r-i-n-a-r-y: rgba(5, 8, 20, 1);
+  --r-e-c-o-r-d-i-n-g: rgba(152, 42, 42, 1);
+  --t-e-x-t_-f-o-u-r-t-h: rgba(251, 251, 251, 1);
+  --s-i-x-t-h: rgba(185, 214, 182, 1);
+  --s-e-v-e-n-t-h: rgb(114, 85, 57);
 }
 
 * {
@@ -79,3 +93,6 @@ input:focus-visible {
   overflow: hidden;
 }
 
+Navbar {
+  height: 55px;
+}
