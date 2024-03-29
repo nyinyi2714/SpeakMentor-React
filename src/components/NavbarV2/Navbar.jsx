@@ -13,8 +13,11 @@ const Navbar = () => {
     navigate(path);
   };
 
+  // if isHome is true, show the buttons and change the background color to var(--s-e-v-e-n-t-h)
+
+
   return (
-    <div className='navbar'>
+    <div className={`navbar ${!isHome ? 'not-home' : ''}`}>
       <div className='navbar-inner'>
         <div className='logo-div'>
           <button className='logo-button' onClick={() => goToInternalLink('/')}>
@@ -23,7 +26,7 @@ const Navbar = () => {
         </div>
 
         {/* Conditional rendering based on isHome */}
-        {!isHome && ( // If not home, show these buttons
+        {!isHome && ( // If not home, show these buttons and change the background color to var(--s-e-v-e-n-t-h)
           <div className='user-buttons'>
             <button id='words-button' onClick={() => goToInternalLink('/words')}>Words</button>
             <button id='sentence-button' onClick={() => goToInternalLink('/analyze-sentences')}>Sentence</button>

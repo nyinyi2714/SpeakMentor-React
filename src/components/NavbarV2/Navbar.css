@@ -52,6 +52,10 @@
     justify-content: center;
 }
 
+.navbar.not-home {
+    background-color: var(--s-e-v-e-n-t-h); /* Adjust the variable name as necessary */
+  }
+
 .navbar-inner {
     font-family: 'Marko One';
     display: flex;
