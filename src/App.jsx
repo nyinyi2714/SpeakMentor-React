@@ -13,6 +13,7 @@ import {
   PaymentPage,
   PaymentComplete,
   LandingPage,
+  Profile,
 } from './pages';
 
 import { LoadingAnimation, Popup } from "./components";
@@ -62,6 +63,7 @@ function App() {
         <Route path="/subscriptions" element={<SubscriptionPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/payment-complete" element={<PaymentComplete />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
       {/* {<LoadingAnimation

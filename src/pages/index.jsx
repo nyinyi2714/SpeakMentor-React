@@ -7,6 +7,7 @@ import SubscriptionPage from "./SubscriptionPage/SubscriptionPage";
 import PaymentPage from "./PaymentPage/PaymentPage";
 import PaymentComplete from "./PaymentComplete/PaymentComplete";
 import LandingPage from "./LandingPage/LandingPage";
+import Profile from "./Profile/Profile";
 
 export {
   Homepage,
@@ -18,4 +19,5 @@ export {
   PaymentPage,
   PaymentComplete,
   LandingPage,
+  Profile,
 };
