@@ -38,6 +38,7 @@ function Navbar() {
         <li><Link to="/chatbot" onClick={() => setIsMenuOpen(false)}>Practice with AI</Link></li>
         <li><Link to="/subscriptions" onClick={() => setIsMenuOpen(false)}>Pricing</Link></li>
         <li><Link to={user ? "/" : "/login"} onClick={handleLogOut}>{loginText}</Link></li>
+        <li><Link to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</Link></li>
       </ul>
     );
   };

@@ -1,8 +1,8 @@
 .homepage-wrapper {
   font-size: 0.9rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: max-content 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 2rem;
   min-height: calc(100vh - 60px);
   padding: var(--spacing-medium);
@@ -11,12 +11,12 @@
 
 @media (min-width: 800px) {
   .homepage-wrapper {
-    grid-template-columns: 1fr 1fr;
     padding: var(--spacing-large);
   }
 }
 
 .homepage {
+  width: 100%;
   height: max-content;
 }
 
@@ -28,14 +28,8 @@
   justify-content: space-between;
   margin: auto;
   margin-bottom: var(--spacing-medium);
-  max-width: 450px;
-}
-
-@media (min-width: 1100px) {
-  .homepage__search-word { 
-    margin: 0;
-    margin-bottom: var(--spacing-medium);
-  }
+  width: 100%;
+  max-width: 600px;
 }
 
 .homepage__input {
