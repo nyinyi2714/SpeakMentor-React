@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthenticate, useValidateInput } from "../../hooks";
 import "./Login.css";
 
@@ -11,8 +11,6 @@ function Login() {
 
   const { login } = useAuthenticate();
   const { validateEmail, validatePassword } = useValidateInput();
-  const navigate = useNavigate();
-
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -22,23 +20,6 @@ function Login() {
     if(isEmailValid) return;
     validateEmail(email, setIsEmailValid);
   }, [email]);
-
-  const activateLabel = (e) => {
-    if(e.target.tagName === "SPAN") {
-      e.target.classList.add("active");
-      e.target.nextSibling.focus();
-    } else {
-      e.target.previousSibling.classList.add("active");
-    }
-  };
-
-  const deactivateLabel = (e) => {
-    if(e.target.value.length === 0) {
-      e.target.previousSibling.classList.remove("active");
-    }
-    if(e.target.id === "email") validateEmail(email, setIsEmailValid);
-    else validatePassword(password, setIsPasswordValid);
-  };  
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -67,36 +48,35 @@ function Login() {
 
         <form className="login__form" onSubmit={handleLogin} id="login"> 
           <div className="login__form--heading">
-            <h1>Hello!</h1>
-            <h2>Log into your account</h2>
+            <h2>Welcome Back!</h2>
           </div>
           <div 
             className={`login__input-wrapper ${!isEmailValid && "invalid"}`}
           >
-            <span className="login__email" onClick={activateLabel}>Email</span>
+            <span className="login__email">Email</span>
+            <box-icon name='envelope' color="#5d5d5d" size="md" />
             <input 
               id="email" 
               className="login__input" 
               type="text" 
               onChange={handleEmail} 
               value={email} 
-              onFocus={activateLabel} 
-              onBlur={deactivateLabel} 
               autoComplete="off" 
+              required
             />
           </div>
           <div 
             className={`login__input-wrapper ${!isPasswordValid && "invalid"}`}
           >
-            <span className="login__password" onClick={activateLabel}>Password</span>
+            <span className="login__password">Password</span>
+            <box-icon name='lock' color="#5d5d5d" size="md" />
             <input 
               className="login__input" 
               type="password" 
               onChange={handlePassword} 
               value={password} 
-              onFocus={activateLabel} 
-              onBlur={deactivateLabel} 
               id="password"
+              required
             />
           </div>
           <button 
