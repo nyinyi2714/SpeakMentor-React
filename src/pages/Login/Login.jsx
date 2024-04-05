@@ -3,11 +3,18 @@ import { Link } from "react-router-dom";
 import { useAuthenticate, useValidateInput } from "../../hooks";
 import "./Login.css";
 
+const GREY = '#5d5d5d';
+const DARK_BLUE = '#161e5f';
+
 function Login() {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [iconColors, setIconColors] = useState({
+    email: GREY,
+    password: GREY,
+  });
 
   const { login } = useAuthenticate();
   const { validateEmail, validatePassword } = useValidateInput();
@@ -15,6 +22,22 @@ function Login() {
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
+
+  const changeIconColorsOnFocus = (e) => {
+    setIconColors(prev => ({
+      ...prev,
+      [e.target.id]: DARK_BLUE,
+    }))
+  }
+  
+  const changeIconColorsOnBlur = (e) => {
+    const color = e.target.validity.valid ? DARK_BLUE : GREY;
+
+    setIconColors(prev => ({
+      ...prev,
+      [e.target.id]: color,
+    }))
+  }
 
   useEffect(() => {
     if(isEmailValid) return;
@@ -54,22 +77,24 @@ function Login() {
             className={`login__input-wrapper ${!isEmailValid && "invalid"}`}
           >
             <span className="login__email">Email</span>
-            <box-icon name='envelope' color="#5d5d5d" size="md" />
+            <box-icon name='envelope' color={iconColors.email} size="md" />
             <input 
               id="email" 
               className="login__input" 
-              type="text" 
+              type="email" 
               onChange={handleEmail} 
               value={email} 
               autoComplete="off" 
               required
+              onFocus={changeIconColorsOnFocus}
+              onBlur={changeIconColorsOnBlur}
             />
           </div>
           <div 
             className={`login__input-wrapper ${!isPasswordValid && "invalid"}`}
           >
             <span className="login__password">Password</span>
-            <box-icon name='lock' color="#5d5d5d" size="md" />
+            <box-icon name='lock' color={iconColors.password} size="md" />
             <input 
               className="login__input" 
               type="password" 
@@ -77,6 +102,8 @@ function Login() {
               value={password} 
               id="password"
               required
+              onFocus={changeIconColorsOnFocus}
+              onBlur={changeIconColorsOnBlur}
             />
           </div>
           <button 

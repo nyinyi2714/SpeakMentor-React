@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthenticate, useValidateInput } from "../../hooks";
 import "./Register.css";
+
+const GREY = '#5d5d5d';
+const DARK_BLUE = '#161e5f';
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -13,9 +16,14 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
 
-  const navigate = useNavigate();
+  const [iconColors, setIconColors] = useState({
+    username: GREY,
+    email: GREY,
+    password: GREY,
+    confirmPassword: GREY,
+  });
 
-  const {register} = useAuthenticate();
+  const { register } = useAuthenticate();
 
   const { validateEmail, validatePassword } = useValidateInput();
 
@@ -34,7 +42,7 @@ function Register() {
   };
 
   useEffect(() => {
-    if(isEmailValid) return;
+    if (isEmailValid) return;
     validateEmail(email, setIsEmailValid);
   }, [email]);
 
@@ -52,101 +60,112 @@ function Register() {
     return isValid;
   };
 
-  const activateLabel = (e) => {
-    if(e.target.tagName === "SPAN") {
-      e.target.classList.add("active");
-      e.target.nextSibling.focus();
-    } else {
-      e.target.previousSibling.classList.add("active");
-    }
-  };
-
-  const deactivateLabel = (e) => {
-    if(e.target.value.length === 0) {
-      e.target.previousSibling.classList.remove("active");
-    }
-
-    switch(e.target.id) {
-      case "username":
-        validateUsername(username, setIsUsernameValid);
-      case "email":
-        validateEmail(email, setIsEmailValid);
-        break;
-      case "password":
-        validatePassword(password, setIsPasswordValid);
-        break;
-      case "confirm-password":
-        validateConfirmPassword(confirmPassword, setIsConfirmPasswordValid);
-        break;
-    }
-  };  
-
   const handleRegister = (e) => {
     e.preventDefault();
+    if (!runValidationFunctions) return;
     register(username, email, password);
-    
   };
 
-  return(
-    <div className="register"> 
+  const runValidationFunctions = () => {
+    const isValidUsername = validateUsername();
+    const isValidEmail = validateEmail();
+    const isValidPassword = validatePassword();
+    const isValidConfirmPassword = validateConfirmPassword();
+
+    if (!isValidUsername || !isValidEmail || !isValidPassword || !isValidConfirmPassword) {
+      return false;
+    }
+
+    return true;
+  }
+
+  const changeIconColorsOnFocus = (e) => {
+    setIconColors(prev => ({
+      ...prev,
+      [e.target.id]: DARK_BLUE,
+    }))
+  }
+  
+  const changeIconColorsOnBlur = (e) => {
+    const color = e.target.validity.valid ? DARK_BLUE : GREY;
+
+    setIconColors(prev => ({
+      ...prev,
+      [e.target.id]: color,
+    }))
+  }
+
+  return (
+    <div className="register">
       <div className="register__wrapper">
         <Link to="/" className="register__home-url">
           <box-icon name="arrow-back" size="16px" />
           Home
         </Link>
-        
+
         <form className="register__form" onSubmit={handleRegister}>
-          <h1>Create an account</h1>
+          <div className="login__form--heading">
+            <h2>Register Here</h2>
+          </div>
+
           <div className={`register__input-wrapper ${!isUsernameValid && "invalid"}`}>
-            <span className="register__username" onClick={activateLabel}>Username</span>
-            <input 
-              id="username" 
-              type="text" 
-              onChange={handleUsername} 
+            <span>Username</span>
+            <box-icon name='user-circle' color={iconColors.username} size="md" />
+            <input
+              id="username"
+              type="text"
+              onChange={handleUsername}
               value={username}
-              onFocus={activateLabel}
-              onBlur={deactivateLabel} 
-              autoComplete="off" 
+              autoComplete="off"
+              required
+              onFocus={changeIconColorsOnFocus}
+              onBlur={changeIconColorsOnBlur}
             />
           </div>
           <div className={`register__input-wrapper ${!isEmailValid && "invalid"}`}>
-            <span className="register__email" onClick={activateLabel}>Email</span>
-            <input 
-              id="email" 
-              type="text" 
-              onChange={handleEmail} 
+            <span>Email</span>
+            <box-icon name='envelope' color={iconColors.email} size="md" />
+            <input
+              id="email"
+              type="email"
+              onChange={handleEmail}
               value={email}
-              onFocus={activateLabel}
-              onBlur={deactivateLabel} 
-              autoComplete="off" 
+              autoComplete="off"
+              required
+              onFocus={changeIconColorsOnFocus}
+              onBlur={changeIconColorsOnBlur}
             />
           </div>
           <div className={`register__input-wrapper ${!isPasswordValid && "invalid"}`}>
-            <span className="register__password" onClick={activateLabel}>Password</span>
-            <input 
-              id="password" 
-              type="password" 
-              onChange={handlePassword} 
-              value={password} 
-              onFocus={activateLabel}
-              onBlur={deactivateLabel}
+            <span>Password</span>
+            <box-icon name='lock' color={iconColors.password} size="md" />
+            <input
+              id="password"
+              type="password"
+              onChange={handlePassword}
+              value={password}
+              required
+              onFocus={changeIconColorsOnFocus}
+              onBlur={changeIconColorsOnBlur}
             />
           </div>
           <div className={`register__input-wrapper ${!isConfirmPasswordValid && "invalid"}`}>
-            <span className="register__confirm-password" onClick={activateLabel}>Confirm Password</span>
-            <input 
-              id="confirm-password" 
-              type="password" 
-              onChange={handleConfirmPassword} 
+            <span>Confirm Password</span>
+            <box-icon name='lock' color={iconColors.confirmPassword} size="md" />
+            <input
+              id="confirmPassword"
+              type="password"
+              onChange={handleConfirmPassword}
               value={confirmPassword}
-              onFocus={activateLabel}
-              onBlur={deactivateLabel} 
+              required
+              onFocus={changeIconColorsOnFocus}
+              onBlur={changeIconColorsOnBlur}
             />
           </div>
-          
-          <button 
-            className="btn register__btn" 
-            type="submit" 
+
+          <button
+            className="btn register__btn"
+            type="submit"
           >
             Register
           </button>
