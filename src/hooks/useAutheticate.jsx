@@ -51,7 +51,7 @@ function useAuthenticate() {
         console.log(responseData);
         saveUser(responseData.user);
         console.log("register successfully.");
-        navigate("/login");
+        navigate("/questions");
       } else {
         console.error("Error registering. Status code:", response.status);
       }

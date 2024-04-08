@@ -8,6 +8,7 @@ import PaymentPage from "./PaymentPage/PaymentPage";
 import PaymentComplete from "./PaymentComplete/PaymentComplete";
 import LandingPage from "./LandingPage/LandingPage";
 import Profile from "./Profile/Profile";
+import Questions from "./Questions/Questions";
 
 export {
   Homepage,
@@ -20,4 +21,5 @@ export {
   PaymentComplete,
   LandingPage,
   Profile,
+  Questions,
 };

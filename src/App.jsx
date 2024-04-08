@@ -14,6 +14,7 @@ import {
   PaymentComplete,
   LandingPage,
   Profile,
+  Questions,
 } from './pages';
 
 import { LoadingAnimation, Popup } from "./components";
@@ -64,6 +65,7 @@ function App() {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/payment-complete" element={<PaymentComplete />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/questions" element={<Questions />} />
       </Routes>
 
       {/* {<LoadingAnimation

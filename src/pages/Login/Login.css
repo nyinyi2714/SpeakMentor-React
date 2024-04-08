@@ -19,7 +19,7 @@
   width: 400px;
   height: 400px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.069);
+  background-color: rgba(255, 255, 255, 0.1);
   transform: rotate(-30deg);
 }
 
@@ -124,9 +124,18 @@
   padding: 0.7rem;
   color: #ffffff;
   background: rgb(2,0,36);
-  background: linear-gradient(90deg, #3a3ac6 0%, #00b0d4 100%);
   margin: var(--spacing-medium) 0 var(--spacing-large);
+  background: linear-gradient(90deg, #3a3ac6 0%, #00b0d4 50%, #3a3ac6 100%);
+  cursor: pointer;
+  background-size: 200%;
+  background-position: 0%;
+  transition: background-position 500ms;
 }
+
+.login__btn:hover {
+  background-position: 100%;
+}
+
 
 .login__register-invite .link {
   display: block;
