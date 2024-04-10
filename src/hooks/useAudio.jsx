@@ -85,7 +85,10 @@ function useAudio({ word }) {
 
         let response = await fetch(config.backendUrl + "/chatbot", {
           method: "POST",
-          body: formData
+          body: {
+            audio: formData,
+            type: 'chatbot'
+          },
         });
 
         response = await response.json();
@@ -113,25 +116,25 @@ function useAudio({ word }) {
   const sendAudioToServer = async (audioBlob) => {
     setIsAnalyzing(true);
     // TODO: delete dummy data
-    const resultData = {
-      laymans: [
-        {phrase: 'uhg', score: 80},
-        {phrase: 'zam', score: 60},
-        {phrase: 'pl', score: 95},
-      ],
-      feedbacks: [
-        {phrase: 'uhg', suggestion: 'make sure your tongue is on the bottom of the mouth as you make a  very shot "uh" sound.'},
-        {phrase: 'zam', suggestion: 'try to open your mouth and pull your lips slightly to the side. Your tongue should be low in the front and high in the back.'},
-      ]
-    }
-    setTimeout(() => {
-      setResult(resultData)
-      setIsAnalyzing(false);
-    }, 1000)
+    // const resultData = {
+    //   laymans: [
+    //     {phrase: 'uhg', score: 80},
+    //     {phrase: 'zam', score: 60},
+    //     {phrase: 'pl', score: 95},
+    //   ],
+    //   feedbacks: [
+    //     {phrase: 'uhg', suggestion: 'make sure your tongue is on the bottom of the mouth as you make a  very shot "uh" sound.'},
+    //     {phrase: 'zam', suggestion: 'try to open your mouth and pull your lips slightly to the side. Your tongue should be low in the front and high in the back.'},
+    //   ]
+    // }
+    // setTimeout(() => {
+    //   setResult(resultData)
+    //   setIsAnalyzing(false);
+    // }, 1000)
     
-    // const resultData = await sendAudioToSpeechSuperAPI(audioBlob, word, true);
-    // setResult(resultData);
-    // setIsAnalyzing(false);    
+    const resultData = await sendAudioToSpeechSuperAPI(audioBlob, word, true);
+    setResult(resultData);
+    setIsAnalyzing(false);    
   };
 
   const playAudio = () => {

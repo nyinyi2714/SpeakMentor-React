@@ -195,16 +195,6 @@ function AnalyzeSentences() {
     return words;
   };
 
-  const openHelpSection = () => {
-    if(!displayHelp) {
-      setTimeout(() => {
-        linkToHelpSection.current.click();
-      }, 400);
-    }
-
-    setDisplayHelp(prevState => !prevState);
-  };
-
   const closePopUp = () => {
     setCurrWordResult(null);
   };
@@ -235,13 +225,6 @@ function AnalyzeSentences() {
       <div className="analyze-sentences">
         <DisplaySteps currentStep={currStep[currPageState]} />
         <div className="analyze-sentences__analyzer">
-          {isRecording &&
-            <div className="recording-icon">
-              REC
-              <div className="circle" />
-            </div>
-          }
-
           {currPageState !== pageStates.analyzed &&
             <textarea
               type="text"
@@ -266,17 +249,14 @@ function AnalyzeSentences() {
               <>
                 <button
                   onClick={listening ? pause : record}
-                  className="btn"
+                  className={`btn analyze-sentences_icon ${listening && 'border-red'}`}
                 >
-                  {listening ? "Pause" : "Record"}
+                {listening ?
+                  <span className="red-square" /> :
+                  <box-icon type="solid" name="microphone" size="20px" color="#4285f4" />
+                }
                 </button>
-                <button
-                  className="btn analyze-sentences_icon reset"
-                  onClick={reset}
-                  disabled={isRecording}
-                >
-                  <img src={resetSvg} />
-                </button>
+
                 <button
                   className="btn analyze-sentences_icon"
                   onClick={nextPageState}
@@ -294,15 +274,26 @@ function AnalyzeSentences() {
                 <button className="btn" onClick={listenToYourself}>
                   {userRecording.current && (isListeningToYourSelf ? "Pause" : "Listen to yourself")}
                 </button>
-                <button className="btn analyze-sentences_icon reset" onClick={prevPageState}>
-                <box-icon name='reset' color='#ff0000' />
+                
+              {currPageState !== pageStates.analyzed &&
+                <button
+                  className="btn analyze-sentences_icon"
+                  onClick={analyze}
+                  disabled={transcript.length <= 0 || isRecording}
+                >
+                  <box-icon name='right-arrow-alt' color='#4285f4' />
                 </button>
-                {currPageState !== pageStates.analyzed &&
-                  <button className="btn" onClick={analyze}>Analyze</button>
-                }
+              }
+
               </>
             }
-
+            <button
+                  className="btn analyze-sentences_icon reset"
+                  onClick={prevPageState}
+                  disabled={isRecording}
+                >
+                  <img src={resetSvg} />
+                </button>
           </div>
         </div>
 

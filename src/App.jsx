@@ -68,12 +68,12 @@ function App() {
         <Route path="/questions" element={<Questions />} />
       </Routes>
 
-      {/* {<LoadingAnimation
+      {<LoadingAnimation
         requestMicPermission={requestMicPermission}
         closePopup={closePopup}
         setIsPopupOpen={setIsPopupOpen}
         setMicPermission={setMicPermission}
-      />} */}
+      />}
 
       {isPopupOpen && <Popup
         micPermission={micPermission}

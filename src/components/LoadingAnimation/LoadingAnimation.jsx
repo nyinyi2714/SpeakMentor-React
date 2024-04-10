@@ -11,14 +11,14 @@ function LoadingAnimation(props) {
     requestMicPermission, 
   } = props;
 
-  const [isLogoLoaded, setIsLogoLoaded] = useState(false);
-
   const loadingPage = useRef();
-  const loadingBar = useRef();
 
   const hideLoadingPage = () => {
     if(!loadingPage.current) return;
-    loadingPage.current.classList.add("slide-up");
+    loadingPage.current.classList.add("hide");
+    setTimeout(() => {
+      loadingPage.current.classList.add("slide-up");
+    }, 600);
     checkIsVisited();
   };
 
@@ -43,16 +43,13 @@ function LoadingAnimation(props) {
       className="loading-animation" 
       ref={loadingPage}
     >
-      <div className="loading-animation--content">
-        <img src="/images/main-logo.png" alt="main-logo" onLoad={() => setIsLogoLoaded(true)} />
-        <div className={`loading-bar ${isLogoLoaded && "show"}`}>
-          <span 
-            className={`bar ${isLogoLoaded && "load"}`}
-            ref={loadingBar} 
-            onTransitionEnd={hideLoadingPage}
-          />
-        </div>
+      <div className="video-wrapper">
+        <video autoPlay muted onEnded={hideLoadingPage}>
+          <source src="/icon-animation.webm" />
+        </video>
+        <span></span>
       </div>
+      
     </div>
   );
 }

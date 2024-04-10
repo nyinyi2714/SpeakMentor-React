@@ -11,16 +11,17 @@ function useSpeechSuper() {
     formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
     // Append other fields to the form data
     formData.append('word', word);
-    formData.append('isSingleWord', isSingleWord);
+    // formData.append('isSingleWord', isSingleWord);
 
     let response;
 
     try {
-      response = await fetch(config.backendUrl + "/process_audio", {
+      response = await fetch(config.backendUrl + "/process", {
         method: "POST",
-        // The Content-Type header is not needed here, 
-        // as the browser will automatically set it with the correct boundary for multipart/form-data
-        body: formData
+        body: {
+          audio: formData,
+          type: isSingleWord ? 'word' : 'assessment',
+        }
       });
 
       if (response.ok) {

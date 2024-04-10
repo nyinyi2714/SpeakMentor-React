@@ -46,7 +46,7 @@ export default function Questions() {
       <form className='questions-form' onSubmit={handleQuestionsSubmit}>
         <h1>Background Questions</h1>
         <label htmlFor='language-dropdown'>
-          Select your Native Language
+          What is your Native Language?
           <Dropdown
             options={languageOptions.map((language, index) => ({
               value: iso6391.getCode(language),

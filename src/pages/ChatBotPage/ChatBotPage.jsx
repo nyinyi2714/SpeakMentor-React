@@ -58,8 +58,6 @@ function ChatBotPage() {
 
   const handleSavingUserAudio = () => {
     setIsLoading(prev => !prev);
-
-    return
     endRecordingRef.current = recordForChatBot();
   };
 
@@ -67,6 +65,7 @@ function ChatBotPage() {
     const endRecording = endRecordingRef.current;
     const result = await endRecording();
     // TODO display the result
+    console.log(result)
   };
 
   // Function to scroll the messages container to the bottom

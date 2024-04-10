@@ -9,52 +9,36 @@
 
   display: grid;
   place-items: center;
-  transition: 700ms ease-in-out;
-  transition-delay: 200ms;
+  transition: opacity 400ms ease-in-out;
+  overflow: hidden;
+  animation-delay: 200ms;
+}
+
+.loading-animation.hide {
+  opacity: 0;
 }
 
 .loading-animation.slide-up {
   transform: translateY(-100%);
 }
 
-.loading-animation--content {
-  display: grid;
-  place-items: center;
+.loading-animation video {
+  width: 100%;
+  max-width: 400px;
+  object-fit: contain;
+  overflow-clip-margin: content-box;
+  overflow: clip;
 }
 
-  .loading-animation img {
-    min-width: 200px;
-    width: 30%;
-  }
-
-.loading-bar {
+.video-wrapper {
   position: relative;
-  margin-top: var(--spacing-medium);
-  min-width: 200px;
-  width: 30%;
-  height: 3px;
-  border-radius: 30px;
-  background-color: var(--very-light-grey);
-  overflow: hidden;
-  visibility: none;
 }
 
-.loading-bar.show {
-  visibility: visible;
+.video-wrapper span {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background-color: #fff;
+  position: relative;
+  top: -30px;
 }
-
-  .bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "";
-    width: 0%;
-    height: 3px;
-    border-radius: 30px;
-    background-color: var(--primary-color);
-    transition: width 1.4s ease-in-out;
-  }
-
-  .bar.load {
-    width: 100%;
-  }
