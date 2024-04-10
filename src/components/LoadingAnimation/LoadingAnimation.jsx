@@ -18,7 +18,7 @@ function LoadingAnimation(props) {
     loadingPage.current.classList.add("hide");
     setTimeout(() => {
       loadingPage.current.classList.add("slide-up");
-    }, 600);
+    }, 1100);
     checkIsVisited();
   };
 

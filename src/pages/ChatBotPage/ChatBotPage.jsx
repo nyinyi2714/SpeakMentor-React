@@ -100,7 +100,7 @@ function ChatBotPage() {
 
           {/* Display Saved Conversations */}
           <ConversationsContainer
-            conversations={[{ title: "this is a test" }, { title: "this is a test" }, { title: "this is a test" }, { title: "this is a test" }]}
+            conversations={savedConversations}
             isOpen={isDropDownOpen}
             restoreConversation={restoreConversation}
           />

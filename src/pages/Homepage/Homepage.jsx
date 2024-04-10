@@ -41,7 +41,8 @@ function Homepage(props) {
     <React.Fragment>
       <Navbar />
       <div className="homepage-wrapper">
-        <div className="homepage">
+        <div className="flex-container">
+          <div className="homepage">
           <div className="homepage__search-word">
             <input
               type="text"
@@ -63,6 +64,8 @@ function Homepage(props) {
           />
         </div>
         <SuggestedWords />
+        </div>
+        
       </div>
     </React.Fragment>
   );

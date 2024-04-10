@@ -122,7 +122,6 @@
   border-radius: 30px;
   padding: 0.7rem;
   color: #ffffff;
-  background: rgb(2,0,36);
   margin: var(--spacing-medium) 0 var(--spacing-large);
   background: linear-gradient(90deg, #3a3ac6 0%, #00b0d4 50%, #3a3ac6 100%);
   cursor: pointer;

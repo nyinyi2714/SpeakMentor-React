@@ -30,7 +30,7 @@
     }
   }
   
-  .logo img {
+  .navbar img {
     width: 100%;
     max-width: 140px;
     position: relative;
@@ -98,10 +98,6 @@
 
     .main_list.desktop {
       display: none;
-    }
-
-    .logo img {
-      top: 0;
     }
 
     .main_list ul {

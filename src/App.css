@@ -9,6 +9,13 @@
   --very-light-grey: rgb(237, 237, 237);
   --grey: #5d5d5d;
   --main-background-color: linear-gradient(to bottom right, #4286f427, #4286f40b, #4286f438);
+  transition: font-size 300ms;
+}
+
+@media (max-width: 600px) {
+  :root {
+    font-size: 14px;
+  }
 }
 
 * {

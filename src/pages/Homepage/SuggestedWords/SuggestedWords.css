@@ -1,13 +1,19 @@
 .suggested-words {
   width: 100%;
-  height: max-content;
-  max-width: 600px;
-  margin: auto;
+  flex: 1 1 400px;
+
   background-color: #fff;
   border-radius: 10px;
   border: 1px solid var(--light-grey);
+  margin-bottom: auto;
 
   padding: var(--spacing-large);
+}
+
+@media (max-width: 800px) {
+  .suggested-words {
+    padding: var(--spacing-medium);
+  }
 }
 
 .suggested-words > h2 {

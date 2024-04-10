@@ -105,7 +105,7 @@ function AnalyzeSentences() {
 
   // Update the trascript
   useEffect(() => {
-    if (transcript.length <= 0) setEditedTranscript("Click Record to start");
+    if (transcript.length <= 0) setEditedTranscript("Click the microphone icon to start recording.");
     else setEditedTranscript(transcript);
   }, [transcript]);
 
@@ -134,7 +134,7 @@ function AnalyzeSentences() {
 
     // Remove the event listener when the component unmounts
     return () => {
-      if(!userRecording.current) return;
+      if (!userRecording.current) return;
       userRecording.current.removeEventListener('ended', handleAudioEnded);
     };
   }, []);
@@ -164,12 +164,12 @@ function AnalyzeSentences() {
   const generateResultForSentences = (resultData) => {
     if (!resultData) return;
     let words = [];
-  
+
     const stripNonLetters = (word) => {
       // function defined to strip non-letter characters
       return word.replace(/[^a-zA-Z]+/g, '');
     };
-  
+
     const convertSentenceIntoWords = (sentence, wordsArray) => {
       sentence.forEach((wordData, index) => {
         const overallScore = wordData?.PronunciationAssessment.AccuracyScore ?? 0;
@@ -184,14 +184,14 @@ function AnalyzeSentences() {
         );
       });
     };
-  
+
     // Assuming the best result is the first in the NBest array
     const bestResult = resultData.NBest[0];
     console.log("bestResult: ", bestResult);
     if (bestResult && bestResult.Words) {
       convertSentenceIntoWords(bestResult.Words, words);
     }
-  
+
     return words;
   };
 
@@ -251,10 +251,10 @@ function AnalyzeSentences() {
                   onClick={listening ? pause : record}
                   className={`btn analyze-sentences_icon ${listening && 'border-red'}`}
                 >
-                {listening ?
-                  <span className="red-square" /> :
-                  <box-icon type="solid" name="microphone" size="20px" color="#4285f4" />
-                }
+                  {listening ?
+                    <span className="red-square" /> :
+                    <box-icon type="solid" name="microphone" size="20px" color="#4285f4" />
+                  }
                 </button>
 
                 <button
@@ -274,26 +274,26 @@ function AnalyzeSentences() {
                 <button className="btn" onClick={listenToYourself}>
                   {userRecording.current && (isListeningToYourSelf ? "Pause" : "Listen to yourself")}
                 </button>
-                
-              {currPageState !== pageStates.analyzed &&
-                <button
-                  className="btn analyze-sentences_icon"
-                  onClick={analyze}
-                  disabled={transcript.length <= 0 || isRecording}
-                >
-                  <box-icon name='right-arrow-alt' color='#4285f4' />
-                </button>
-              }
+
+                {currPageState !== pageStates.analyzed &&
+                  <button
+                    className="btn analyze-sentences_icon"
+                    onClick={analyze}
+                    disabled={transcript.length <= 0 || isRecording}
+                  >
+                    <box-icon name='right-arrow-alt' color='#4285f4' />
+                  </button>
+                }
 
               </>
             }
             <button
-                  className="btn analyze-sentences_icon reset"
-                  onClick={prevPageState}
-                  disabled={isRecording}
-                >
-                  <img src={resetSvg} />
-                </button>
+              className="btn analyze-sentences_icon reset"
+              onClick={prevPageState}
+              disabled={isRecording}
+            >
+              <img src={resetSvg} />
+            </button>
           </div>
         </div>
 
@@ -314,7 +314,6 @@ function AnalyzeSentences() {
           />
         }
       </div>
-      <a href="#help-section" style={{ display: "none" }} ref={linkToHelpSection}></a>
     </React.Fragment>
   );
 }

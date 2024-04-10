@@ -11,7 +11,7 @@
   place-items: center;
   transition: opacity 400ms ease-in-out;
   overflow: hidden;
-  animation-delay: 200ms;
+  transition-delay: 700ms;
 }
 
 .loading-animation.hide {

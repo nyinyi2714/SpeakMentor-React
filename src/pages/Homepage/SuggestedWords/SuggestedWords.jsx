@@ -13,8 +13,8 @@ export default function SuggestedWords() {
 
   return (
     <div className="suggested-words">
-      <h2>Suggested Words</h2>
-      <h3>Based on your previous performance</h3>
+      <h2>Word Suggestion</h2>
+      <h3>Based on your practice history and previous performance</h3>
       <div className="word-list">
         <div className={`word ${isSpeaking && "disabled"}`} >
           <box-icon onClick={handleSpeak} data-value="communication" name="volume-full" size="16px" color="#4285f4" />

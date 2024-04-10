@@ -16,8 +16,8 @@
 }
 
 .analyze-sentences__analyzer {
-  width: clamp(250px, 80vw, 600px);
   margin: 0 auto;
+  width: 100%;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
@@ -34,6 +34,7 @@
 .analyze-sentences textarea, .textarea {
   font-family: inherit;
   width: 100%;
+  font-size: 1rem;
   height: auto;
   min-height: 300px;
   border: 1px solid var(--light-grey);

@@ -13,11 +13,13 @@ export default function ConversationsContainer({ conversations, restoreConversat
 
   return(
     <div className={`conversations-container ${isOpen && 'open'}`}>
-      <h3>Saved Conversations</h3>
       {conversations.length > 0 && 
-        conversations.map((conversation, index) => 
+        <>
+        <h3>Saved Conversations</h3>
+        {conversations.map((conversation, index) => 
           <Conversation key={index} conversation={conversation} restoreConversation={restoreConversation} />
-        )
+        )}
+        </>
       }
       {conversations.length <= 0 && 
         <div>

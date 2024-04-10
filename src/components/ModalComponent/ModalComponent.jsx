@@ -22,7 +22,7 @@ export default function ModalComponent({ saveCurrConversation, isOpen, onRequest
 
   return (
     <Modal
-      appElement="#root"
+      appElement={document.getElementById('root')}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       style={customStyles}
