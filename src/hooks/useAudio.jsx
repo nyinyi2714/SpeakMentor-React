@@ -101,8 +101,9 @@ function useAudio({ word }) {
 
     try {
       const [buffer, blob] = await Mp3Recorder.current.stop().getMp3();
-      const res = await sendUserAudio(blob);
       setIsRecording(false);
+
+      const res = await sendUserAudio(blob);
       return res;
     } catch (error) {
       console.error(error);
