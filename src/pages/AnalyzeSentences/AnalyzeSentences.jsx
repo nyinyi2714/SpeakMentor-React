@@ -50,13 +50,11 @@ function AnalyzeSentences() {
   const [isRecording, setIsRecording] = useState(false);
   const [currPageState, setCurrPageState] = useState(pageStates.isRecording);
   const [message, setMessage] = useState(messages.recordNow);
-  const [displayHelp, setDisplayHelp] = useState(false);
   const [currWordResult, setCurrWordResult] = useState(null);
   const [speechSuperResultData, setSpeechSuperResultData] = useState(null);
   const [isListeningToYourSelf, setIsListeningToYourself] = useState(false);
 
   const userRecording = useRef();
-  const linkToHelpSection = useRef();
 
   const record = () => {
     // Reset the result

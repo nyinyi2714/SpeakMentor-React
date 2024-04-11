@@ -16,6 +16,7 @@ function useAudio({ word }) {
   const [isSlow, setIsSlow] = useState(false);
   const [result, setResult] = useState(null);
 
+  const Mp3Recorder = useRef();
   const audioElement = useRef();
   const soundEffectElement = useRef();
 
@@ -28,7 +29,6 @@ function useAudio({ word }) {
     soundEffectElement.current.play();
   };
 
-  // TODO: handle recording when mic permission is denied
   const checkMicrophonePermission = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -75,43 +75,41 @@ function useAudio({ word }) {
 
     setIsRecording(true);
 
-    const Mp3Recorder = new MicRecorder({ bitRate: 128 });
-    Mp3Recorder.start();
+    Mp3Recorder.current = new MicRecorder({ bitRate: 128 });
+    Mp3Recorder.current.start();
+  };
+
+  const endChatbotRecording = async () => {
 
     const sendUserAudio = async (audioBlob) => {
       try {
         const formData = new FormData();
         formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
 
-        let response = await fetch(config.backendUrl + "/chatbot", {
+        let response = await fetch(config.backendUrl + "/process?type=chatbot", {
           method: "POST",
-          body: {
-            audio: formData,
-            type: 'chatbot'
-          },
+          body: formData,
         });
 
         response = await response.json();
         return response;
-        
-      } catch(err) {
+
+      } catch (err) {
         console.error(err);
       }
     };
-  
-    const endRecording = () => {
-      Mp3Recorder
-        .stop()
-        .getMp3()
-        .then(([buffer, blob]) => {
-          const res = sendUserAudio(blob);
-          setIsRecording(false);
-          return res;
-        })  
-    }
 
-    return endRecording;
-  };
+    try {
+      const [buffer, blob] = await Mp3Recorder.current.stop().getMp3();
+      const res = await sendUserAudio(blob);
+      setIsRecording(false);
+      return res;
+    } catch (error) {
+      console.error(error);
+      setIsRecording(false);
+      return null;
+    }
+  }
 
   const sendAudioToServer = async (audioBlob) => {
     setIsAnalyzing(true);
@@ -162,6 +160,7 @@ function useAudio({ word }) {
     setIsSlow,
     reset,
     recordForChatBot,
+    endChatbotRecording,
   };
 }
 

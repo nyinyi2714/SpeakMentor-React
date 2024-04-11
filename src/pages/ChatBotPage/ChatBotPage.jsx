@@ -5,27 +5,28 @@ import soundEffect from "../../assets/rec.m4a";
 import { ThreeDots } from 'react-loader-spinner';
 
 import { ModalComponent } from "../../components";
+import { PopUp } from "../AnalyzeSentences";
+import { Pronounce } from '../../components';
 import Message from "./Message/Message";
 import ConversationsContainer from "./ConversationsContainer/ConversationsContainer";
 import "./ChatBotPage.css";
 
 function ChatBotPage() {
 
-  const { isRecording, recordForChatBot, soundEffectElement } = useAudio({ word: null });
-  const endRecordingRef = useRef();
+  const { isRecording, recordForChatBot, endChatbotRecording, soundEffectElement } = useAudio({ word: null });
 
   const [currConversationTitle, setCurrConversationTitle] = useState('');
   const [messages, setMessages] = useState([
     { sender: "chatbot", text: "Hello! How can I help you?" },
-    { sender: "user", text: "I want to practice interview conversations." },
+    // { sender: "user", text: "I want to practice interview conversations." },
   ]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [savedConversations, setSavedConversations] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [popupWord, setPopupWord] = useState(null);
 
-  // TODO: send the recorded audio to backend
   const updateMessages = (newMessage) => {
     setMessages(prevList => [...prevList, newMessage]);
   };
@@ -57,15 +58,15 @@ function ChatBotPage() {
   }
 
   const handleSavingUserAudio = () => {
-    setIsLoading(prev => !prev);
-    endRecordingRef.current = recordForChatBot();
+    recordForChatBot();
   };
 
   const handleEndingUserAudio = async () => {
-    const endRecording = endRecordingRef.current;
-    const result = await endRecording();
+    setIsLoading(true)
+    const result = await endChatbotRecording();
     // TODO display the result
     console.log(result)
+    setIsLoading(false)
   };
 
   // Function to scroll the messages container to the bottom
@@ -82,6 +83,10 @@ function ChatBotPage() {
   useEffect(() => {
 
   }, []);
+
+  const closePopUp = () => {
+    setPopupWord(null);
+  }
 
   return (
     <React.Fragment>
@@ -109,7 +114,7 @@ function ChatBotPage() {
           <div className="messages">
             {messages.length > 0 &&
               messages.map((message, index) => (
-                <Message setIsLoading={setIsLoading} message={message} key={index} />
+                <Message setPopupWord={setPopupWord} setIsLoading={setIsLoading} message={message} key={index} />
             ))}
 
             <div className={`chatbot-loading ${isLoading && 'show'}`}>
@@ -154,6 +159,15 @@ function ChatBotPage() {
             <input type="text" value={currConversationTitle} onChange={handleCurrConversationTitle} />
           </article>
         </ModalComponent>
+      }
+
+      {/* PopUp Pronounce Component */}
+      {
+        popupWord !== null &&
+        <PopUp
+          content={<Pronounce word={popupWord} />}
+          closePopUp={closePopUp}
+        />
       }
 
     </React.Fragment>

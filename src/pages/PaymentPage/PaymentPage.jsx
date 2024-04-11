@@ -14,11 +14,9 @@ function Payment() {
   const [stripePromise, setStripePromise] = useState(loadStripe(stripePublishableKey));
   const [clientSecret, setClientSecret] = useState("");
 
-  // TODO: get the clientKey from backend
   useEffect(() => {
     const handleFetchClientSecret = async () => {
-      // TODO: change backend port
-      const res = await fetch(`http://127.0.0.1:8000/create-payment-intent`);
+      const res = await fetch(`${config.backendUrl}/create-payment-intent`);
       const { clientSecret } = await res.json();
       setClientSecret(clientSecret);
     };

@@ -3,13 +3,15 @@ import { useGoogleTTS } from "../../../hooks";
 
 import "./Message.css";
 
-export default function Message({ message }) {
+export default function Message({ message, setPopupWord }) {
   const { speak, isSpeaking } = useGoogleTTS();
 
   const handleTextToSpeech = (e) => {
     const text = e.target.dataset.value;
     if(text?.length > 0) speak(text);
   };
+
+  // TODO display each word individually and add setPopupWord handler to each of them
 
   return (
     <div className="message-container">

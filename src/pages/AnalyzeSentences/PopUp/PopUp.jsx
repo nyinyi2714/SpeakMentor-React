@@ -17,7 +17,9 @@ function PopUp({content, closePopUp}) {
 
   return(
     <div className="analyze-sentences--popup" id="popup-wrapper">
-      {content}
+      <div className="popup">
+        {content}
+      </div>
     </div>
   );
 }
