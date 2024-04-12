@@ -16,7 +16,7 @@ function useSpeechSuper() {
     let response;
 
     try {
-      response = await fetch(config.backendUrl + `/process?type=${isSingleWord ? 'word' : 'assessment'}`, {
+      response = await fetch(config.backendUrl + `/process?type=${isSingleWord ? 'word' : 'sentence'}`, {
         method: "POST",
         body: formData,
       });
