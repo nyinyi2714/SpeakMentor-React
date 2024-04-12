@@ -3,6 +3,7 @@ import useGoogleTTS from "../hooks/useGoogleTTS";
 import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";
 import config from "../config";
+import Cookies from "js-cookie";
 
 function useAudio({ word }) {
 
@@ -79,15 +80,26 @@ function useAudio({ word }) {
     Mp3Recorder.current.start();
   };
 
+  function getCsrfToken() {
+    return document.cookie.split('; ')
+      .find(row => row.startsWith('csrftoken'))
+      ?.split('=')[1];
+  }
+
   const endChatbotRecording = async () => {
 
     const sendUserAudio = async (audioBlob) => {
       try {
+
         const formData = new FormData();
         formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
 
         let response = await fetch(config.backendUrl + "/process?type=chatbot", {
           method: "POST",
+          headers: {
+            "X-CSRFToken": Cookies.get('csrftoken'),
+          },
+          credentials: "include",
           body: formData,
         });
 
