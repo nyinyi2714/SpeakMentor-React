@@ -8,13 +8,12 @@ function useAuthenticate() {
 
   const saveUser = (user) => {
     setUser(user);
-    // TODO: save in localStorage
   };
 
   const login = async (email, password) => {
     try {
 
-      let response = await fetch(`${config.backendUrl}/login`, {
+      let response = await fetch(`${config.backendUrl}/api/login`, {
         method: "POST", // Method is part of the options object
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +23,9 @@ function useAuthenticate() {
 
       if (response.status === 200) {
         const responseData = await response.json(); // Convert to JSON here
-        console.log(responseData);
+        localStorage.setItem("token", responseData.token);
+        localStorage.setItem("user", JSON.stringify(responseData.user));
+        localStorage.setItem("user_data", JSON.stringify(responseData.user_data));
         saveUser(responseData.user);
         console.log("login successfully.");
         navigate("/words");
@@ -60,10 +61,7 @@ function useAuthenticate() {
     }
   };
   
-  return({
-    login,
-    register,
-  });
+  return({login,register});
 }
 
 export default useAuthenticate;

@@ -97,7 +97,7 @@ function useAudio({ word }) {
         let response = await fetch(config.backendUrl + "/process?type=chatbot", {
           method: "POST",
           headers: {
-            "X-CSRFToken": Cookies.get('csrftoken'),
+            "X-CSRFToken": getCsrfToken(),
           },
           credentials: "include",
           body: formData,
