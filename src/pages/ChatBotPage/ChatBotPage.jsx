@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "../../components";
-import { useAudio } from "../../hooks";
+import { useGoogleTTS ,useAudio } from "../../hooks";
 import soundEffect from "../../assets/rec.m4a";
 import { ThreeDots } from 'react-loader-spinner';
 
@@ -12,13 +12,12 @@ import ConversationsContainer from "./ConversationsContainer/ConversationsContai
 import "./ChatBotPage.css";
 
 function ChatBotPage() {
-
+  const { speak, isSpeaking } = useGoogleTTS(1);
   const { isRecording, recordForChatBot, endChatbotRecording, soundEffectElement } = useAudio({ word: null });
 
   const [currConversationTitle, setCurrConversationTitle] = useState('');
   const [messages, setMessages] = useState([
-    { sender: "chatbot", text: "Hello! How can I help you?" },
-    // { sender: "user", text: "I want to practice interview conversations." },
+    { sender: "chatbot", text: "Hello! What do you want to talk about today?" },
   ]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -64,9 +63,20 @@ function ChatBotPage() {
   const handleEndingUserAudio = async () => {
     setIsLoading(true)
     const result = await endChatbotRecording();
-    // TODO display the result
     console.log(result)
-    setIsLoading(false)
+    setMessages(prev => ([
+      ...prev,
+      {sender: 'user', text: result.user_message, feedback: "result.feedback"},
+    ]))
+
+    setTimeout(() => {
+      setMessages(prev => ([
+        ...prev,
+        {sender: 'chatbot', text: result.chatbot_response},
+      ]))
+      speak(result.chatbot_response);
+      setIsLoading(false);
+    }, 1000)
   };
 
   // Function to scroll the messages container to the bottom
@@ -135,7 +145,7 @@ function ChatBotPage() {
                 <button className="chatbot-button icon stop" onClick={handleEndingUserAudio}>
                   <box-icon name='stop-circle' color='#ff3030' size="35px" />
                 </button> :
-                <button className="chatbot-button icon microphone" onClick={handleSavingUserAudio} disabled={isLoading}>
+                <button className="chatbot-button icon microphone" onClick={handleSavingUserAudio} disabled={isLoading || isSpeaking}>
                   <box-icon type="solid" name="microphone" size="24px" color="#fff" />
                 </button>
             }
@@ -155,7 +165,7 @@ function ChatBotPage() {
         isModalOpen &&
         <ModalComponent saveCurrConversation={saveCurrConversation} isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
           <article className="modal-conversation-title">
-            <h3>Enter Conversation Name</h3>
+            <h3>Enter Conversation Title</h3>
             <input type="text" value={currConversationTitle} onChange={handleCurrConversationTitle} />
           </article>
         </ModalComponent>

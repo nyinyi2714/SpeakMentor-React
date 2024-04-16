@@ -1,17 +1,59 @@
-import { useEffect } from "react";
-import { useGoogleTTS } from "../../../hooks";
-
+import { useGoogleTTS, useSpeechSuper } from "../../../hooks";
+import { useRef } from 'react';
+import TipIcon from '../../../assets/info.svg';
 import "./Message.css";
 
 export default function Message({ message, setPopupWord }) {
-  const { speak, isSpeaking } = useGoogleTTS();
+  const { speak, isSpeaking } = useGoogleTTS(1);
+  const { chooseColorsForScores } = useSpeechSuper();
+  const popoverRef = useRef();
 
   const handleTextToSpeech = (e) => {
     const text = e.target.dataset.value;
     if(text?.length > 0) speak(text);
   };
 
-  // TODO display each word individually and add setPopupWord handler to each of them
+  const openTip = () => {
+    popoverRef.current.classList.add('open');
+  }
+
+  const closeTip = () => {
+    popoverRef.current.classList.remove('open');
+  }
+
+  const generateResultForSentences = (resultData) => {
+    if (!resultData) return;
+    let words = [];
+
+    const stripNonLetters = (word) => {
+      // function defined to strip non-letter characters
+      return word.replace(/[^a-zA-Z]+/g, '');
+    };
+
+    const convertSentenceIntoWords = (sentence, wordsArray) => {
+      sentence.forEach((wordData, index) => {
+        const overallScore = wordData?.PronunciationAssessment.AccuracyScore ?? 0;
+        wordsArray.push(
+          <span
+            style={{ color: chooseColorsForScores(overallScore) }}
+            key={index}
+            onClick={() => setPopupWord(stripNonLetters(wordData.Word))}
+          >
+            {wordData.Word + " "}
+          </span>
+        );
+      });
+    };
+
+    // Assuming the best result is the first in the NBest array
+    const bestResult = resultData.NBest[0];
+    console.log("bestResult: ", bestResult);
+    if (bestResult && bestResult.Words) {
+      convertSentenceIntoWords(bestResult.Words, words);
+    }
+
+    return words;
+  };
 
   return (
     <div className="message-container">
@@ -24,6 +66,8 @@ export default function Message({ message, setPopupWord }) {
           `message ${message.sender === "chatbot" ? 'bot-message' : 'user-message'}`
         }
       >
+        {/* TODO: get "analysis from backend" */}
+        {/* {generateResultForSentences(message.analysis)} */}
         {message.text}
         {
           message.sender === "user" &&
@@ -39,6 +83,27 @@ export default function Message({ message, setPopupWord }) {
               data-value={message.text}
             />
           </button>
+        }
+
+        {
+          message.feedback && 
+          <span 
+            id="fluency-tip"
+            className="fluency-tip" 
+            onClick={openTip} 
+            onMouseEnter={openTip} 
+            onMouseLeave={closeTip}
+            data-tip="close"
+          >
+            <img src={TipIcon} /> Fluency Tip
+          </span>
+        }
+
+        {
+          message.feedback && 
+          <div className="popover" ref={popoverRef}>
+            <span>{message.feedback}</span>
+          </div>
         }
       </div>
     </div>

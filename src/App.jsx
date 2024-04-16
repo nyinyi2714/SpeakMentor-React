@@ -20,6 +20,7 @@ import {
 import { LoadingAnimation, Popup } from "./components";
 
 import "boxicons";
+import 'react-circular-progressbar/dist/styles.css';
 import './App.css';
 
 function App() {

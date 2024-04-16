@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./PopUp.css";
 
-function PopUp({content, closePopUp}) {
+function PopUp({content, closePopUp, width}) {
   useEffect(() => {
     const closeWithEsc = (e) => {
       if(e.key === "Escape") {
@@ -17,7 +17,7 @@ function PopUp({content, closePopUp}) {
 
   return(
     <div className="analyze-sentences--popup" id="popup-wrapper">
-      <div className="popup">
+      <div className="popup" style={{ width: width ?? "100%" }}>
         {content}
       </div>
     </div>

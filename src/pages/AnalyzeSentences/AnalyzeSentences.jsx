@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-
 import { useSpeechRecognizer, useGoogleTTS, useSpeechSuper } from "../../hooks";
 
 import { PopUp, Spinner, DisplaySteps } from "./index";
 import { Pronounce, Navbar } from "../../components";
 
 import resetSvg from '../../assets/reset.svg';
+import TipIcon from '../../assets/info-blue.svg';
 
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import MicRecorder from "mic-recorder-to-mp3";
 import "./AnalyzeSentences.css";
 
@@ -48,13 +49,17 @@ function AnalyzeSentences() {
   const [recordedAudioData, setRecordedAudioData] = useState([]); // Store recorded audio data blobs
   const [Mp3Recorder, setMp3Recorder] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
+
   const [currPageState, setCurrPageState] = useState(pageStates.isRecording);
   const [message, setMessage] = useState(messages.recordNow);
   const [currWordResult, setCurrWordResult] = useState(null);
   const [speechSuperResultData, setSpeechSuperResultData] = useState(null);
+
   const [isListeningToYourSelf, setIsListeningToYourself] = useState(false);
+  const [fluencyScore, setFluencyScore] = useState(0);
 
   const userRecording = useRef();
+  const feedbackPopoverRef = useRef();
 
   const record = () => {
     // Reset the result
@@ -85,6 +90,7 @@ function AnalyzeSentences() {
     resetTranscript();
     setAudioURL(null);
     setRecordedAudioData([]);
+    setFluencyScore(0);
   };
 
   const editTranscript = (e) => {
@@ -156,6 +162,7 @@ function AnalyzeSentences() {
       setSpeechSuperResultData(resultData);
       setCurrPageState(pageStates.analyzed);
       setMessage(messages.practiceNow);
+      setFluencyScore(resultData.NBest[0].PronunciationAssessment.FluencyScore);
     })
   };
 
@@ -197,6 +204,15 @@ function AnalyzeSentences() {
     setCurrWordResult(null);
   };
 
+  const openFluencyFeedback = () => {
+    if(currPageState !== pageStates.analyzed) return;
+    feedbackPopoverRef.current.classList.add('open');
+  }
+
+  const closeFluencyFeedback = () => {
+    feedbackPopoverRef.current.classList.remove('open');
+  }
+
   // Close popup box with outside click
   useEffect(() => {
     function handleClickOutside(e) {
@@ -207,15 +223,25 @@ function AnalyzeSentences() {
 
     document.addEventListener('mousedown', handleClickOutside);
 
+    setMp3Recorder(new MicRecorder({ bitRate: 128 }));
+
     // Clean up the event listener when the component unmounts
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
+  // After analysis is done, display feedback popover
   useEffect(() => {
-    setMp3Recorder(new MicRecorder({ bitRate: 128 }));
-  }, []);
+    if(currPageState !== pageStates.analyzed) return
+
+    openFluencyFeedback();
+    const timer = setTimeout(closeFluencyFeedback, 4000);
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [currPageState]);
 
   return (
     <React.Fragment>
@@ -270,7 +296,7 @@ function AnalyzeSentences() {
                   {isSpeaking ? "Stop" : "Text to Speech"}
                 </button>
                 <button className="btn" onClick={listenToYourself}>
-                  {userRecording.current && (isListeningToYourSelf ? "Pause" : "Listen to yourself")}
+                  {userRecording.current && (isListeningToYourSelf ? "Pause" : "Your Recording")}
                 </button>
 
                 {currPageState !== pageStates.analyzed &&
@@ -285,6 +311,7 @@ function AnalyzeSentences() {
 
               </>
             }
+
             <button
               className="btn analyze-sentences_icon reset"
               onClick={prevPageState}
@@ -292,6 +319,47 @@ function AnalyzeSentences() {
             >
               <img src={resetSvg} />
             </button>
+
+
+              <div className="fluency-score">
+                  <div 
+                    className="text"
+                    onClick={openFluencyFeedback}
+                    onMouseEnter={openFluencyFeedback}
+                    onMouseLeave={closeFluencyFeedback}
+                  >
+                    <img src={TipIcon} />Fluency
+                  </div>
+                  <div 
+                    className="fluency-feedback" 
+                    ref={feedbackPopoverRef}
+                  >
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti excepturi reprehenderit soluta accusamus consequuntur. Optio libero quod et, iusto in sapiente possimus magnam eligendi, repudiandae laborum illum voluptate, cum minus!</p>
+                  </div>
+                  <span className="percentage">{fluencyScore}%</span>
+                  <CircularProgressbar
+                    value={fluencyScore}
+                    styles={buildStyles({
+                      // Rotation of path and trail, in number of turns (0-1)
+                      rotation: 0,
+
+                      // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                      strokeLinecap: 'round',
+
+                      // Text size
+                      textSize: '40px',
+
+                      // How long animation takes to go from one percentage to another, in seconds
+                      pathTransitionDuration: 1,
+
+                      // Colors
+                      pathColor: '#4285f4',
+                      textColor: '#4285f4',
+                      trailColor: '#ededed',
+                    })}
+                  />
+              </div>
+
           </div>
         </div>
 
@@ -300,7 +368,7 @@ function AnalyzeSentences() {
 
         {/* Display Spinner while analyzing the audio */}
         {currPageState === pageStates.isAnalyzing &&
-          <PopUp content={Spinner()} />
+          <PopUp content={Spinner()} width="max-content" />
         }
 
         {/* Display the popup pronounce component */}

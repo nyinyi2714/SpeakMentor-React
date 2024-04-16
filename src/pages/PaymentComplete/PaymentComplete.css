@@ -25,7 +25,7 @@
   height: max-content;
 }
 
-.message > * {
+.payment-complete-page .message > * {
   position: relative;
   transition: top 100ms;
 }

@@ -63,10 +63,11 @@
   grid-area: message;
   color: var(--grey);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.1rem;
   font-style: italic;
   margin-bottom: var(--spacing-medium);
+  margin-right: 60px;
 }
 
 .analyze-sentences__btn-container {
@@ -75,6 +76,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: var(--spacing-small);
+  position: relative;
 }
 
 .analyze-sentences__btn-container button {
@@ -83,6 +85,7 @@
   border: 2px solid var(--primary-color);
   border-radius: 30px;
   padding: var(--spacing-small) var(--spacing-medium);
+  font-size: 0.9rem;
 }
 
 .analyze-sentences__btn-container button:disabled {
@@ -137,6 +140,89 @@
   background-color: red;
 }
 
+/* Fluency Score Container */
+
+.fluency-score {
+  position: absolute;
+  margin-left: auto;
+  width: 60px;
+  bottom: 0;
+  right: 0;
+}
+
+.fluency-score .text {
+  display: block;
+  position: absolute;
+  left: -25px;
+  top: 50%;
+  width: max-content;
+  transform: translate(-100%, -50%);
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center; 
+  gap: 0.15rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.fluency-feedback::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -5px;
+  right: 10%;
+  width: 10px; 
+  height: 10px; 
+  border: 1px solid var(--light-grey);
+  transform: rotate(45deg);
+  background-color: #fff;
+  z-index: 2;
+}
+
+.fluency-score .percentage {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.fluency-score img {
+  max-width: 25px;
+  margin-right: 1px;
+}
+
+.fluency-feedback {
+  position: absolute;
+  bottom: 80%;
+  right: 100%;
+  border: 1px solid var(--light-grey);
+  border-radius: 10px;
+  display: none;
+}
+
+.fluency-feedback.open {
+  display: block;
+}
+
+.fluency-feedback p {
+  position: relative;
+  display: block;
+  padding: 1rem;
+  line-height: 1.5rem;
+  background-color: #fff;
+  width: max-content;
+  max-width: 400px;
+  border-radius: 10px;
+  z-index: 3;
+}
+
+.CircularProgressbar {
+ margin-bottom: 4px;
+}
 
 
 
