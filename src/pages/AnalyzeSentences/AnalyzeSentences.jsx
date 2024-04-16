@@ -234,13 +234,7 @@ function AnalyzeSentences() {
   // After analysis is done, display feedback popover
   useEffect(() => {
     if(currPageState !== pageStates.analyzed) return
-
     openFluencyFeedback();
-    const timer = setTimeout(closeFluencyFeedback, 4000);
-
-    return () => {
-      clearTimeout(timer);
-    }
   }, [currPageState]);
 
   return (
