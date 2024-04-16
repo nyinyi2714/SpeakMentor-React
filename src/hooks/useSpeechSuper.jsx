@@ -5,19 +5,24 @@ function useSpeechSuper() {
   const perfectScore = 90;
 
   const sendAudioToSpeechSuperAPI = async (audioBlob, word, isSingleWord) => {
-    // Create a FormData object
     const formData = new FormData();
-    // Append the audio blob to the form data. The 'audio' is the field name for the server to access the audio file.
     formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
-    // Append other fields to the form data
     formData.append('word', word);
-    // formData.append('isSingleWord', isSingleWord);
 
-    let response;
+    const token = localStorage.getItem("token");
+    console.log("Token:", token);
+
+    let headers;
+    if (token) {
+      headers = {"Authorization": `Token ${token}`};
+    } else {
+      headers = {};
+    }
 
     try {
-      response = await fetch(config.backendUrl + `/process?type=${isSingleWord ? 'word' : 'sentence'}`, {
+      let response = await fetch(config.backendUrl + `/process?type=${isSingleWord ? 'word' : 'sentence'}`, {
         method: "POST",
+        headers: headers,
         body: formData,
       });
 
@@ -31,8 +36,6 @@ function useSpeechSuper() {
     } catch (error) {
       console.error("Error fetching speech super result:", error);
     }
-
-
   };
 
   const generateResult = (speechSuperResult) => {
