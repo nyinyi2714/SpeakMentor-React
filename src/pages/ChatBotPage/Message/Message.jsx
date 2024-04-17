@@ -1,12 +1,13 @@
 import { useGoogleTTS, useSpeechSuper } from "../../../hooks";
-import { useRef } from 'react';
+import { useState } from 'react';
 import TipIcon from '../../../assets/info.svg';
 import "./Message.css";
 
 export default function Message({ message, setPopupWord }) {
   const { speak, isSpeaking } = useGoogleTTS(1);
   const { chooseColorsForScores } = useSpeechSuper();
-  const popoverRef = useRef();
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const handleTextToSpeech = (e) => {
     const text = e.target.dataset.value;
@@ -14,11 +15,11 @@ export default function Message({ message, setPopupWord }) {
   };
 
   const openTip = () => {
-    popoverRef.current.classList.add('open');
+    setIsPopoverOpen(true);
   }
 
   const closeTip = () => {
-    popoverRef.current.classList.remove('open');
+    setIsPopoverOpen(false);
   }
 
   const generateResultForSentences = (resultData) => {
@@ -54,7 +55,7 @@ export default function Message({ message, setPopupWord }) {
 
 
   return (
-    <div className="message-container" style={message.sender === 'user' ? { zIndex: 2 }: {}}>
+    <div className="message-container" style={message.sender === 'user' && isPopoverOpen ? { zIndex: 2 }: {}}>
       {
         message.sender === "chatbot" &&
         <span className="chatbot-profile">&#x1F916;</span>
@@ -103,7 +104,8 @@ export default function Message({ message, setPopupWord }) {
 
         {
           message.resultData?.PronunciationAssessment.FluencyScore < 90 && 
-          <div className="popover" ref={popoverRef}>
+          <div className={`popover ${isPopoverOpen && 'open'}`}>
+            <h4>Fluency Tip</h4>
             <span>{message.feedback}</span>
           </div>
         }

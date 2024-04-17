@@ -34,33 +34,29 @@
   position: absolute;
   top: 100%;
   right: 0;
-  margin-top: 1rem;
-  max-width: 100%;
+  margin-top: 0.5rem;
+  width: max(400px, 100%);
+  max-width: 80vw;
 
   background-color: #fff;
   border: 1px solid var(--light-grey);
   box-shadow: 2px 2px 2px var(--light-grey);
+  padding: 8px 10px 10px;
+  background-color: #fff;
+  color: var(--grey);
+  z-index: 3;
+}
+
+.popover h4 {
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }
 
 .message .popover > span {
   position: relative;
   z-index: 2;
-  padding: 8px 10px 10px;
-  background-color: #fff;
-  display: inline-block;
-}
 
-.message .popover::after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: -6px;
-  right: 88%;
-  width: 10px; 
-  height: 10px; 
-  border: 1px solid var(--light-grey);
-  transform: rotate(45deg);
-  background-color: #fff;
+  display: inline-block;
 }
 
 .message-container {
@@ -113,6 +109,7 @@
   align-items: center;
   gap: 0.2rem;
   color: var(--grey);
+  position: relative;
 }
 
 .fluency-tip > img {

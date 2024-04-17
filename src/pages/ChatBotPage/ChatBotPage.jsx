@@ -74,6 +74,7 @@ function ChatBotPage() {
       ...prev,
       {sender: 'user', text: result.user_message, resultData: result.result_json.NBest[0], feedback: result.feedback},
     ]))
+    setIsLoading(false);
 
     setTimeout(() => {
       setMessages(prev => ([
@@ -81,7 +82,6 @@ function ChatBotPage() {
         {sender: 'chatbot', text: result.chatbot_response},
       ]))
       speak(result.chatbot_response);
-      setIsLoading(false);
     }, 1000)
   };
 
