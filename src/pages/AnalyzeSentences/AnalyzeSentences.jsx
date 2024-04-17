@@ -57,6 +57,7 @@ function AnalyzeSentences() {
 
   const [isListeningToYourSelf, setIsListeningToYourself] = useState(false);
   const [fluencyScore, setFluencyScore] = useState(0);
+  const [fluencyFeedback, setFluencyFeedback] = useState("");
 
   const userRecording = useRef();
   const feedbackPopoverRef = useRef();
@@ -90,7 +91,10 @@ function AnalyzeSentences() {
     resetTranscript();
     setAudioURL(null);
     setRecordedAudioData([]);
+    
     setFluencyScore(0);
+    setFluencyFeedback('');
+    closeFluencyFeedback();
   };
 
   const editTranscript = (e) => {
@@ -155,15 +159,16 @@ function AnalyzeSentences() {
     setCurrPageState(pageStates.isRecording);
   };
 
-  const analyze = () => {
-    // use useSpeechSuper API
+  const analyze = async () => {
     setCurrPageState(pageStates.isAnalyzing);
-    sendAudioToSpeechSuperAPI(audioBlob, editedTranscript, false).then(resultData => {
-      setSpeechSuperResultData(resultData);
-      setCurrPageState(pageStates.analyzed);
-      setMessage(messages.practiceNow);
-      setFluencyScore(resultData.NBest[0].PronunciationAssessment.FluencyScore);
-    })
+
+    const resultData = await sendAudioToSpeechSuperAPI(audioBlob, editedTranscript, false);
+    setSpeechSuperResultData(resultData.result_json);
+    setMessage(messages.practiceNow);
+    setFluencyFeedback(resultData.feedback);
+    setFluencyScore(resultData.result_json.NBest[0].PronunciationAssessment.FluencyScore);
+
+    setCurrPageState(pageStates.analyzed);
   };
 
   const generateResultForSentences = (resultData) => {
@@ -328,7 +333,7 @@ function AnalyzeSentences() {
                     className="fluency-feedback" 
                     ref={feedbackPopoverRef}
                   >
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti excepturi reprehenderit soluta accusamus consequuntur. Optio libero quod et, iusto in sapiente possimus magnam eligendi, repudiandae laborum illum voluptate, cum minus!</p>
+                    <p>{fluencyFeedback}</p>
                   </div>
                   <span className="percentage">{fluencyScore}%</span>
                   <CircularProgressbar

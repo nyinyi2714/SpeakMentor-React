@@ -47,7 +47,13 @@ function ChatBotPage() {
     setSavedConversations(prevConversations => [newConversation, ...prevConversations]);
 
     // TODO: set the new conversation to backend
-
+    fetch('http://localhost:3000', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: currConversationTitle,
+        messages: messages
+      })
+    })
     setIsModalOpen(false);
   }
 
@@ -63,10 +69,10 @@ function ChatBotPage() {
   const handleEndingUserAudio = async () => {
     setIsLoading(true)
     const result = await endChatbotRecording();
-    console.log(result)
+  
     setMessages(prev => ([
       ...prev,
-      {sender: 'user', text: result.user_message, feedback: "result.feedback"},
+      {sender: 'user', text: result.user_message, resultData: result.result_json.NBest[0], feedback: result.feedback},
     ]))
 
     setTimeout(() => {

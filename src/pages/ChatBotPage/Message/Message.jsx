@@ -45,18 +45,16 @@ export default function Message({ message, setPopupWord }) {
       });
     };
 
-    // Assuming the best result is the first in the NBest array
-    const bestResult = resultData.NBest[0];
-    console.log("bestResult: ", bestResult);
-    if (bestResult && bestResult.Words) {
-      convertSentenceIntoWords(bestResult.Words, words);
+    if (resultData && resultData.Words) {
+      convertSentenceIntoWords(resultData.Words, words);
     }
 
     return words;
   };
 
+
   return (
-    <div className="message-container">
+    <div className="message-container" style={message.sender === 'user' ? { zIndex: 2 }: {}}>
       {
         message.sender === "chatbot" &&
         <span className="chatbot-profile">&#x1F916;</span>
@@ -67,8 +65,12 @@ export default function Message({ message, setPopupWord }) {
         }
       >
         {/* TODO: get "analysis from backend" */}
-        {/* {generateResultForSentences(message.analysis)} */}
-        {message.text}
+        {
+          message.sender === "chatbot" ?
+          message.text :
+          <span>{generateResultForSentences(message.resultData)}</span>
+        }
+
         {
           message.sender === "user" &&
           <button
@@ -86,7 +88,7 @@ export default function Message({ message, setPopupWord }) {
         }
 
         {
-          message.feedback && 
+          message.resultData?.PronunciationAssessment.FluencyScore < 90 && 
           <span 
             id="fluency-tip"
             className="fluency-tip" 
@@ -100,7 +102,7 @@ export default function Message({ message, setPopupWord }) {
         }
 
         {
-          message.feedback && 
+          message.resultData?.PronunciationAssessment.FluencyScore < 90 && 
           <div className="popover" ref={popoverRef}>
             <span>{message.feedback}</span>
           </div>

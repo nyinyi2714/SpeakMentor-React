@@ -30,10 +30,10 @@
 }
 
 .message .popover.open {
-  display: block;
+  display: inline-block;
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   margin-top: 1rem;
   max-width: 100%;
 
@@ -55,7 +55,7 @@
   display: block;
   position: absolute;
   top: -6px;
-  left: 5%;
+  right: 88%;
   width: 10px; 
   height: 10px; 
   border: 1px solid var(--light-grey);
@@ -98,6 +98,10 @@
   align-items: center;
 }
 
+.user-message span {
+  cursor: pointer;
+}
+
 .fluency-tip {
   font-size: 0.75rem;
   color: var(--grey);
@@ -108,7 +112,7 @@
   display: flex;
   align-items: center;
   gap: 0.2rem;
-  color: #00d100;
+  color: var(--grey);
 }
 
 .fluency-tip > img {
