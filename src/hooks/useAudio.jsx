@@ -3,7 +3,6 @@ import useGoogleTTS from "../hooks/useGoogleTTS";
 import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";
 import config from "../config";
-import Cookies from "js-cookie";
 
 function useAudio({ word }) {
 

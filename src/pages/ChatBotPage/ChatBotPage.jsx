@@ -3,6 +3,8 @@ import { Navbar } from "../../components";
 import { useGoogleTTS ,useAudio } from "../../hooks";
 import soundEffect from "../../assets/rec.m4a";
 import { ThreeDots } from 'react-loader-spinner';
+import config from "../../config";
+import 'js-cookie';
 
 import { ModalComponent } from "../../components";
 import { PopUp } from "../AnalyzeSentences";
@@ -43,12 +45,17 @@ function ChatBotPage() {
       messages: messages,
     }
 
+    const token = localStorage.getItem("token");
     // Update the saved Conversation list on client-side
     setSavedConversations(prevConversations => [newConversation, ...prevConversations]);
 
     // TODO: set the new conversation to backend
-    fetch('http://localhost:3000', {
+    fetch(config.backendUrl + "/api/save-chatbot-conversation", {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Token ${token}`,
+      },
       body: JSON.stringify({
         title: currConversationTitle,
         messages: messages

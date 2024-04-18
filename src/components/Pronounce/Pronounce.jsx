@@ -36,7 +36,7 @@ function Pronounce(props) {
     reset
   } = useAudio({ word });
 
-  console.log(result)
+  //console.log(result)
   let speechSuperResult = result;
 
   const { generateResult, generateFeedback, checkIsPerfectScore } = useSpeechSuper();
