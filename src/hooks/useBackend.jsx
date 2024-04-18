@@ -31,7 +31,8 @@ function useBackend() {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-        },
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+      },
         body: JSON.stringify({ 
           "answers": answers, 
         }),
@@ -49,9 +50,55 @@ function useBackend() {
     }
   };
 
+  const getSavedConversations = async () => {
+    try {
+      let response = await fetch(`${config.backendUrl}/api/get-chatbot-conversations`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        response = await response.json();
+        return response;
+      } else {
+        console.error("Error retreiving saved conversations.");
+      }
+    } catch (error) {
+      console.error("Error retreiving saved conversations:", error);
+    }
+  }
+
+  const saveConversation = async (conversation) => {
+    try {
+      let response = await fetch(`${config.backendUrl}/api/save-chatbot-conversations`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(conversation)
+      });
+
+      if (response.ok) {
+        response = await response.json();
+        return true;
+      } else {
+        console.error("Error saving a new conversation.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error saving a new conversation:", error);
+    }
+  }
+
   return({
     getLaymanPhonetic,
     submitBackgroundQuestions,
+    getSavedConversations,
+    saveConversation,
   });
 }
 

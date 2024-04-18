@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "../../components";
-import { useGoogleTTS ,useAudio } from "../../hooks";
+import { useGoogleTTS ,useAudio, useBackend } from "../../hooks";
 import soundEffect from "../../assets/rec.m4a";
 import { ThreeDots } from 'react-loader-spinner';
-import config from "../../config";
 import 'js-cookie';
 
 import { ModalComponent } from "../../components";
@@ -13,9 +12,10 @@ import Message from "./Message/Message";
 import ConversationsContainer from "./ConversationsContainer/ConversationsContainer";
 import "./ChatBotPage.css";
 
-function ChatBotPage() {
+export default function ChatBotPage() {
   const { speak, isSpeaking } = useGoogleTTS(1);
   const { isRecording, recordForChatBot, endChatbotRecording, soundEffectElement } = useAudio({ word: null });
+  const { getSavedConversations, saveConversation } = useBackend();
 
   const [currConversationTitle, setCurrConversationTitle] = useState('');
   const [messages, setMessages] = useState([
@@ -27,10 +27,7 @@ function ChatBotPage() {
   const [savedConversations, setSavedConversations] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [popupWord, setPopupWord] = useState(null);
-
-  const updateMessages = (newMessage) => {
-    setMessages(prevList => [...prevList, newMessage]);
-  };
+  const [isMessagesOverridden, setIsMessagesOverridden] = useState(false);
 
   const handleCurrConversationTitle = (e) => {
     const value = e.target.value;
@@ -39,34 +36,51 @@ function ChatBotPage() {
     setCurrConversationTitle(truncatedValue);
   }
 
-  const saveCurrConversation = () => {
+  const saveCurrConversation = async () => {
     const newConversation = {
       title: currConversationTitle,
       messages: messages,
     }
 
-    const token = localStorage.getItem("token");
-    // Update the saved Conversation list on client-side
-    setSavedConversations(prevConversations => [newConversation, ...prevConversations]);
+    // Update the saved Conversation list on server
+    await saveConversation(newConversation);
+    
+    // refresh saved conversation list 
+    await fetchSavedConversations();
 
-    // TODO: set the new conversation to backend
-    fetch(config.backendUrl + "/api/save-chatbot-conversation", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Token ${token}`,
-      },
-      body: JSON.stringify({
-        title: currConversationTitle,
-        messages: messages
-      })
-    })
     setIsModalOpen(false);
+  }
+
+  const fetchSavedConversations = async () => {
+    const savedConversationsData = await getSavedConversations();
+    setSavedConversations(savedConversationsData);
   }
 
   const restoreConversation = (e) => {
     const conversationId = e.target.id;
-    // TODO: swap messages with the savedConversation.messages
+
+    // loop through savedConversations to find the one whose id matches conversationId
+    for (const conversation of savedConversations) {
+      if (conversation.id == conversationId) {
+        setMessages(conversation.chat);
+        setCurrConversationTitle(conversation.title);
+        break;
+      }
+    }
+
+    // save current conversation after retoring saved conversations
+    if(!isMessagesOverridden) {
+      const newConversation = {
+        id:"curr",
+        title: 'Current Conversation',
+        chat: messages,
+      }
+
+      setSavedConversations(prevConversations => [newConversation, ...prevConversations]);
+      setIsMessagesOverridden(true);
+    }
+
+    setIsDropDownOpen(false);
   }
 
   const handleSavingUserAudio = () => {
@@ -102,9 +116,9 @@ function ChatBotPage() {
 
   useEffect(scrollToBottom, [messages]);
 
-  // TODO: fetch saved conversations from backend
+  // fetch saved conversations from backend
   useEffect(() => {
-
+    fetchSavedConversations();
   }, []);
 
   const closePopUp = () => {
@@ -196,5 +210,3 @@ function ChatBotPage() {
     </React.Fragment>
   );
 }
-
-export default ChatBotPage;

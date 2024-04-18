@@ -34,9 +34,10 @@
   border-radius: 5px;
   text-align: left;
 
+  font-size: 1rem;
   transition: 100ms;
 }
 
-.conversations-container button:hover {
+.conversations-container.open button:hover {
   background-color: var(--very-light-grey);
 }
