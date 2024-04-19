@@ -29,21 +29,27 @@ function Navbar() {
 
   const handleLogOut = async () => {
     try {
-        let response = await fetch(`${config.backendUrl}/api/logout`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",  // Corrected content type
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-        if (response.status === 200) {
-            console.log("Logout successfully.");
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
+        if (localStorage.getItem("token")) {
+            let response = await fetch(`${config.backendUrl}/api/logout`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",  // Corrected content type
+                  "Authorization": `Bearer ${localStorage.getItem("token")}`,
+              },
+          });
+          if (response.status === 200) {
+              console.log("Logout successfully.");
+              localStorage.removeItem("user");
+              localStorage.removeItem("token");
+              setUsername("");      // Reset username state
+              setLoginText("Log In"); // Update login text
+          } else {
+              console.error("Error logging out. Status code:", response.status);
+          }
+        } else {
+            console.log("No token found in localStorage.");
             setUsername("");      // Reset username state
             setLoginText("Log In"); // Update login text
-        } else {
-            console.error("Error logging out. Status code:", response.status);
         }
     } catch (error) {
         console.error("Error logging out:", error);
@@ -57,7 +63,7 @@ function Navbar() {
         <li><Link to="/analyze-sentences" onClick={() => setIsMenuOpen(false)}>Sentences</Link></li>
         <li><Link to="/chatbot" onClick={() => setIsMenuOpen(false)}>Practice with AI</Link></li>
         <li><Link to="/subscriptions" onClick={() => setIsMenuOpen(false)}>Pricing</Link></li>
-        <li><Link to={username.length==0 ? "/" : "/words"} onClick={handleLogOut}>{loginText}</Link></li>
+        <li><Link to={username.length==0 ? "/login" : "/"} onClick={handleLogOut}>{loginText}</Link></li>
         <li><Link to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</Link></li>
       </ul>
     );
