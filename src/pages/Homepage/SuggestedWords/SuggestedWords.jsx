@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { useGoogleTTS } from "../../../hooks";
+import config from "../../../config";
+import Cookies from 'js-cookie';
 
 import "./SuggestedWords.css";
 
@@ -11,7 +14,38 @@ export default function SuggestedWords() {
     speak(word);
   }
 
-  
+
+
+  const getPracticeList = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      let headers;
+      if (token) {
+        headers = {
+          "Authorization": `Token ${token}`,
+          "X-CSRFToken": Cookies.get('csrftoken')
+        };
+      } else {
+        headers = {"X-CSRFToken": Cookies.get('csrftoken')};
+      }
+      let response = await fetch(config.backendUrl + "/api/get-practice-list", {
+        method: "GET",
+        headers: headers,
+        credentials: "include",
+      });
+      response = await response.json();
+      console.log(response);
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
+    console.log("Fetching practice list...");
+    const practiceList = getPracticeList();
+    console.log(practiceList);
+  }, []);
 
   return (
     <div className="suggested-words">

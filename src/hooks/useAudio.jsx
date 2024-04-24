@@ -4,6 +4,7 @@ import MicRecorder from "mic-recorder-to-mp3";
 import useSpeechSuper from "./useSpeechSuper";
 import config from "../config";
 
+import Cookies from 'js-cookie';
 function useAudio({ word }) {
 
   const { sendAudioToSpeechSuperAPI } = useSpeechSuper();
@@ -93,11 +94,23 @@ function useAudio({ word }) {
         const formData = new FormData();
         formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
 
+        const token = localStorage.getItem("token");
+        console.log("Token:", token);
+        console.log("CsrfToken:", getCsrfToken());
+
+        let headers;
+        if (token) {
+          headers = {
+            "Authorization": `Token ${token}`,
+            //"X-CSRFToken": getCsrfToken()
+          };
+        } else {
+          headers = {"X-CSRFToken": Cookies.get('csrftoken')};
+        }
+
         let response = await fetch(config.backendUrl + "/process?type=chatbot", {
           method: "POST",
-          headers: {
-            "X-CSRFToken": getCsrfToken(),
-          },
+          headers: headers,
           credentials: "include",
           body: formData,
         });

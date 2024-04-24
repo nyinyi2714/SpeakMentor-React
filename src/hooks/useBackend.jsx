@@ -27,11 +27,11 @@ function useBackend() {
 
   const submitBackgroundQuestions = async (answers) => {
     try {
-      let response = await fetch(`${config.backendUrl}/questions`, {
+      let response = await fetch(`${config.backendUrl}/api/questionnaire`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          "Authorization": `Token ${localStorage.getItem("token")}`,
+          "Authorization": `Token ${localStorage.getItem("token")}`
       },
         body: JSON.stringify({ 
           "answers": answers, 

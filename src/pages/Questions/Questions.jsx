@@ -10,8 +10,8 @@ export default function Questions() {
   const navigate = useNavigate();
 
   const [selectedLanguage, setSelectedLanguage] = useState([]);
-  const [birthYear, setBirthYear] = useState('');
-  const [experience, setExperience] = useState('');
+  const [birth_year, setBirthYear] = useState('');
+  const [years_speaking_english, setExperience] = useState('');
 
   const handleLanguageChange = (value) => {
     setSelectedLanguage(value);
@@ -28,9 +28,9 @@ export default function Questions() {
   const handleQuestionsSubmit = async (e) => {
     e.preventDefault()
     const isSuccessful = await submitBackgroundQuestions({
-      langauge: selectedLanguage[0].label,
-      birthYear,
-      experience
+      native_language: selectedLanguage[0].label,
+      birth_year,
+      years_speaking_english
     })
 
     // if successful, redirect to homepage
@@ -70,7 +70,7 @@ export default function Questions() {
             className='number-input'
             id='birth-year'
             type="number"
-            value={birthYear}
+            value={birth_year}
             onChange={handleBirthYearChange}
             min={minBirthYear}
             max={currentYear}
@@ -86,7 +86,7 @@ export default function Questions() {
             className='number-input'
             id='experience'
             type="number"
-            value={experience}
+            value={years_speaking_english}
             onChange={handleExperienceChange}
             min={0}
             max={100}
