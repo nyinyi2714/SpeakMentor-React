@@ -8,6 +8,7 @@
   margin-bottom: auto;
 
   padding: var(--spacing-large);
+  position: relative;
 }
 
 @media (max-width: 800px) {
@@ -41,7 +42,7 @@
   border-bottom: 1px solid var(--light-grey);
 }
 
-.word-list > .word:first-child {
+.word-list > *:first-child {
   border-top: 1px solid var(--light-grey);
 }
 
@@ -88,13 +89,84 @@
   background-color: var(--primary-color);
 }
 
-.word .practice-btn:disabled {
-  cursor: default;
-  opacity: 0.4;
-}
-
 .word .practice-btn:disabled:hover {
   color: var(--primary-color);
   background-color: #fff;
 }
- 
+
+.refresh-btn {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--primary-color);
+  background-color: transparent;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.refresh-btn.loading {
+  animation: rotating 1s linear infinite;
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.suggested-words .word-skeleton {
+  display: block;
+  width: 100%;
+  height: 47px;
+  border-bottom: 1px solid var(--light-grey);
+  display: flex;
+  align-items: center;
+}
+
+.word-skeleton .rectangle,
+.word-skeleton .circle,
+.word-skeleton .button  
+{
+  display: inline-block;
+  height: 25px;
+  border-radius: 5px;
+
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+.word-skeleton .rectangle {
+  flex-grow: 1;
+  animation-delay: 280ms;
+}
+
+.word-skeleton .circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0.3rem;
+}
+
+.word-skeleton .button {
+  width: 72px;
+  height: 30px;
+  border-radius: 30px;
+  margin-left: 0.3rem;
+  animation-delay: 280ms;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

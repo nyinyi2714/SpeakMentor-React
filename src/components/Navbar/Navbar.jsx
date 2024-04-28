@@ -56,15 +56,15 @@ function Navbar() {
     }
   }
 
-  const NavButtons = ({ isMobileNav }) => {
+  const NavButtons = ({children}) => {
     return (
       <ul>
+        <li>{children}</li>
         <li><Link to="/words" onClick={() => setIsMenuOpen(false)}>Single Word</Link></li>
         <li><Link to="/analyze-sentences" onClick={() => setIsMenuOpen(false)}>Sentences</Link></li>
         <li><Link to="/chatbot" onClick={() => setIsMenuOpen(false)}>Practice with AI</Link></li>
         <li><Link to="/subscriptions" onClick={() => setIsMenuOpen(false)}>Pricing</Link></li>
         <li><Link to={username.length==0 ? "/login" : "/"} onClick={handleLogOut}>{loginText}</Link></li>
-        <li><Link to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</Link></li>
       </ul>
     );
   };
@@ -75,13 +75,11 @@ function Navbar() {
         <div className="logo">
           <Link to="/"><img src="/images/main-logo-alt.png" alt="logo" /></Link>
         </div>
-        {username && (
-          <div className="user">
-            <Link to="/words">{username}</Link>
-          </div>
-        )}
+
         <div className={`main_list desktop ${isMenuOpen ? "show" : ""}`} id="mainListDiv">
-          <NavButtons isMobileNav={false} />
+          <NavButtons>
+            {username && <span><b>Hello, {username}</b></span>}
+          </NavButtons>
         </div>
         <div className="media_button">
           <button className="main_media_button" id="mediaButton" onClick={toggleMenu}>
@@ -92,7 +90,9 @@ function Navbar() {
         </div>
       </div>
       <div className={`main_list mobile ${isMenuOpen ? "show" : ""}`} id="mainListDiv">
-        <NavButtons isMobileNav={true} />
+        <NavButtons>
+          {username && <span><b>Hello, {username}</b></span>}
+        </NavButtons>
       </div>
     </div>
   );

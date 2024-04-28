@@ -63,7 +63,7 @@ function Homepage(props) {
             word={word}
           />
         </div>
-        <SuggestedWords />
+        <SuggestedWords setWord={setWord} />
         </div>
         
       </div>

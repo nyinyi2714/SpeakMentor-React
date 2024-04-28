@@ -5,8 +5,10 @@ import Cookies from 'js-cookie';
 
 import "./SuggestedWords.css";
 
-export default function SuggestedWords() {
+export default function SuggestedWords({ setWord }) {
   const { speak, isSpeaking } = useGoogleTTS();
+  const [ suggestedWords, setSuggestedWords ] = useState([])
+  const [ isFetchingWords, setIsFetchingWords ] = useState(false)
 
   const handleSpeak = (e) => {
     if(isSpeaking) return;
@@ -14,9 +16,8 @@ export default function SuggestedWords() {
     speak(word);
   }
 
-
-
   const getPracticeList = async () => {
+    setIsFetchingWords(true)
     try {
       const token = localStorage.getItem("token");
       let headers;
@@ -39,45 +40,79 @@ export default function SuggestedWords() {
     } catch (err) {
       console.error(err);
     }
+    setIsFetchingWords(false)
   }
 
-  useEffect(() => {
-    console.log("Fetching practice list...");
-    const practiceList = getPracticeList();
-    console.log(practiceList);
-  }, []);
+  const updateSuggstedWords = async () => {
+    const suggestedWordsData = await getPracticeList()
+    setSuggestedWords(suggestedWordsData)
+  }
+
+  useEffect(updateSuggstedWords, [])
 
   return (
     <div className="suggested-words">
       <h2>Word Suggestion</h2>
       <h3>Based on your practice history and previous performance</h3>
-      <button>refresh</button>
+      <button 
+        className={`refresh-btn ${isFetchingWords && 'loading'}`} 
+        onClick={updateSuggstedWords} 
+        disabled={isFetchingWords}
+      >
+        <box-icon name='sync' color="#4285f4" size="35px" />
+      </button>
+
       <div className="word-list">
-        <div className={`word ${isSpeaking && "disabled"}`} >
-          <box-icon onClick={handleSpeak} data-value="communication" name="volume-full" size="16px" color="#4285f4" />
-          Communication
-          <button className="practice-btn" disabled={isSpeaking}>Practice</button>
-        </div>
-        <div className="word">
-          <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
-          Treasure
-          <button className="practice-btn">Practice</button>
-        </div>
-        <div className="word">
-          <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
-          Pearl
-          <button className="practice-btn">Practice</button>
-        </div>
-        <div className="word">
-          <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
-          Vegetables
-          <button className="practice-btn">Practice</button>
-        </div>
-        <div className="word">
-          <box-icon onClick={handleSpeak} name="volume-full" size="16px" color="#4285f4" />
-          Crisps
-          <button className="practice-btn">Practice</button>
-        </div>
+        {
+          suggestedWords.length > 0 && !isFetchingWords &&
+          suggestedWords.map((word, index) => {
+            return (
+              <div className={`word ${isSpeaking && "disabled"}`} key={index} >
+                <box-icon onClick={handleSpeak} data-value={word} name="volume-full" size="16px" color="#4285f4" />
+                {word}
+                <button 
+                  className="practice-btn" 
+                  disabled={isSpeaking}
+                  onClick={() => setWord(word)}
+                >
+                  Practice
+                </button>
+              </div>
+            )
+          })
+        }
+
+        {
+          isFetchingWords && 
+          <>
+            <div className="word-skeleton">
+              <span className="circle" />
+              <span className="rectangle" />
+              <span className="button" />
+            </div>
+            <div className="word-skeleton">
+              <span className="circle" />
+              <span className="rectangle" />
+              <span className="button" />
+            </div><div className="word-skeleton">
+              <span className="circle" />
+              <span className="rectangle" />
+              <span className="button" />
+            </div><div className="word-skeleton">
+              <span className="circle" />
+              <span className="rectangle" />
+              <span className="button" />
+            </div><div className="word-skeleton">
+              <span className="circle" />
+              <span className="rectangle" />
+              <span className="button" />
+            </div><div className="word-skeleton">
+              <span className="circle" />
+              <span className="rectangle" />
+              <span className="button" />
+            </div>
+          </>
+        }
       </div>
 
     </div>
