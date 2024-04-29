@@ -57,6 +57,7 @@ export default function SuggestedWords({ setWord }) {
   return (
     <div className="suggested-words">
       <h2>Word Suggestion</h2>
+      <h3>Click the refresh button to get new words!</h3>
       <button 
         className={`refresh-btn ${isFetchingWords && 'loading'}`} 
         onClick={updateSuggstedWords} 

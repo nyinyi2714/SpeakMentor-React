@@ -217,9 +217,12 @@ export default function ChatBotPage() {
                   <box-icon type="solid" name="microphone" size="24px" color="#fff" />
                 </button>
             }
-            <button onClick={() => setIsModalOpen(true)} className="chatbot-button float-right">
-              Save
-            </button>
+             {/* Conditionally render the Save button */}
+              {currentConvoId === 'curr' && (
+                <button onClick={() => setIsModalOpen(true)} className="chatbot-button float-right">
+                  Save
+                </button>
+              )}
           </div>
 
         </div>
