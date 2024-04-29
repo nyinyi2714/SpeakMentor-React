@@ -25,9 +25,10 @@ function useAuthenticate() {
         const responseData = await response.json(); // Convert to JSON here
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("user", JSON.stringify(responseData.user));
+        console.log(responseData)
         saveUser(responseData.user);
         console.log("login successfully.");
-        navigate("/words");
+        navigate("/");
       } else {
         console.error("Error logging in. Status code:", response.status);
       }
@@ -45,7 +46,7 @@ function useAuthenticate() {
         },
         body: JSON.stringify({ username, email, password }), // Ensure the body is a string
       });
-  
+
       if (response.status === 201) {
         const responseData = await response.json(); // Convert to JSON here
         localStorage.setItem("token", responseData.token);
@@ -61,8 +62,31 @@ function useAuthenticate() {
       console.error("Error registering:", error);
     }
   };
-  
-  return({login,register});
+
+  const checkUserAuthenticated = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      let response = await fetch(config.backendUrl + "/api/test-token", {
+        method: "GET",
+        headers: {
+          "Authorization": `Token ${token}`,
+        },
+        credentials: "include",
+      });
+      if(response.ok) return true 
+      return false
+
+    } catch (err) {
+      return false
+    }
+  }
+
+  return {
+    login,
+    register,
+    checkUserAuthenticated,
+  };
 }
 
 export default useAuthenticate;

@@ -7,7 +7,7 @@ import "./SuggestedWords.css";
 
 export default function SuggestedWords({ setWord }) {
   const { speak, isSpeaking } = useGoogleTTS();
-  const [ suggestedWords, setSuggestedWords ] = useState([])
+  const [ suggestedWords, setSuggestedWords ] = useState(['communication', 'vegetables', 'chocolate', 'crisps', 'film'])
   const [ isFetchingWords, setIsFetchingWords ] = useState(false)
 
   const handleSpeak = (e) => {
@@ -44,11 +44,15 @@ export default function SuggestedWords({ setWord }) {
   }
 
   const updateSuggstedWords = async () => {
+    setIsFetchingWords(true)
     const suggestedWordsData = await getPracticeList()
     setSuggestedWords(suggestedWordsData)
+    setIsFetchingWords(false)
   }
 
-  useEffect(updateSuggstedWords, [])
+  useEffect(() => {
+    updateSuggstedWords()
+  }, [])
 
   return (
     <div className="suggested-words">

@@ -29,7 +29,7 @@ function Payment() {
     <>
     <Navbar />
     <div className="payment-page">
-      <h1>Enter Payment method</h1>
+      <h1>Enter Payment Method</h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <PaymentForm />

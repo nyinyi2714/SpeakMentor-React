@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSpeechRecognizer, useGoogleTTS, useSpeechSuper } from "../../hooks";
+import { useSpeechRecognizer, useGoogleTTS, useSpeechSuper, useRedirect } from "../../hooks";
 
 import { PopUp, Spinner, DisplaySteps } from "./index";
 import { Pronounce, Navbar } from "../../components";
@@ -22,6 +22,7 @@ function AnalyzeSentences() {
 
   const { speak, stop, isSpeaking } = useGoogleTTS(1);
   const { sendAudioToSpeechSuperAPI, chooseColorsForScores } = useSpeechSuper();
+  const { loginRedirect } = useRedirect();
 
   const pageStates = {
     isRecording: "Record",
@@ -139,6 +140,8 @@ function AnalyzeSentences() {
 
     // Add the 'ended' event listener when the component mounts
     userRecording.current.addEventListener('ended', handleAudioEnded);
+
+    loginRedirect()
 
     // Remove the event listener when the component unmounts
     return () => {

@@ -101,8 +101,9 @@ function Pronounce(props) {
 
   useEffect(() => {
     if (!analyzingMessage.current || !resultDisplay.current || !resultContainer.current) return;
+    console.log(analyzingMessage.current.classList)
     if (isAnalyzing && audioURL && analyzingMessage.current) analyzingMessage.current.classList.add("show");
-    else setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
+    else if(analyzingMessage.current.classList.contains('show')) setTimeout(() => analyzingMessage.current.classList.remove("show"), 400);
 
     if (isAnalyzing || speechSuperResult === null) {
       resultDisplay.current.classList.remove("show");

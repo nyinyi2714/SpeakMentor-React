@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { useStateContext } from "./StateContext";
-import { useRoute } from "./hooks";
 import { 
   Homepage, 
   Login, 
@@ -24,9 +22,6 @@ import 'react-circular-progressbar/dist/styles.css';
 import './App.css';
 
 function App() {
-  const { user, setUser } = useStateContext();
-  const { authenticationRoute } = useRoute();
-
   const [micPermission, setMicPermission] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [wordNotFound, setWordNotFound] = useState("");
@@ -46,20 +41,13 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (!user) {
-      // TODO: get user from localStorage
-    }
-
-  }, []);
-
   return (
     <div className="App">
       <Routes>
       <Route path="/" element={<LandingPage />} />
         <Route exact path="/words" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
-        <Route path="/login" element={authenticationRoute(false, Login)} />
-        <Route path="/register" element={authenticationRoute(false, Register)} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
         <Route path="/chatbot" element={<ChatBotPage />} />
         <Route path="/subscriptions" element={<SubscriptionPage />} />
@@ -69,12 +57,12 @@ function App() {
         <Route path="/questions" element={<Questions />} />
       </Routes>
 
-      {/* {<LoadingAnimation
+      {<LoadingAnimation
         requestMicPermission={requestMicPermission}
         closePopup={closePopup}
         setIsPopupOpen={setIsPopupOpen}
         setMicPermission={setMicPermission}
-      />} */}
+      />}
 
       {isPopupOpen && <Popup
         micPermission={micPermission}

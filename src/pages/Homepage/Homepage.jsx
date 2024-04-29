@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import useDictionaryAPI from "../../hooks/useDictionaryAPI";
 
 import { Pronounce, Navbar } from "../../components";
+import { useRedirect } from "../../hooks";
 import SuggestedWords from "./SuggestedWords/SuggestedWords";
 import "./Homepage.css";
 
 function Homepage(props) {
-
+  const { loginRedirect } = useRedirect();
   const { setIsPopupOpen, setWordNotFound } = props;
 
   const [word, setWord] = useState("example");
@@ -35,6 +36,7 @@ function Homepage(props) {
   useEffect(() => { 
     // Prepopulation the word search input
     wordInput.current.value = "example"; 
+    loginRedirect()
   }, []);
 
   return (

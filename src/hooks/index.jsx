@@ -5,8 +5,8 @@ import useSpeechRecognizer from "./useSpeechRecognizer";
 import useSpeechSuper from "./useSpeechSuper";
 import useAuthenticate from "./useAutheticate";
 import useDictionaryAPI from "./useDictionaryAPI";
-import useRoute from "./useRoute";
 import useValidateInput from "./useValidateInput";
+import useRedirect from './useRedirect';
 
 export {
   useAudio,
@@ -16,6 +16,6 @@ export {
   useSpeechSuper,
   useAuthenticate,
   useDictionaryAPI,
-  useRoute,
   useValidateInput,
+  useRedirect,
 };

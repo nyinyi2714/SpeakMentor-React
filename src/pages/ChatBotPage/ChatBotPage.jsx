@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "../../components";
-import { useGoogleTTS ,useAudio, useBackend } from "../../hooks";
+import { useGoogleTTS ,useAudio, useBackend, useRedirect } from "../../hooks";
 import soundEffect from "../../assets/rec.m4a";
 import { ThreeDots } from 'react-loader-spinner';
 import 'js-cookie';
@@ -16,6 +16,7 @@ export default function ChatBotPage() {
   const { speak, isSpeaking } = useGoogleTTS(1);
   const { isRecording, recordForChatBot, endChatbotRecording, soundEffectElement } = useAudio({ word: null });
   const { getSavedConversations, saveConversation } = useBackend();
+  const { loginRedirect } = useRedirect();
 
   const [currConversationTitle, setCurrConversationTitle] = useState('');
   const [messages, setMessages] = useState([
@@ -119,6 +120,7 @@ export default function ChatBotPage() {
   // fetch saved conversations from backend
   useEffect(() => {
     fetchSavedConversations();
+    loginRedirect();
   }, []);
 
   const closePopUp = () => {
