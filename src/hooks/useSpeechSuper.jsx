@@ -10,7 +10,7 @@ function useSpeechSuper() {
     formData.append('word', word);
 
     const token = localStorage.getItem("token");
-    console.log("Token:", token);
+    //console.log("Token:", token);
 
     let headers;
     if (token) {
@@ -28,7 +28,7 @@ function useSpeechSuper() {
 
       if (response.ok) {
         response = await response.json();
-        console.log(response);
+        //console.log(response);
         return response;
       } else {
         return new Error("Error fetching speech super result.");

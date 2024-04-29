@@ -9,7 +9,8 @@
 
 .chatbot {
   width: 100%;
-  height: 100%;
+  height: 80vh;
+  max-height: 80vh;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 10px;

@@ -15,7 +15,7 @@ function useBackend() {
 
       if (response.ok) {
         response = await response.json();
-        console.log(response);
+        //console.log(response);
         return response[0].laymans;
       } else {
         console.error("Error fetching layman's phonetic.");
@@ -74,15 +74,10 @@ function useBackend() {
 
   const updateConversation = async (conversation) => {
     try {
-
       console.log("Updating conversation:", conversation);
-
-
-
       const data = {
         messages: conversation,
       };
-
       let response = await fetch(`${config.backendUrl}/api/update-chatbot-conversations`, {
         method: "POST",
         headers: {
@@ -91,12 +86,7 @@ function useBackend() {
         },
         body: JSON.stringify(data)
       });
-
-      if (response.ok) {
-        console.log("Conversation updated successfully.");
-      } else {
-        console.error("Error updating a conversation.");
-      }
+      console.log(response);
     } catch (error) {
       console.error("Error updating a conversation:", error);
     }

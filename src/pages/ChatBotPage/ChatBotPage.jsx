@@ -61,12 +61,12 @@ export default function ChatBotPage() {
   };
 
   const fetchSavedConversations = async () => {
-    console.log("Fetching saved conversations from the server...");
+    //console.log("Fetching saved conversations from the server...");
     
     const savedConversationsData = await getSavedConversations();
-    console.log("Saved Conversations fetched:", savedConversationsData);
+    //console.log("Saved Conversations fetched:", savedConversationsData);
     
-    console.log("Automatically creating 'curr' entry for current conversation...");
+    //console.log("Automatically creating 'curr' entry for current conversation...");
   
     // Always create or update the 'curr' entry with the current conversation
     const currentConversation = {
@@ -84,20 +84,20 @@ export default function ChatBotPage() {
 
     setCurrentConvoId('curr');
 
-    console.log("Current conversation added to the top of the saved conversations list");
+    //console.log("Current conversation added to the top of the saved conversations list");
   }
 
   const restoreConversation = async (e) => {
 
     const conversationId = e.target.id;
 
-    console.log("Current conversation id:", currentConvoId);
-    console.log("Restoring conversation with id:", conversationId);
+    //console.log("Current conversation id:", currentConvoId);
+    //console.log("Restoring conversation with id:", conversationId);
 
     // go through the saved conversations with the currentConversationId and override the messages
     for (const conversation of savedConversations) {
       if (conversation.id == currentConvoId) {
-        console.log("Current conversation found:", conversation);
+        //console.log("Current conversation found:", conversation);
         conversation.chat = messages;
         conversation.thread_id = localStorage.getItem("thread_id");
         if (currentConvoId != 'curr') {
