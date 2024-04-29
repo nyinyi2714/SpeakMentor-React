@@ -16,7 +16,7 @@ function Payment() {
 
   useEffect(() => {
     const handleFetchClientSecret = async () => {
-      const res = await fetch(`${config.backendUrl}/create-payment-intent`);
+      const res = await fetch(`${config.backendUrl}/api/create-payment-intent`);
       const { clientSecret } = await res.json();
       setClientSecret(clientSecret);
     };

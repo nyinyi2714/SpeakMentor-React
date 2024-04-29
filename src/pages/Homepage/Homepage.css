@@ -4,6 +4,10 @@
   padding: var(--spacing-medium);
   background: var(--main-background-color);
   transition: padding 300ms;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .homepage-wrapper .flex-container {
