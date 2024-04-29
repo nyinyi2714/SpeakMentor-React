@@ -15,8 +15,10 @@ import "./ChatBotPage.css";
 export default function ChatBotPage() {
   const { speak, isSpeaking } = useGoogleTTS(1);
   const { isRecording, recordForChatBot, endChatbotRecording, soundEffectElement } = useAudio({ word: null });
-  const { getSavedConversations, saveConversation } = useBackend();
+  const { getSavedConversations, saveConversation, updateConversation } = useBackend();
   const { loginRedirect } = useRedirect();
+
+  const [ currentConvoId, setCurrentConvoId ] = useState(null);
 
   const [currConversationTitle, setCurrConversationTitle] = useState('');
   const [messages, setMessages] = useState([
@@ -41,46 +43,77 @@ export default function ChatBotPage() {
     const newConversation = {
       title: currConversationTitle,
       messages: messages,
-    }
-
+    };
+  
     // Update the saved Conversation list on server
     await saveConversation(newConversation);
-    
-    // refresh saved conversation list 
+  
+    // Refresh saved conversation list 
     await fetchSavedConversations();
-
+  
+    // Reset the current conversation
+    setCurrConversationTitle('');
+    setMessages([{ sender: "chatbot", text: "Hello! What do you want to talk about today?" }]);
     setIsModalOpen(false);
-  }
+    localStorage.removeItem("thread_id");  // Consider removing or resetting thread_id if applicable
+  };
 
   const fetchSavedConversations = async () => {
+    console.log("Fetching saved conversations from the server...");
+    
     const savedConversationsData = await getSavedConversations();
-    setSavedConversations(savedConversationsData);
+    console.log("Saved Conversations fetched:", savedConversationsData);
+    
+    console.log("Automatically creating 'curr' entry for current conversation...");
+  
+    // Always create or update the 'curr' entry with the current conversation
+    const currentConversation = {
+      id: 'curr',
+      title: 'Current Conversation',
+      chat: messages,
+      thread_id: localStorage.getItem("thread_id") || '',  // Use a placeholder if no thread_id is set
+    };
+  
+    // Filter out any existing 'curr' entry from the fetched data to avoid duplicates
+    const filteredConversations = savedConversationsData.filter(convo => convo.id !== 'curr');
+  
+    // Add the current conversation to the start of the list to make it easy to access
+    setSavedConversations([currentConversation, ...filteredConversations]);
+
+    setCurrentConvoId('curr');
+
+    console.log("Current conversation added to the top of the saved conversations list");
   }
 
-  const restoreConversation = (e) => {
+  const restoreConversation = async (e) => {
+
     const conversationId = e.target.id;
 
-    // loop through savedConversations to find the one whose id matches conversationId
+    console.log("Current conversation id:", currentConvoId);
+    console.log("Restoring conversation with id:", conversationId);
+
+    // go through the saved conversations with the currentConversationId and override the messages
     for (const conversation of savedConversations) {
-      if (conversation.id == conversationId) {
-        setMessages(conversation.chat);
-        setCurrConversationTitle(conversation.title);
+      if (conversation.id == currentConvoId) {
+        console.log("Current conversation found:", conversation);
+        conversation.chat = messages;
+        conversation.thread_id = localStorage.getItem("thread_id");
+        if (currentConvoId != 'curr') {
+          updateConversation(conversation);
+        }
         break;
       }
     }
 
-    // save current conversation after retoring saved conversations
-    if(!isMessagesOverridden) {
-      const newConversation = {
-        id:"curr",
-        title: 'Current Conversation',
-        chat: messages,
+    for (const conversation of savedConversations) {
+      if (conversation.id == conversationId) {
+        setMessages(conversation.chat);
+        setCurrConversationTitle(conversation.title);
+        localStorage.setItem("thread_id", conversation.thread_id);
+        setCurrentConvoId(conversationId);
+        break;
       }
-
-      setSavedConversations(prevConversations => [newConversation, ...prevConversations]);
-      setIsMessagesOverridden(true);
     }
-
     setIsDropDownOpen(false);
   }
 

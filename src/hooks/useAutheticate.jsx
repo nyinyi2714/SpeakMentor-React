@@ -28,7 +28,7 @@ function useAuthenticate() {
         console.log(responseData)
         saveUser(responseData.user);
         console.log("login successfully.");
-        navigate("/");
+        navigate("/words");
       } else {
         console.error("Error logging in. Status code:", response.status);
       }

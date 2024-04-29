@@ -41,6 +41,7 @@ function Navbar() {
           console.log("Logout successfully.");
           localStorage.removeItem("user");
           localStorage.removeItem("token");
+          localStorage.removeItem("thread_id");
           setUsername("");      // Reset username state
           setLoginText("Log In"); // Update login text
         } else {

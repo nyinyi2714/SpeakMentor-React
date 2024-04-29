@@ -86,6 +86,12 @@ function useAudio({ word }) {
       ?.split('=')[1];
   }
 
+  function getThreadIdCookie() {
+    return document.cookie.split('; ')
+      .find(row => row.startsWith('thread_id'))
+      ?.split('=')[1];
+  }
+
   const endChatbotRecording = async () => {
 
     const sendUserAudio = async (audioBlob) => {
@@ -93,6 +99,13 @@ function useAudio({ word }) {
 
         const formData = new FormData();
         formData.append('audio', new Blob([audioBlob], { type: "audio/mp3" }), 'audio.mp3');
+
+        const thread_id = localStorage.getItem("thread_id");
+        if (thread_id) {
+          formData.append('thread_id', thread_id);
+        } else {
+          formData.append('thread_id', "");
+        }
 
         const token = localStorage.getItem("token");
         console.log("Token:", token);
@@ -102,7 +115,7 @@ function useAudio({ word }) {
         if (token) {
           headers = {
             "Authorization": `Token ${token}`,
-            //"X-CSRFToken": getCsrfToken()
+            "X-CSRFToken": getCsrfToken()
           };
         } else {
           headers = {"X-CSRFToken": Cookies.get('csrftoken')};
@@ -116,6 +129,10 @@ function useAudio({ word }) {
         });
 
         response = await response.json();
+        
+        //console.log(response);
+        localStorage.setItem("thread_id", response.thread_id);
+
         return response;
 
       } catch (err) {

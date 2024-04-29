@@ -61,6 +61,7 @@ function useBackend() {
       });
 
       if (response.ok) {
+        //console.log(response)
         response = await response.json();
         return response;
       } else {
@@ -71,15 +72,54 @@ function useBackend() {
     }
   }
 
+  const updateConversation = async (conversation) => {
+    try {
+
+      console.log("Updating conversation:", conversation);
+
+
+
+      const data = {
+        messages: conversation,
+      };
+
+      let response = await fetch(`${config.backendUrl}/api/update-chatbot-conversations`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        console.log("Conversation updated successfully.");
+      } else {
+        console.error("Error updating a conversation.");
+      }
+    } catch (error) {
+      console.error("Error updating a conversation:", error);
+    }
+  }
+
   const saveConversation = async (conversation) => {
     try {
+
+      console.log("Saving conversation:", conversation);
+
+      const data = {
+        title: conversation.title,
+        messages: conversation.messages,
+        thread_id: localStorage.getItem("thread_id"),
+      };
+
       let response = await fetch(`${config.backendUrl}/api/save-chatbot-conversations`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
           "Authorization": `Token ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(conversation)
+        body: JSON.stringify(data)
       });
 
       if (response.ok) {
@@ -99,6 +139,7 @@ function useBackend() {
     submitBackgroundQuestions,
     getSavedConversations,
     saveConversation,
+    updateConversation
   });
 }
 
