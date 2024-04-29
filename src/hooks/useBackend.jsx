@@ -124,12 +124,34 @@ function useBackend() {
     }
   }
 
+  const deleteConversation = async (conversation) => {
+    try {
+      console.log("Deleting conversation:", conversation);
+      const data = {
+        messages: conversation,
+      };
+      const response = await fetch(`${config.backendUrl}/api/delete-chatbot-conversations`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Token ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(data)
+      });
+      console.log(response);
+      return response
+    } catch (error) {
+      console.error("Error deleting a conversation:", error);
+    }
+  }
+
   return({
     getLaymanPhonetic,
     submitBackgroundQuestions,
     getSavedConversations,
     saveConversation,
-    updateConversation
+    updateConversation,
+    deleteConversation,
   });
 }
 

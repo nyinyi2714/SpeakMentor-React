@@ -16,22 +16,25 @@ import "./ChatBotPage.css";
 export default function ChatBotPage() {
   const { speak, isSpeaking } = useGoogleTTS(1);
   const { isRecording, recordForChatBot, endChatbotRecording, soundEffectElement } = useAudio({ word: null });
-  const { getSavedConversations, saveConversation, updateConversation } = useBackend();
+  const { getSavedConversations, saveConversation, updateConversation, deleteConversation } = useBackend();
   const { loginRedirect } = useRedirect();
 
-  const [ currentConvoId, setCurrentConvoId ] = useState(null);
+  const [ currentConvoId, setCurrentConvoId ] = useState('curr');
 
   const [currConversationTitle, setCurrConversationTitle] = useState('');
   const [messages, setMessages] = useState([
     { sender: "chatbot", text: "Hello! What do you want to talk about today?" },
   ]);
 
+  useEffect(() => {
+    console.log(savedConversations);
+  }, [currentConvoId]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [savedConversations, setSavedConversations] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [popupWord, setPopupWord] = useState(null);
-  const [isMessagesOverridden, setIsMessagesOverridden] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   const handleCurrConversationTitle = (e) => {
@@ -53,51 +56,36 @@ export default function ChatBotPage() {
     // Refresh saved conversation list 
     await fetchSavedConversations();
   
-    // Reset the current conversation
-    setCurrConversationTitle('');
-    setMessages([{ sender: "chatbot", text: "Hello! What do you want to talk about today?" }]);
-    setIsModalOpen(false);
-    localStorage.removeItem("thread_id");  // Consider removing or resetting thread_id if applicable
+    // reset conversation with id 'curr' to empty
+    for (const conversation of savedConversations) {
+      if (conversation.id == 'curr') {
+        conversation.chat = [
+          { sender: "chatbot", text: "Hello! What do you want to talk about today?" },
+        ]
+        setMessages(conversation.chat);
+        localStorage.removeItem("thread_id");
+        setIsModalOpen(false);
+        break;
+      }
+    }
   };
 
   const fetchSavedConversations = async () => {
-    //console.log("Fetching saved conversations from the server...");
-    
     const savedConversationsData = await getSavedConversations();
-    //console.log("Saved Conversations fetched:", savedConversationsData);
-    
-    //console.log("Automatically creating 'curr' entry for current conversation...");
-  
-    // Always create or update the 'curr' entry with the current conversation
     const currentConversation = {
       id: 'curr',
       title: 'Current Conversation',
       chat: messages,
-      thread_id: localStorage.getItem("thread_id") || '',  // Use a placeholder if no thread_id is set
+      thread_id: '',
     };
-  
-    // Filter out any existing 'curr' entry from the fetched data to avoid duplicates
     const filteredConversations = savedConversationsData.filter(convo => convo.id !== 'curr');
-  
-    // Add the current conversation to the start of the list to make it easy to access
     setSavedConversations([currentConversation, ...filteredConversations]);
-
-    setCurrentConvoId('curr');
-
-    //console.log("Current conversation added to the top of the saved conversations list");
   }
 
   const restoreConversation = async (e) => {
 
-    const conversationId = e.target.id;
-
-    //console.log("Current conversation id:", currentConvoId);
-    //console.log("Restoring conversation with id:", conversationId);
-
-    // go through the saved conversations with the currentConversationId and override the messages
     for (const conversation of savedConversations) {
-      if (conversation.id == currentConvoId) {
-        //console.log("Current conversation found:", conversation);
+      if (conversation.id.toString() == currentConvoId) {
         conversation.chat = messages;
         conversation.thread_id = localStorage.getItem("thread_id");
         if (currentConvoId != 'curr') {
@@ -107,8 +95,9 @@ export default function ChatBotPage() {
       }
     }
 
+    const conversationId = e.target.id;
     for (const conversation of savedConversations) {
-      if (conversation.id == conversationId) {
+      if (conversation.id.toString() == conversationId) {
         setMessages(conversation.chat);
         setCurrConversationTitle(conversation.title);
         localStorage.setItem("thread_id", conversation.thread_id);
@@ -160,6 +149,54 @@ export default function ChatBotPage() {
 
   const closePopUp = () => {
     setPopupWord(null);
+  }
+
+  const handleDeleteConversation = async () => {
+  
+    let convoToDelete;
+    for (const conversation of savedConversations) {
+      if (conversation.id.toString() === currentConvoId) {
+        convoToDelete = conversation;
+        break;
+      }
+    }
+  
+    const response = await deleteConversation(convoToDelete);
+  
+    if (response.ok) {
+      console.log("Conversation deleted successfully");
+      
+      // Filter out the deleted conversation from the savedConversations list
+      const updatedConversations = savedConversations.filter(convo => convo.id.toString() !== currentConvoId);
+      
+      // Check if there's a default conversation in the list, otherwise, create one
+      let defaultConversationExists = updatedConversations.find(convo => convo.id.toString() === 'curr');
+      if (!defaultConversationExists) {
+        console.log("Creating default conversation");
+        const defaultConversation = {
+          id: 'curr',
+          title: 'Current Conversation',
+          chat: [{ sender: "chatbot", text: "Hello! What do you want to talk about today?" }],
+          thread_id: ''
+        };
+        updatedConversations.unshift(defaultConversation);
+      }
+  
+      setSavedConversations(updatedConversations);
+      setCurrConversationTitle('');
+      setCurrentConvoId('curr'); // Set to default conversation
+
+      // set messages to 'curr' conversation
+      for (const conversation of updatedConversations) {
+        if (conversation.id.toString() == 'curr') {
+          setMessages(conversation.chat);
+          break;
+        }
+      }
+  
+    } else {
+      console.error("Error deleting conversation");
+    }
   }
 
   return (
@@ -217,11 +254,17 @@ export default function ChatBotPage() {
                   <box-icon type="solid" name="microphone" size="24px" color="#fff" />
                 </button>
             }
-             {/* Conditionally render the Save button */}
-              {currentConvoId === 'curr' && (
-                <button onClick={() => setIsModalOpen(true)} className="chatbot-button float-right">
-                  Save
-                </button>
+             {/* Conditionally render the Save or Delete button only if there are more than one message */}
+              {messages.length > 1 && (
+                currentConvoId === 'curr' ? (
+                  <button onClick={() => setIsModalOpen(true)} className="chatbot-button float-right">
+                    Save
+                  </button>
+                ) : (
+                  <button onClick={(e) => handleDeleteConversation(e)} className="chatbot-button float-right">
+                    Delete
+                  </button>
+                )
               )}
           </div>
 
