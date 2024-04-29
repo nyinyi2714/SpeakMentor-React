@@ -71,6 +71,14 @@
   align-items: center;
 }
 
+.chatbot-left {
+  position: absolute;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .chatbot-button {
   font-size: 1rem;
   background-color:  #fff;

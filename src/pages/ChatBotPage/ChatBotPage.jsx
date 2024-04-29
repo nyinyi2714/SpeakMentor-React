@@ -4,6 +4,7 @@ import { useGoogleTTS ,useAudio, useBackend, useRedirect } from "../../hooks";
 import soundEffect from "../../assets/rec.m4a";
 import { ThreeDots } from 'react-loader-spinner';
 import 'js-cookie';
+import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
 
 import { ModalComponent } from "../../components";
 import { PopUp } from "../AnalyzeSentences";
@@ -31,6 +32,7 @@ export default function ChatBotPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [popupWord, setPopupWord] = useState(null);
   const [isMessagesOverridden, setIsMessagesOverridden] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   const handleCurrConversationTitle = (e) => {
     const value = e.target.value;
@@ -136,7 +138,7 @@ export default function ChatBotPage() {
         ...prev,
         {sender: 'chatbot', text: result.chatbot_response},
       ]))
-      speak(result.chatbot_response);
+      if(!isMuted) speak(result.chatbot_response);
     }, 1000)
   };
 
@@ -202,6 +204,10 @@ export default function ChatBotPage() {
 
           {/* Chat Controls and Audio Input */}
           <div className="input-container">
+            <span className="chatbot-left">
+              Chatbot Mute
+              <ToggleSwitch isMuted={isMuted} setIsMuted={setIsMuted} />
+            </span>
             {
               isRecording ?
                 <button className="chatbot-button icon stop" onClick={handleEndingUserAudio}>
