@@ -108,8 +108,8 @@ function useAudio({ word }) {
         }
 
         const token = localStorage.getItem("token");
-        console.log("Token:", token);
-        console.log("CsrfToken:", getCsrfToken());
+        //console.log("Token:", token);
+        //console.log("CsrfToken:", getCsrfToken());
 
         let headers;
         if (token) {

@@ -35,7 +35,7 @@ export default function SuggestedWords({ setWord }) {
         credentials: "include",
       });
       response = await response.json();
-      console.log(response);
+     // console.log(response);
       return response;
     } catch (err) {
       console.error(err);
@@ -57,7 +57,6 @@ export default function SuggestedWords({ setWord }) {
   return (
     <div className="suggested-words">
       <h2>Word Suggestion</h2>
-      <h3>Based on your practice history and previous performance</h3>
       <button 
         className={`refresh-btn ${isFetchingWords && 'loading'}`} 
         onClick={updateSuggstedWords} 

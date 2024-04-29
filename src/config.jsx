@@ -1,6 +1,6 @@
 const config = {
-  //backendUrl: "https://speakmentor-django.onrender.com",
-  backendUrl: "http://127.0.0.1:8000",
+  backendUrl: "https://speakmentor-django.onrender.com",
+  //backendUrl: "http://127.0.0.1:8000",
   dictionaryAPI: "https://api.dictionaryapi.dev/api/v2/entries/en/",
   googleTTSKey: process.env.REACT_APP_GOOGLE_TTS_KEY,
   azureSpeechKey: process.env.REACT_APP_AZURE_SPEECH_KEY,
