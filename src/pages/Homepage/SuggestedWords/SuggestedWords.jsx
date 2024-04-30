@@ -98,19 +98,18 @@ export default function SuggestedWords({ setWord }) {
               <span className="circle" />
               <span className="rectangle" />
               <span className="button" />
-            </div><div className="word-skeleton">
+            </div>
+            <div className="word-skeleton">
               <span className="circle" />
               <span className="rectangle" />
               <span className="button" />
-            </div><div className="word-skeleton">
+            </div>
+            <div className="word-skeleton">
               <span className="circle" />
               <span className="rectangle" />
               <span className="button" />
-            </div><div className="word-skeleton">
-              <span className="circle" />
-              <span className="rectangle" />
-              <span className="button" />
-            </div><div className="word-skeleton">
+            </div>
+            <div className="word-skeleton">
               <span className="circle" />
               <span className="rectangle" />
               <span className="button" />

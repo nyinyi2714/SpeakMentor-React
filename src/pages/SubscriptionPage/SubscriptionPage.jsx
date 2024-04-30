@@ -53,9 +53,9 @@ function SubscriptionPage() {
               <i>Charge annually at 155.88 USD</i>
             </p>
             <ul className="features">
-              <li><img src={WhiteTickSvg} /> Practice <span className="underline">Unlimited</span> Single Words</li>
-              <li><img src={WhiteTickSvg} /> Practice Sentences (up to <span className="underline">1000</span> words)</li>
-              <li><img src={WhiteTickSvg} /> <span className="underline">Unlimited</span> Conversations with AI Chatbot</li>
+              <li><img src={WhiteTickSvg} /> Practice Unlimited Single Words</li>
+              <li><img src={WhiteTickSvg} /> Practice Sentences (up to 1000 words)</li>
+              <li><img src={WhiteTickSvg} /> Unlimited Conversations with AI Chatbot</li>
             </ul>
             <button onClick={handleBuySubscription} className="subscription-btn">Unlock Your Full Potential</button>
           </section>  
@@ -69,9 +69,9 @@ function SubscriptionPage() {
             </h3>
             <p>Enjoy all the essential features, including sentences and Conversations with AI Chatbot, with the flexibility to cancel anytime.</p>
             <ul className="features">
-              <li><img src={TickSvg} /> Practice <span className="underline">Unlimited</span> Single Words</li>
-              <li><img src={TickSvg} /> Practice Sentences (up to <span className="underline">1000</span> words)</li>
-              <li><img src={TickSvg} /> <span className="underline">Unlimited</span> Conversations with AI Chatbot</li>
+              <li><img src={TickSvg} /> Practice Unlimited Single Words</li>
+              <li><img src={TickSvg} /> Practice Sentences (up to 1000 words)</li>
+              <li><img src={TickSvg} /> Unlimited Conversations with AI Chatbot</li>
             </ul>
             <button onClick={handleBuySubscription} className="subscription-btn">Start Practicing Today</button>
           </section>
