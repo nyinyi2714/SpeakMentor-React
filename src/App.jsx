@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useAuthenticate } from "./hooks";
 
 import { 
   Homepage, 
@@ -16,6 +17,7 @@ import {
 } from './pages';
 
 import { LoadingAnimation, Popup } from "./components";
+import { useStateContext } from "./StateContext";
 
 import "boxicons";
 import 'react-circular-progressbar/dist/styles.css';
@@ -25,6 +27,10 @@ function App() {
   const [micPermission, setMicPermission] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [wordNotFound, setWordNotFound] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { checkUserAuthenticated } = useAuthenticate();
+  const { setUser } = useStateContext()
 
   const closePopup = () => {
     setIsPopupOpen(false);
@@ -40,6 +46,23 @@ function App() {
       setMicPermission(false);
     }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const isAuthenticated = await checkUserAuthenticated();
+      if (isAuthenticated) {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      }
+      setIsLoading(false);
+    };
+
+    fetchUserData();
+  }, []);
+
+  if(isLoading) return <></>
 
   return (
     <div className="App">

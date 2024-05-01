@@ -39,19 +39,18 @@ function LoadingAnimation(props) {
   };
 
   return(
-    // <div 
-    //   className="loading-animation" 
-    //   ref={loadingPage}
-    // >
-    //   <div className="video-wrapper">
-    //     <video autoPlay muted onEnded={hideLoadingPage}>
-    //       <source src="/icon-animation.webm" />
-    //     </video>
-    //     <span></span>
-    //   </div>
+    <div 
+      className="loading-animation" 
+      ref={loadingPage}
+    >
+      <div className="video-wrapper">
+        <video autoPlay muted onEnded={hideLoadingPage}>
+          <source src="/icon-animation.webm" />
+        </video>
+        <span></span>
+      </div>
       
-    // </div>
-    <></>
+    </div>
   );
 }
 
