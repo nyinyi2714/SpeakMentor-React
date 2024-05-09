@@ -33,6 +33,10 @@ function Homepage(props) {
     if (e.code === "Enter") searchWordInput();
   };
 
+  useEffect(() => {
+    wordInput.current.value = word;
+  }, [word])
+
   useEffect(() => { 
     // Prepopulation the word search input
     wordInput.current.value = "example"; 

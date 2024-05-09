@@ -272,7 +272,7 @@ export default function ChatBotPage() {
       </div>
 
       {/* Sound effect */}
-      <audio src={soundEffect} ref={soundEffectElement} className="hidden" />
+      <audio src='/media/sound-effect.m4a' ref={soundEffectElement} className="hidden" />
 
       {/* Modal Element */}
       {

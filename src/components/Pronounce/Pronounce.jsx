@@ -5,7 +5,6 @@ import useSpeechSuper from "../../hooks/useSpeechSuper";
 import useAudio from "../../hooks/useAudio";
 import useBackend from "../../hooks/useBackend";
 
-import soundEffect from "../../assets/rec.m4a";
 import "./Pronounce.css";
 
 function Pronounce(props) {
@@ -217,7 +216,7 @@ function Pronounce(props) {
       </div>
 
       <audio src={audioURL} ref={audioElement} className="hidden" />
-      <audio src={soundEffect} ref={soundEffectElement} className="hidden" />
+      <audio src='/media/sound-effect.m4a' ref={soundEffectElement} className="hidden" />
 
     </div>
   );

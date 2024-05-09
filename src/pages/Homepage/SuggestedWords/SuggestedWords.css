@@ -11,12 +11,6 @@
   position: relative;
 }
 
-@media (max-width: 800px) {
-  .suggested-words {
-    padding: var(--spacing-medium);
-  }
-}
-
 .suggested-words > h2 {
   font-size: 1.3rem;
   margin-bottom: var(--spacing-small);
@@ -168,5 +162,16 @@
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .suggested-words {
+    padding: var(--spacing-medium);
+  }
+
+  .refresh-btn {
+    top: 1rem;
+    right: 1rem;
   }
 }

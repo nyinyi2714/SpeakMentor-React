@@ -62,30 +62,33 @@ function App() {
     fetchUserData();
   }, []);
 
-  if(isLoading) return <></>
+  console.log(isLoading)
 
   return (
     <div className="App">
-      <Routes>
-      <Route path="/" element={<LandingPage />} />
-        <Route exact path="/words" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
-        <Route path="/chatbot" element={<ChatBotPage />} />
-        <Route path="/subscriptions" element={<SubscriptionPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/payment-complete" element={<PaymentComplete />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/questions" element={<Questions />} />
-      </Routes>
+      {
+        isLoading ? <div></div> :
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route exact path="/words" element={<Homepage setIsPopupOpen={setIsPopupOpen} setWordNotFound={setWordNotFound} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/analyze-sentences" element={<AnalyzeSentences />} />
+          <Route path="/chatbot" element={<ChatBotPage />} />
+          <Route path="/subscriptions" element={<SubscriptionPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/payment-complete" element={<PaymentComplete />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/questions" element={<Questions />} />
+        </Routes>
+      }
 
-      {/* {<LoadingAnimation
+      {<LoadingAnimation
         requestMicPermission={requestMicPermission}
         closePopup={closePopup}
         setIsPopupOpen={setIsPopupOpen}
         setMicPermission={setMicPermission}
-      />} */}
+      />}
 
       {isPopupOpen && <Popup
         micPermission={micPermission}

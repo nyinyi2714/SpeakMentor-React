@@ -40,7 +40,7 @@ function AnalyzeSentences() {
 
   const messages = {
     recordNow: "Please record yourself before going to next step.",
-    editNow: "You can edit your transcript now if there's any mistake in speech recognization.",
+    editNow: "You can listen to the correct pronunciation or your recording.",
     practiceNow: "You can click on words to practice them."
   };
 
